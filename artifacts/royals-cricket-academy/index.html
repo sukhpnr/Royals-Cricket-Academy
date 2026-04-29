@@ -114,6 +114,13 @@
         return 'RCA-' + year + '-' + String(count).padStart(4, '0');
     }
 
+    function getNextStudentId() {
+        const key = 'rca_student_id';
+        const count = parseInt(localStorage.getItem(key) || '0') + 1;
+        localStorage.setItem(key, count);
+        return 'RCA-S-' + String(count).padStart(4, '0');
+    }
+
     function generateReceipt() {
         const name = document.getElementById('sName').value;
         const gName = document.getElementById('gName').value;
@@ -122,6 +129,7 @@
         const phone = document.getElementById('phone').value;
         const date = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
         const receiptNo = getNextReceiptNumber();
+        const studentId = getNextStudentId();
 
         if(!name || !phone) { alert("Please fill Student Name and Phone number!"); return; }
 
@@ -129,7 +137,8 @@
         document.getElementById('receipt').style.display = 'block';
 
         document.getElementById('resBody').innerHTML = `
-            <div class="r-row"><span>Receipt No:</span> <span style="font-weight:bold; color: var(--royal-red);">${receiptNo}</span></div>
+            <div class="r-row"><span>Student ID:</span> <span style="font-weight:bold; color: var(--royal-red); font-size:15px;">${studentId}</span></div>
+            <div class="r-row"><span>Receipt No:</span> <span style="font-weight:bold;">${receiptNo}</span></div>
             <div class="r-row"><span>Date:</span> <span>${date}</span></div>
             <div class="r-row"><span>Student Name:</span> <span>${name}</span></div>
             <div class="r-row"><span>Guardian:</span> <span>${gName}</span></div>
@@ -146,6 +155,7 @@
 `*Royals Cricket Academy, Jalandhar*
 *ADMISSION CONFIRMATION*
 
+*Student ID: ${studentId}*
 Receipt No: ${receiptNo}
 Date: ${date}
 
@@ -159,7 +169,7 @@ Registration Fees: Rs.1,500
 Monthly Fees: Rs.2,000
 *Total Received: Rs.3,500*
 
-_This is a computer-generated admission confirmation._
+_Please quote your Student ID (${studentId}) for all future correspondence._
 Contact: 76963-72777`;
 
         const waPhone = '91' + phone.toString().replace(/\D/g, '').slice(-10);
