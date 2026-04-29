@@ -72,6 +72,15 @@
         </div>
 
         <div class="form-section">
+            <label>Batch Timing</label>
+            <select id="batch">
+                <option value="Morning (6:00 AM - 8:00 AM)">Morning (6:00 AM - 8:00 AM)</option>
+                <option value="Evening (4:00 PM - 6:00 PM)">Evening (4:00 PM - 6:00 PM)</option>
+                <option value="Weekend (8:00 AM - 10:00 AM)">Weekend (8:00 AM - 10:00 AM)</option>
+            </select>
+        </div>
+
+        <div class="form-section">
             <label>WhatsApp Number</label>
             <input type="number" id="phone" placeholder="10 digit number">
         </div>
@@ -109,6 +118,7 @@
         const name = document.getElementById('sName').value;
         const gName = document.getElementById('gName').value;
         const cat = document.getElementById('ageCat').value;
+        const batch = document.getElementById('batch').value;
         const phone = document.getElementById('phone').value;
         const date = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
         const receiptNo = getNextReceiptNumber();
@@ -124,6 +134,7 @@
             <div class="r-row"><span>Student Name:</span> <span>${name}</span></div>
             <div class="r-row"><span>Guardian:</span> <span>${gName}</span></div>
             <div class="r-row"><span>Category:</span> <span>${cat}</span></div>
+            <div class="r-row"><span>Batch Timing:</span> <span>${batch}</span></div>
             <div class="r-row"><span>WhatsApp:</span> <span>${phone}</span></div>
             <div class="r-row"><span>Registration Fees:</span> <span>₹1,500</span></div>
             <div class="r-row"><span>Monthly Fees:</span> <span>₹2,000</span></div>
@@ -141,6 +152,7 @@ Date: ${date}
 Student Name: ${name}
 Guardian: ${gName}
 Category: ${cat}
+Batch Timing: ${batch}
 WhatsApp: ${phone}
 
 Registration Fees: Rs.1,500
