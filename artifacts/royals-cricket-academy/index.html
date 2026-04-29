@@ -24,8 +24,8 @@
         .stat-card.blue b { color: var(--royal-blue); }
 
         /* Tabs */
-        .tabs { display: flex; border-radius: 8px; overflow: hidden; border: 2px solid var(--royal-red); margin-bottom: 18px; }
-        .tab-btn { flex: 1; padding: 10px 4px; background: white; border: none; font-size: 12px; font-weight: 700; cursor: pointer; color: var(--royal-red); transition: 0.2s; }
+        .tabs { display: flex; flex-wrap: wrap; border-radius: 8px; overflow: hidden; border: 2px solid var(--royal-red); margin-bottom: 18px; }
+        .tab-btn { flex: 1; min-width: 0; padding: 9px 2px; background: white; border: none; font-size: 10.5px; font-weight: 700; cursor: pointer; color: var(--royal-red); transition: 0.2s; white-space: nowrap; }
         .tab-btn.active { background: var(--royal-red); color: white; }
 
         /* Form */
@@ -74,6 +74,34 @@
         .export-btn:hover { background: #0f1657; }
         .history-actions { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
         .history-actions-right { display: flex; gap: 6px; margin-left: auto; }
+
+        /* Attendance Tracker */
+        .att-controls { display: flex; gap: 8px; margin-bottom: 14px; align-items: flex-end; }
+        .att-controls select, .att-controls input { width: auto; flex: 1; padding: 9px; font-size: 13px; }
+        .att-summary-bar { display: flex; gap: 8px; margin-bottom: 14px; }
+        .att-sum-card { flex: 1; border-radius: 8px; padding: 7px; text-align: center; font-size: 11px; border: 1px solid; }
+        .att-sum-card b { display: block; font-size: 16px; }
+        .att-sum-good { background: #f0fff4; border-color: #9ae6b4; color: #276749; }
+        .att-sum-warn { background: #fffff0; border-color: #f6e05e; color: #975a16; }
+        .att-sum-low  { background: #fff5f5; border-color: #fc8181; color: #c53030; }
+        .att-student-row { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border: 1px solid #eee; border-radius: 10px; margin-bottom: 8px; }
+        .att-student-row.good { border-left: 4px solid #38a169; }
+        .att-student-row.warn { border-left: 4px solid #d69e2e; }
+        .att-student-row.low  { border-left: 4px solid #e53e3e; }
+        .att-info { flex: 1; min-width: 0; }
+        .att-sname { font-weight: 700; font-size: 13px; color: #222; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .att-sid   { font-size: 11px; color: #888; }
+        .att-pct-bar { height: 5px; border-radius: 3px; margin-top: 4px; background: #eee; }
+        .att-pct-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+        .fill-good { background: #38a169; }
+        .fill-warn { background: #d69e2e; }
+        .fill-low  { background: #e53e3e; }
+        .att-stepper { display: flex; align-items: center; gap: 4px; }
+        .att-stepper button { width: 28px; height: 28px; border: 1px solid #ddd; border-radius: 6px; background: #f9f9f9; font-size: 16px; font-weight: 700; cursor: pointer; line-height: 1; color: #444; }
+        .att-stepper button:hover { background: var(--royal-red); color: white; border-color: var(--royal-red); }
+        .att-days-val { font-size: 14px; font-weight: 700; color: var(--royal-red); min-width: 22px; text-align: center; }
+        .att-pct-lbl { font-size: 11px; color: #888; text-align: right; margin-top: 2px; }
+        .att-list { max-height: 460px; overflow-y: auto; }
 
         /* Fee Tracker */
         .tracker-student { border: 1px solid #eee; border-radius: 10px; margin-bottom: 14px; overflow: hidden; }
@@ -130,6 +158,7 @@
         <button class="tab-btn active" onclick="switchTab('reg')">Register</button>
         <button class="tab-btn" onclick="switchTab('monthly')">Monthly Fee</button>
         <button class="tab-btn" onclick="switchTab('tracker')">Fee Tracker</button>
+        <button class="tab-btn" onclick="switchTab('attendance')">Attendance</button>
         <button class="tab-btn" onclick="switchTab('history')">History</button>
     </div>
 
@@ -253,6 +282,25 @@
         </div>
     </div>
 
+    <!-- ── ATTENDANCE ── -->
+    <div id="attendanceSection" style="display:none;">
+        <div class="att-controls">
+            <select id="attMonth">
+                <option>January</option><option>February</option><option>March</option>
+                <option>April</option><option>May</option><option>June</option>
+                <option>July</option><option>August</option><option>September</option>
+                <option>October</option><option>November</option><option>December</option>
+            </select>
+            <select id="attYear"></select>
+            <div style="display:flex;flex-direction:column;gap:2px;min-width:80px;">
+                <label style="font-size:10px;margin:0;color:#888;">Total Days</label>
+                <input type="number" id="attTotalDays" value="26" min="1" max="31" oninput="renderAttendance()" style="padding:9px;font-size:13px;">
+            </div>
+        </div>
+        <div class="att-summary-bar" id="attSummaryBar"></div>
+        <div class="att-list" id="attList"></div>
+    </div>
+
     <!-- ── FEE TRACKER ── -->
     <div id="trackerSection" style="display:none;">
         <div class="tracker-legend">
@@ -308,7 +356,7 @@
     }
 
     // ── Tab switcher ──
-    const TABS = ['reg','monthly','tracker','history'];
+    const TABS = ['reg','monthly','tracker','attendance','history'];
     function switchTab(tab) {
         TABS.forEach((t, i) => {
             document.getElementById(t + 'Section').style.display = t === tab ? 'block' : 'none';
@@ -320,6 +368,7 @@
         }
         if (tab === 'history') renderHistory();
         if (tab === 'tracker') renderTracker();
+        if (tab === 'attendance') initAttendance();
     }
 
     // ── Counters ──
@@ -472,6 +521,105 @@ Contact: 76963-72777`;
         document.getElementById('monthlyReceipt').style.display = 'none';
         ['mStudentId','mName','mGName','mPhone'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('mAmount').value = '2000';
+    }
+
+    // ── Attendance Tracker ──
+    const ATT_KEY = 'rca_attendance';
+    const ATT_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+    function getAttendance() { return JSON.parse(localStorage.getItem(ATT_KEY) || '{}'); }
+    function saveAttendance(d) { localStorage.setItem(ATT_KEY, JSON.stringify(d)); }
+
+    function initAttendance() {
+        // Populate year dropdown
+        const yearSel = document.getElementById('attYear');
+        const nowYear = new Date().getFullYear();
+        if (!yearSel.options.length) {
+            for (let y = nowYear - 1; y <= nowYear + 1; y++) {
+                const opt = document.createElement('option');
+                opt.value = y; opt.textContent = y;
+                yearSel.appendChild(opt);
+            }
+        }
+        yearSel.value = nowYear;
+        document.getElementById('attMonth').value = ATT_MONTHS[new Date().getMonth()];
+        document.getElementById('attMonth').onchange = renderAttendance;
+        document.getElementById('attYear').onchange = renderAttendance;
+        renderAttendance();
+    }
+
+    function attKey(studentId, month, year) {
+        return studentId + '|' + month + '|' + year;
+    }
+
+    function changePresent(studentId, delta) {
+        const month = document.getElementById('attMonth').value;
+        const year  = document.getElementById('attYear').value;
+        const total = parseInt(document.getElementById('attTotalDays').value) || 26;
+        const d = getAttendance();
+        const k = attKey(studentId, month, year);
+        const cur = d[k] !== undefined ? d[k] : 0;
+        const next = Math.max(0, Math.min(total, cur + delta));
+        d[k] = next;
+        saveAttendance(d);
+        renderAttendance();
+    }
+
+    function renderAttendance() {
+        const month = document.getElementById('attMonth').value;
+        const year  = document.getElementById('attYear').value;
+        const total = parseInt(document.getElementById('attTotalDays').value) || 26;
+        const d = getAttendance();
+
+        const h = getHistory();
+        const seen = {};
+        const students = [];
+        h.filter(e => e.type === 'registration').forEach(e => {
+            if (!seen[e.studentId]) { seen[e.studentId] = true; students.push(e); }
+        });
+
+        const list = document.getElementById('attList');
+        const summaryBar = document.getElementById('attSummaryBar');
+
+        if (!students.length) {
+            summaryBar.innerHTML = '';
+            list.innerHTML = '<div style="text-align:center;padding:30px 0;color:#bbb;font-size:14px;">No students found.<br>Register students first.</div>';
+            return;
+        }
+
+        let cntGood = 0, cntWarn = 0, cntLow = 0;
+
+        const rows = students.map(s => {
+            const k = attKey(s.studentId, month, year);
+            const present = d[k] !== undefined ? d[k] : 0;
+            const pct = total > 0 ? Math.round((present / total) * 100) : 0;
+            let tier = 'low', fillCls = 'fill-low', rowCls = 'low';
+            if (pct >= 75) { tier = 'good'; fillCls = 'fill-good'; rowCls = 'good'; cntGood++; }
+            else if (pct >= 50) { tier = 'warn'; fillCls = 'fill-warn'; rowCls = 'warn'; cntWarn++; }
+            else cntLow++;
+
+            return `
+            <div class="att-student-row ${rowCls}">
+                <div class="att-info">
+                    <div class="att-sname">${s.name}</div>
+                    <div class="att-sid">${s.studentId} &nbsp;·&nbsp; ${s.category||''}</div>
+                    <div class="att-pct-bar"><div class="att-pct-fill ${fillCls}" style="width:${pct}%;"></div></div>
+                    <div class="att-pct-lbl">${present}/${total} days &nbsp;(${pct}%)</div>
+                </div>
+                <div class="att-stepper">
+                    <button onclick="changePresent('${s.studentId}', -1)">−</button>
+                    <span class="att-days-val">${present}</span>
+                    <button onclick="changePresent('${s.studentId}', 1)">+</button>
+                </div>
+            </div>`;
+        }).join('');
+
+        summaryBar.innerHTML = `
+            <div class="att-sum-card att-sum-good"><b>${cntGood}</b>Regular (≥75%)</div>
+            <div class="att-sum-card att-sum-warn"><b>${cntWarn}</b>Average (50–74%)</div>
+            <div class="att-sum-card att-sum-low"><b>${cntLow}</b>Low (&lt;50%)</div>
+        `;
+        list.innerHTML = rows;
     }
 
     // ── Fee Tracker ──
