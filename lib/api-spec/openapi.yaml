@@ -3,13 +3,19 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: API specification for Royals Cricket Academy
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: registrations
+    description: Student registration operations
+  - name: receipts
+    description: Fee receipt operations
+  - name: stats
+    description: Academy statistics
 paths:
   /healthz:
     get:
@@ -24,6 +30,143 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /registrations:
+    get:
+      operationId: listRegistrations
+      tags: [registrations]
+      summary: List all student registrations
+      responses:
+        "200":
+          description: List of registrations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Registration"
+    post:
+      operationId: createRegistration
+      tags: [registrations]
+      summary: Register a new student
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRegistrationBody"
+      responses:
+        "201":
+          description: Student registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Registration"
+
+  /registrations/{id}:
+    get:
+      operationId: getRegistration
+      tags: [registrations]
+      summary: Get a student registration by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Registration details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Registration"
+        "404":
+          description: Not found
+
+  /receipts:
+    get:
+      operationId: listReceipts
+      tags: [receipts]
+      summary: List all fee receipts
+      responses:
+        "200":
+          description: List of receipts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Receipt"
+
+  /receipts/registration/{registrationId}:
+    get:
+      operationId: getReceiptsByRegistration
+      tags: [receipts]
+      summary: Get receipts for a specific registration
+      parameters:
+        - name: registrationId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Receipts for a registration
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Receipt"
+
+  /receipts/generate:
+    post:
+      operationId: generateReceipt
+      tags: [receipts]
+      summary: Generate a fee receipt for a registration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateReceiptBody"
+      responses:
+        "201":
+          description: Receipt generated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Receipt"
+
+  /stats/summary:
+    get:
+      operationId: getStatsSummary
+      tags: [stats]
+      summary: Get academy registration statistics
+      responses:
+        "200":
+          description: Academy statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StatsSummary"
+
+  /stats/recent:
+    get:
+      operationId: getRecentRegistrations
+      tags: [stats]
+      summary: Get recent registrations
+      responses:
+        "200":
+          description: Recent registrations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Registration"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +177,194 @@ components:
       required:
         - status
 
+    Registration:
+      type: object
+      properties:
+        id:
+          type: integer
+        receiptNumber:
+          type: string
+        studentName:
+          type: string
+        dateOfBirth:
+          type: string
+        gender:
+          type: string
+        parentName:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        category:
+          type: string
+          description: "junior, senior, or elite"
+        batchTiming:
+          type: string
+        registrationFee:
+          type: number
+        monthlyFee:
+          type: number
+        paymentMode:
+          type: string
+        status:
+          type: string
+        registeredAt:
+          type: string
+      required:
+        - id
+        - receiptNumber
+        - studentName
+        - dateOfBirth
+        - gender
+        - parentName
+        - phone
+        - address
+        - category
+        - batchTiming
+        - registrationFee
+        - monthlyFee
+        - paymentMode
+        - status
+        - registeredAt
+
+    CreateRegistrationBody:
+      type: object
+      properties:
+        studentName:
+          type: string
+        dateOfBirth:
+          type: string
+        gender:
+          type: string
+        parentName:
+          type: string
+        phone:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+        category:
+          type: string
+        batchTiming:
+          type: string
+        registrationFee:
+          type: number
+        monthlyFee:
+          type: number
+        paymentMode:
+          type: string
+      required:
+        - studentName
+        - dateOfBirth
+        - gender
+        - parentName
+        - phone
+        - address
+        - category
+        - batchTiming
+        - registrationFee
+        - monthlyFee
+        - paymentMode
+
+    Receipt:
+      type: object
+      properties:
+        id:
+          type: integer
+        receiptNumber:
+          type: string
+        registrationId:
+          type: integer
+        studentName:
+          type: string
+        parentName:
+          type: string
+        phone:
+          type: string
+        category:
+          type: string
+        batchTiming:
+          type: string
+        feeType:
+          type: string
+          description: "registration, monthly, or other"
+        amount:
+          type: number
+        paymentMode:
+          type: string
+        paymentDate:
+          type: string
+        month:
+          type: string
+        notes:
+          type: string
+        issuedAt:
+          type: string
+      required:
+        - id
+        - receiptNumber
+        - registrationId
+        - studentName
+        - parentName
+        - phone
+        - category
+        - batchTiming
+        - feeType
+        - amount
+        - paymentMode
+        - paymentDate
+        - issuedAt
+
+    GenerateReceiptBody:
+      type: object
+      properties:
+        registrationId:
+          type: integer
+        feeType:
+          type: string
+        amount:
+          type: number
+        paymentMode:
+          type: string
+        paymentDate:
+          type: string
+        month:
+          type: string
+        notes:
+          type: string
+      required:
+        - registrationId
+        - feeType
+        - amount
+        - paymentMode
+        - paymentDate
+
+    StatsSummary:
+      type: object
+      properties:
+        totalStudents:
+          type: integer
+        juniorCount:
+          type: integer
+        seniorCount:
+          type: integer
+        eliteCount:
+          type: integer
+        totalFeesCollected:
+          type: number
+        thisMonthRegistrations:
+          type: integer
+        activeStudents:
+          type: integer
+      required:
+        - totalStudents
+        - juniorCount
+        - seniorCount
+        - eliteCount
+        - totalFeesCollected
+        - thisMonthRegistrations
+        - activeStudents

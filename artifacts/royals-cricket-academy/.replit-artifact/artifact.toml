@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Royals Cricket Academy"
+version = "1.0.0"
+id = "artifacts/royals-cricket-academy"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22589
+
+[services.development]
+run = "pnpm --filter @workspace/royals-cricket-academy run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/royals-cricket-academy", "run", "build" ]
+publicDir = "artifacts/royals-cricket-academy/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22589"
+BASE_PATH = "/"
