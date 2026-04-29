@@ -1,16 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>Royals Cricket Academy</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royals Cricket Academy - Registration</title>
+    <style>
+        :root { --royal-red: #a51d2d; --royal-blue: #1a237e; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f6; margin: 0; padding: 15px; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); border-top: 8px solid var(--royal-red); }
+        .header { text-align: center; margin-bottom: 25px; }
+        .logo { width: 120px; margin-bottom: 10px; border-radius: 50%; }
+        h2 { color: var(--royal-red); margin: 0; font-size: 22px; text-transform: uppercase; }
+        p.loc { margin: 5px 0; color: #666; font-weight: bold; }
+        
+        .form-section { margin-bottom: 15px; text-align: left; }
+        label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; font-size: 14px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+        
+        .fee-info { display: flex; justify-content: space-between; background: #fff5f5; padding: 10px; border-radius: 8px; margin: 15px 0; border: 1px solid #fed7d7; }
+        .fee-box { text-align: center; width: 48%; }
+        .fee-box span { display: block; font-size: 12px; color: #666; }
+        .fee-box b { font-size: 16px; color: var(--royal-red); }
+
+        .btn-submit { background: var(--royal-red); color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px;}
+        .btn-submit:hover { background: #801521; }
+
+        #receipt { display: none; border: 2px solid #333; padding: 20px; background: #fff; margin-top: 20px; }
+        .receipt-head { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 15px; }
+        .r-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #ccc; }
+        .total-row { background: #eee; font-weight: bold; padding: 10px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="https://i.ibb.co/LzfS4Z9/logo.jpg" alt="Royals Logo" class="logo">
+        <h2>Royals Cricket Academy</h2>
+        <p class="loc">JALANDHAR | 76963-72777</p>
+    </div>
+
+    <div id="regForm">
+        <div class="fee-info">
+            <div class="fee-box"><span>Reg. Fees</span><b>₹1,500</b></div>
+            <div class="fee-box"><span>Monthly Fees</span><b>₹2,000</b></div>
+        </div>
+
+        <div class="form-section">
+            <label>Student Full Name</label>
+            <input type="text" id="sName" placeholder="Enter Student Name">
+        </div>
+
+        <div class="form-section">
+            <label>Guardian Name</label>
+            <input type="text" id="gName" placeholder="Father/Mother Name">
+        </div>
+
+        <div class="form-section">
+            <label>Age Category</label>
+            <select id="ageCat">
+                <option value="Under-12">Under-12</option>
+                <option value="Under-14">Under-14</option>
+                <option value="Under-16">Under-16</option>
+                <option value="Under-19">Under-19</option>
+                <option value="Elite Open">Elite Open</option>
+            </select>
+        </div>
+
+        <div class="form-section">
+            <label>WhatsApp Number</label>
+            <input type="number" id="phone" placeholder="10 digit number">
+        </div>
+
+        <button class="btn-submit" onclick="generateReceipt()">Register & Generate Slip</button>
+    </div>
+
+    <div id="receipt">
+        <div class="receipt-head">
+            <h3>ADMISSION CONFIRMATION</h3>
+            <b>Royals Cricket Academy, Jalandhar</b>
+        </div>
+        <div id="resBody"></div>
+        <button class="btn-submit" style="background:#28a745;" onclick="window.print()">Download Fee Slip (PDF)</button>
+        <button class="btn-submit" style="background:#666; font-size:14px;" onclick="location.reload()">New Registration</button>
+    </div>
+</div>
+
+<script>
+    function generateReceipt() {
+        const name = document.getElementById('sName').value;
+        const gName = document.getElementById('gName').value;
+        const cat = document.getElementById('ageCat').value;
+        const phone = document.getElementById('phone').value;
+        const date = new Date().toLocaleDateString();
+
+        if(!name || !phone) { alert("Please fill Student Name and Phone number!"); return; }
+
+        document.getElementById('regForm').style.display = 'none';
+        document.getElementById('receipt').style.display = 'block';
+
+        document.getElementById('resBody').innerHTML = `
+            <div class="r-row"><span>Date:</span> <span>${date}</span></div>
+            <div class="r-row"><span>Student Name:</span> <span>${name}</span></div>
+            <div class="r-row"><span>Guardian:</span> <span>${gName}</span></div>
+            <div class="r-row"><span>Category:</span> <span>${cat}</span></div>
+            <div class="r-row"><span>WhatsApp:</span> <span>${phone}</span></div>
+            <div class="r-row"><span>Registration Fees:</span> <span>₹1,500</span></div>
+            <div class="r-row"><span>Monthly Fees:</span> <span>₹2,000</span></div>
+            <div class="r-row total-row"><span>Total Received:</span> <span>₹3,500</span></div>
+            <p style="font-size: 11px; color: #777; text-align: center; margin-top: 15px;">*This is a computer-generated admission confirmation.</p>
+        `;
+    }
+</script>
+
+</body>
 </html>
