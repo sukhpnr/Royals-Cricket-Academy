@@ -3,42 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royals Cricket Academy - Registration</title>
+    <title>Royals Cricket Academy</title>
     <style>
         :root { --royal-red: #a51d2d; --royal-blue: #1a237e; }
+        * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7f6; margin: 0; padding: 15px; }
-        .container { max-width: 500px; margin: auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); border-top: 8px solid var(--royal-red); }
-        .header { text-align: center; margin-bottom: 20px; }
-        .logo { width: 110px; margin-bottom: 10px; border-radius: 50%; }
-        h2 { color: var(--royal-red); margin: 0; font-size: 22px; text-transform: uppercase; }
-        p.loc { margin: 5px 0; color: #666; font-weight: bold; }
+        .container { max-width: 520px; margin: auto; background: white; padding: 22px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); border-top: 8px solid var(--royal-red); }
 
-        .tabs { display: flex; border-radius: 8px; overflow: hidden; border: 2px solid var(--royal-red); margin-bottom: 20px; }
-        .tab-btn { flex: 1; padding: 12px; background: white; border: none; font-size: 14px; font-weight: 700; cursor: pointer; color: var(--royal-red); transition: 0.2s; }
+        .header { text-align: center; margin-bottom: 16px; }
+        .logo { width: 100px; margin-bottom: 8px; border-radius: 50%; }
+        h2 { color: var(--royal-red); margin: 0; font-size: 20px; text-transform: uppercase; }
+        p.loc { margin: 4px 0; color: #666; font-weight: bold; font-size: 13px; }
+
+        /* Stats bar */
+        .stats-bar { display: flex; gap: 8px; margin-bottom: 16px; }
+        .stat-card { flex: 1; background: #fff5f5; border: 1px solid #fed7d7; border-radius: 8px; padding: 8px; text-align: center; }
+        .stat-card span { display: block; font-size: 11px; color: #666; }
+        .stat-card b { font-size: 18px; color: var(--royal-red); }
+        .stat-card.blue { background: #f0f2ff; border-color: #c7cdfa; }
+        .stat-card.blue b { color: var(--royal-blue); }
+
+        /* Tabs */
+        .tabs { display: flex; border-radius: 8px; overflow: hidden; border: 2px solid var(--royal-red); margin-bottom: 18px; }
+        .tab-btn { flex: 1; padding: 10px 4px; background: white; border: none; font-size: 12px; font-weight: 700; cursor: pointer; color: var(--royal-red); transition: 0.2s; }
         .tab-btn.active { background: var(--royal-red); color: white; }
 
-        .form-section { margin-bottom: 15px; text-align: left; }
-        label { display: block; font-weight: 600; margin-bottom: 5px; color: #333; font-size: 14px; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
+        /* Form */
+        .form-section { margin-bottom: 13px; text-align: left; }
+        label { display: block; font-weight: 600; margin-bottom: 4px; color: #333; font-size: 13px; }
+        input, select { width: 100%; padding: 11px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        input:focus, select:focus { outline: none; border-color: var(--royal-red); }
 
-        .fee-info { display: flex; justify-content: space-between; background: #fff5f5; padding: 10px; border-radius: 8px; margin: 0 0 18px 0; border: 1px solid #fed7d7; }
+        .fee-info { display: flex; justify-content: space-between; background: #fff5f5; padding: 10px; border-radius: 8px; margin: 0 0 16px 0; border: 1px solid #fed7d7; }
         .fee-box { text-align: center; width: 48%; }
-        .fee-box span { display: block; font-size: 12px; color: #666; }
-        .fee-box b { font-size: 16px; color: var(--royal-red); }
+        .fee-box span { display: block; font-size: 11px; color: #666; }
+        .fee-box b { font-size: 15px; color: var(--royal-red); }
 
-        .btn-submit { background: var(--royal-red); color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 17px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        /* Buttons */
+        .btn-submit { background: var(--royal-red); color: white; width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
         .btn-submit:hover { background: #801521; }
-        .btn-whatsapp { background: #25D366; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 17px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; box-sizing: border-box; }
+        .btn-whatsapp { background: #25D366; color: white; width: 100%; padding: 13px; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
         .btn-whatsapp:hover { background: #1ead53; }
         @media print { .no-print { display: none !important; } }
 
-        .receipt-box { display: none; border: 2px solid #333; padding: 20px; background: #fff; margin-top: 20px; }
-        .receipt-head { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 15px; }
-        .receipt-head h3 { margin: 0 0 4px 0; font-size: 16px; }
-        .r-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #ccc; font-size: 14px; }
-        .total-row { background: #eee; font-weight: bold; padding: 10px; margin-top: 10px; border-radius: 4px; display: flex; justify-content: space-between; }
+        /* Receipt */
+        .receipt-box { display: none; border: 2px solid #333; padding: 18px; background: #fff; margin-top: 16px; border-radius: 4px; }
+        .receipt-head { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 14px; }
+        .receipt-head h3 { margin: 0 0 3px; font-size: 15px; }
+        .r-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed #ccc; font-size: 13px; }
+        .total-row { background: #eee; font-weight: bold; padding: 10px; margin-top: 10px; border-radius: 4px; display: flex; justify-content: space-between; font-size: 14px; }
+        .badge { display: inline-block; font-size: 11px; font-weight: bold; padding: 2px 10px; border-radius: 20px; margin-top: 4px; letter-spacing: 1px; }
+        .badge-red { background: var(--royal-red); color: white; }
+        .badge-blue { background: var(--royal-blue); color: white; }
 
-        .monthly-badge { background: #1a237e; color: white; font-size: 11px; font-weight: bold; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-top: 4px; letter-spacing: 1px; }
+        /* History */
+        .search-bar { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 12px; }
+        .search-bar:focus { outline: none; border-color: var(--royal-red); }
+        .history-list { max-height: 420px; overflow-y: auto; }
+        .history-item { border: 1px solid #eee; border-radius: 8px; padding: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
+        .history-item:hover { border-color: var(--royal-red); background: #fff9f9; }
+        .hi-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+        .hi-name { font-weight: 700; font-size: 14px; color: #222; }
+        .hi-date { font-size: 11px; color: #999; }
+        .hi-sub { display: flex; justify-content: space-between; font-size: 12px; color: #555; }
+        .hi-amount { font-weight: 700; color: var(--royal-red); }
+        .empty-state { text-align: center; padding: 30px 0; color: #bbb; font-size: 14px; }
+        .clear-btn { background: none; border: 1px solid #ddd; border-radius: 6px; padding: 6px 14px; font-size: 12px; color: #999; cursor: pointer; float: right; }
+        .clear-btn:hover { border-color: var(--royal-red); color: var(--royal-red); }
     </style>
 </head>
 <body>
@@ -50,9 +81,25 @@
         <p class="loc">JALANDHAR | 76963-72777</p>
     </div>
 
+    <div class="stats-bar" id="statsBar">
+        <div class="stat-card">
+            <span>Students</span>
+            <b id="statStudents">0</b>
+        </div>
+        <div class="stat-card blue">
+            <span>Receipts</span>
+            <b id="statReceipts">0</b>
+        </div>
+        <div class="stat-card">
+            <span>Fees Collected</span>
+            <b id="statFees">₹0</b>
+        </div>
+    </div>
+
     <div class="tabs">
         <button class="tab-btn active" onclick="switchTab('reg')">New Registration</button>
-        <button class="tab-btn" onclick="switchTab('monthly')">Monthly Fee Receipt</button>
+        <button class="tab-btn" onclick="switchTab('monthly')">Monthly Fee</button>
+        <button class="tab-btn" onclick="switchTab('history')">History</button>
     </div>
 
     <!-- ── NEW REGISTRATION ── -->
@@ -61,7 +108,6 @@
             <div class="fee-box"><span>Reg. Fees</span><b>₹1,500</b></div>
             <div class="fee-box"><span>Monthly Fees</span><b>₹2,000</b></div>
         </div>
-
         <div id="regForm">
             <div class="form-section">
                 <label>Student Full Name</label>
@@ -99,16 +145,17 @@
         <div id="regReceipt" class="receipt-box">
             <div class="receipt-head">
                 <h3>ADMISSION CONFIRMATION</h3>
-                <b>Royals Cricket Academy, Jalandhar</b>
+                <b>Royals Cricket Academy, Jalandhar</b><br>
+                <span class="badge badge-red">ADMISSION SLIP</span>
             </div>
             <div id="regReceiptBody"></div>
             <div class="no-print">
                 <a id="regWaBtn" class="btn-whatsapp" href="#" target="_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                     Share on WhatsApp
                 </a>
                 <button class="btn-submit" style="background:#28a745;" onclick="window.print()">Download Slip (PDF)</button>
-                <button class="btn-submit" style="background:#666; font-size:14px;" onclick="resetReg()">New Registration</button>
+                <button class="btn-submit" style="background:#555;font-size:14px;" onclick="resetReg()">New Registration</button>
             </div>
         </div>
     </div>
@@ -118,48 +165,40 @@
         <div id="monthlyForm">
             <div class="form-section">
                 <label>Student ID</label>
-                <input type="text" id="mStudentId" placeholder="e.g. RCA-S-0001">
+                <input type="text" id="mStudentId" placeholder="e.g. RCA-S-0001" oninput="autoFillStudent(this.value)">
             </div>
             <div class="form-section">
                 <label>Student Name</label>
-                <input type="text" id="mName" placeholder="Enter Student Name">
+                <input type="text" id="mName" placeholder="Auto-filled or enter manually">
             </div>
             <div class="form-section">
                 <label>Guardian Name</label>
-                <input type="text" id="mGName" placeholder="Father/Mother Name">
+                <input type="text" id="mGName" placeholder="Auto-filled or enter manually">
             </div>
             <div class="form-section">
                 <label>WhatsApp Number</label>
-                <input type="number" id="mPhone" placeholder="10 digit number">
+                <input type="number" id="mPhone" placeholder="Auto-filled or enter manually">
             </div>
             <div class="form-section">
                 <label>Fee Month</label>
                 <select id="mMonth">
-                    <option value="January">January</option>
-                    <option value="February">February</option>
-                    <option value="March">March</option>
-                    <option value="April">April</option>
-                    <option value="May">May</option>
-                    <option value="June">June</option>
-                    <option value="July">July</option>
-                    <option value="August">August</option>
-                    <option value="September">September</option>
-                    <option value="October">October</option>
-                    <option value="November">November</option>
-                    <option value="December">December</option>
+                    <option>January</option><option>February</option><option>March</option>
+                    <option>April</option><option>May</option><option>June</option>
+                    <option>July</option><option>August</option><option>September</option>
+                    <option>October</option><option>November</option><option>December</option>
                 </select>
             </div>
             <div class="form-section">
-                <label>Amount Received</label>
-                <input type="number" id="mAmount" placeholder="e.g. 2000" value="2000">
+                <label>Amount Received (₹)</label>
+                <input type="number" id="mAmount" value="2000">
             </div>
             <div class="form-section">
                 <label>Payment Mode</label>
                 <select id="mPayMode">
-                    <option value="Cash">Cash</option>
-                    <option value="UPI">UPI</option>
-                    <option value="Bank Transfer">Bank Transfer</option>
-                    <option value="Cheque">Cheque</option>
+                    <option>Cash</option>
+                    <option>UPI</option>
+                    <option>Bank Transfer</option>
+                    <option>Cheque</option>
                 </select>
             </div>
             <button class="btn-submit" onclick="generateMonthlyReceipt()">Generate Monthly Receipt</button>
@@ -169,38 +208,70 @@
             <div class="receipt-head">
                 <h3>MONTHLY FEE RECEIPT</h3>
                 <b>Royals Cricket Academy, Jalandhar</b><br>
-                <span class="monthly-badge">MONTHLY FEE</span>
+                <span class="badge badge-blue">MONTHLY FEE</span>
             </div>
             <div id="monthlyReceiptBody"></div>
             <div class="no-print">
                 <a id="monthlyWaBtn" class="btn-whatsapp" href="#" target="_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                     Share on WhatsApp
                 </a>
                 <button class="btn-submit" style="background:#28a745;" onclick="window.print()">Download Receipt (PDF)</button>
-                <button class="btn-submit" style="background:#666; font-size:14px;" onclick="resetMonthly()">New Monthly Receipt</button>
+                <button class="btn-submit" style="background:#555;font-size:14px;" onclick="resetMonthly()">New Monthly Receipt</button>
             </div>
         </div>
+    </div>
+
+    <!-- ── HISTORY ── -->
+    <div id="historySection" style="display:none;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+            <span style="font-size:13px;color:#555;font-weight:600;">All Receipts</span>
+            <button class="clear-btn" onclick="clearHistory()">Clear All</button>
+        </div>
+        <input class="search-bar" type="text" id="searchInput" placeholder="Search by name or Student ID..." oninput="renderHistory()">
+        <div class="history-list" id="historyList"></div>
     </div>
 </div>
 
 <script>
-    // ── Tab switcher ──
-    function switchTab(tab) {
-        const isReg = tab === 'reg';
-        document.getElementById('regSection').style.display = isReg ? 'block' : 'none';
-        document.getElementById('monthlySection').style.display = isReg ? 'none' : 'block';
-        document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-            btn.classList.toggle('active', isReg ? i === 0 : i === 1);
-        });
-        // Auto-select current month for monthly tab
-        if (!isReg) {
-            const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-            document.getElementById('mMonth').value = monthNames[new Date().getMonth()];
-        }
+    const HISTORY_KEY = 'rca_history';
+
+    function getHistory() {
+        return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+    }
+    function saveHistory(h) {
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(h));
+    }
+    function addToHistory(entry) {
+        const h = getHistory();
+        h.unshift(entry);
+        saveHistory(h);
+        updateStats();
     }
 
-    // ── Counter helpers ──
+    function updateStats() {
+        const h = getHistory();
+        const students = h.filter(e => e.type === 'registration').length;
+        const totalFees = h.reduce((s, e) => s + (e.amount || 0), 0);
+        document.getElementById('statStudents').textContent = students;
+        document.getElementById('statReceipts').textContent = h.length;
+        document.getElementById('statFees').textContent = '₹' + totalFees.toLocaleString('en-IN');
+    }
+
+    // ── Tab switcher ──
+    function switchTab(tab) {
+        ['reg','monthly','history'].forEach((t, i) => {
+            document.getElementById(t + 'Section').style.display = t === tab ? 'block' : 'none';
+            document.querySelectorAll('.tab-btn')[i].classList.toggle('active', t === tab);
+        });
+        if (tab === 'monthly') {
+            const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            document.getElementById('mMonth').value = months[new Date().getMonth()];
+        }
+        if (tab === 'history') renderHistory();
+    }
+
+    // ── Counters ──
     function getNextReceiptNumber() {
         const year = new Date().getFullYear();
         const key = 'rca_counter_' + year;
@@ -208,36 +279,42 @@
         localStorage.setItem(key, count);
         return 'RCA-' + year + '-' + String(count).padStart(4, '0');
     }
-
     function getNextStudentId() {
-        const key = 'rca_student_id';
-        const count = parseInt(localStorage.getItem(key) || '0') + 1;
-        localStorage.setItem(key, count);
+        const count = parseInt(localStorage.getItem('rca_student_id') || '0') + 1;
+        localStorage.setItem('rca_student_id', count);
         return 'RCA-S-' + String(count).padStart(4, '0');
     }
 
-    function waIcon() {
-        return `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+    // ── Auto-fill student details from history ──
+    function autoFillStudent(id) {
+        const upper = id.trim().toUpperCase();
+        const h = getHistory();
+        const match = h.find(e => e.studentId && e.studentId.toUpperCase() === upper);
+        if (match) {
+            document.getElementById('mName').value = match.name || '';
+            document.getElementById('mGName').value = match.guardian || '';
+            document.getElementById('mPhone').value = match.phone || '';
+        }
     }
 
-    // ── Registration receipt ──
+    // ── Registration ──
     function generateRegReceipt() {
         const name  = document.getElementById('sName').value.trim();
         const gName = document.getElementById('gName').value.trim();
         const cat   = document.getElementById('ageCat').value;
         const batch = document.getElementById('batch').value;
         const phone = document.getElementById('phone').value.trim();
-        const date  = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+        if (!name || !phone) { alert('Please fill Student Name and Phone number!'); return; }
+
+        const date      = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
         const receiptNo = getNextReceiptNumber();
         const studentId = getNextStudentId();
-
-        if (!name || !phone) { alert('Please fill Student Name and Phone number!'); return; }
 
         document.getElementById('regForm').style.display = 'none';
         document.getElementById('regReceipt').style.display = 'block';
 
         document.getElementById('regReceiptBody').innerHTML = `
-            <div class="r-row"><span>Student ID:</span><span style="font-weight:bold;color:var(--royal-red);font-size:15px;">${studentId}</span></div>
+            <div class="r-row"><span>Student ID:</span><span style="font-weight:bold;color:var(--royal-red);">${studentId}</span></div>
             <div class="r-row"><span>Receipt No:</span><span style="font-weight:bold;">${receiptNo}</span></div>
             <div class="r-row"><span>Date:</span><span>${date}</span></div>
             <div class="r-row"><span>Student Name:</span><span>${name}</span></div>
@@ -248,7 +325,7 @@
             <div class="r-row"><span>Registration Fees:</span><span>₹1,500</span></div>
             <div class="r-row"><span>Monthly Fees:</span><span>₹2,000</span></div>
             <div class="total-row"><span>Total Received:</span><span>₹3,500</span></div>
-            <p style="font-size:11px;color:#777;text-align:center;margin-top:15px;">*This is a computer-generated admission confirmation.</p>
+            <p style="font-size:11px;color:#777;text-align:center;margin-top:12px;">*Computer-generated admission confirmation.</p>
         `;
 
         const msg =
@@ -269,41 +346,41 @@ Registration Fees: Rs.1,500
 Monthly Fees: Rs.2,000
 *Total Received: Rs.3,500*
 
-_Please quote your Student ID (${studentId}) for all future correspondence._
+_Quote Student ID (${studentId}) in all future correspondence._
 Contact: 76963-72777`;
 
-        const waPhone = '91' + phone.replace(/\D/g, '').slice(-10);
+        const waPhone = '91' + phone.replace(/\D/g,'').slice(-10);
         document.getElementById('regWaBtn').href = 'https://wa.me/' + waPhone + '?text=' + encodeURIComponent(msg);
+
+        addToHistory({ type:'registration', studentId, receiptNo, name, guardian:gName, phone, category:cat, batch, amount:3500, date, timestamp: Date.now() });
     }
 
     function resetReg() {
         document.getElementById('regForm').style.display = 'block';
         document.getElementById('regReceipt').style.display = 'none';
-        document.getElementById('sName').value = '';
-        document.getElementById('gName').value = '';
-        document.getElementById('phone').value = '';
+        ['sName','gName','phone'].forEach(id => document.getElementById(id).value = '');
     }
 
-    // ── Monthly fee receipt ──
+    // ── Monthly fee ──
     function generateMonthlyReceipt() {
         const studentId = document.getElementById('mStudentId').value.trim();
         const name      = document.getElementById('mName').value.trim();
         const gName     = document.getElementById('mGName').value.trim();
         const phone     = document.getElementById('mPhone').value.trim();
         const month     = document.getElementById('mMonth').value;
-        const amount    = document.getElementById('mAmount').value.trim();
+        const amount    = parseInt(document.getElementById('mAmount').value) || 0;
         const payMode   = document.getElementById('mPayMode').value;
+        if (!studentId || !name || !phone) { alert('Please fill Student ID, Name and Phone number!'); return; }
+
         const date      = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
         const year      = new Date().getFullYear();
         const receiptNo = getNextReceiptNumber();
-
-        if (!studentId || !name || !phone) { alert('Please fill Student ID, Name and Phone number!'); return; }
 
         document.getElementById('monthlyForm').style.display = 'none';
         document.getElementById('monthlyReceipt').style.display = 'block';
 
         document.getElementById('monthlyReceiptBody').innerHTML = `
-            <div class="r-row"><span>Student ID:</span><span style="font-weight:bold;color:var(--royal-blue);font-size:15px;">${studentId}</span></div>
+            <div class="r-row"><span>Student ID:</span><span style="font-weight:bold;color:var(--royal-blue);">${studentId}</span></div>
             <div class="r-row"><span>Receipt No:</span><span style="font-weight:bold;">${receiptNo}</span></div>
             <div class="r-row"><span>Date:</span><span>${date}</span></div>
             <div class="r-row"><span>Student Name:</span><span>${name}</span></div>
@@ -311,8 +388,8 @@ Contact: 76963-72777`;
             <div class="r-row"><span>WhatsApp:</span><span>${phone}</span></div>
             <div class="r-row"><span>Fee Month:</span><span style="font-weight:bold;">${month} ${year}</span></div>
             <div class="r-row"><span>Payment Mode:</span><span>${payMode}</span></div>
-            <div class="total-row"><span>Amount Received:</span><span>₹${parseInt(amount).toLocaleString('en-IN')}</span></div>
-            <p style="font-size:11px;color:#777;text-align:center;margin-top:15px;">*This is a computer-generated fee receipt.</p>
+            <div class="total-row"><span>Amount Received:</span><span>₹${amount.toLocaleString('en-IN')}</span></div>
+            <p style="font-size:11px;color:#777;text-align:center;margin-top:12px;">*Computer-generated fee receipt.</p>
         `;
 
         const msg =
@@ -328,25 +405,68 @@ Guardian: ${gName}
 Fee Month: ${month} ${year}
 Payment Mode: ${payMode}
 
-*Amount Received: Rs.${parseInt(amount).toLocaleString('en-IN')}*
+*Amount Received: Rs.${amount.toLocaleString('en-IN')}*
 
-_Thank you for the payment. Keep this receipt for your records._
+_Thank you for the payment._
 Contact: 76963-72777`;
 
-        const waPhone = '91' + phone.replace(/\D/g, '').slice(-10);
+        const waPhone = '91' + phone.replace(/\D/g,'').slice(-10);
         document.getElementById('monthlyWaBtn').href = 'https://wa.me/' + waPhone + '?text=' + encodeURIComponent(msg);
+
+        addToHistory({ type:'monthly', studentId, receiptNo, name, guardian:gName, phone, month:`${month} ${year}`, payMode, amount, date, timestamp: Date.now() });
     }
 
     function resetMonthly() {
         document.getElementById('monthlyForm').style.display = 'block';
         document.getElementById('monthlyReceipt').style.display = 'none';
-        document.getElementById('mStudentId').value = '';
-        document.getElementById('mName').value = '';
-        document.getElementById('mGName').value = '';
-        document.getElementById('mPhone').value = '';
+        ['mStudentId','mName','mGName','mPhone'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('mAmount').value = '2000';
     }
-</script>
 
+    // ── History ──
+    function renderHistory() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const h = getHistory().filter(e =>
+            !query ||
+            (e.name && e.name.toLowerCase().includes(query)) ||
+            (e.studentId && e.studentId.toLowerCase().includes(query))
+        );
+
+        const list = document.getElementById('historyList');
+        if (!h.length) {
+            list.innerHTML = '<div class="empty-state">No receipts found.</div>';
+            return;
+        }
+
+        list.innerHTML = h.map(e => `
+            <div class="history-item">
+                <div class="hi-top">
+                    <span class="hi-name">${e.name}</span>
+                    <span class="badge ${e.type === 'registration' ? 'badge-red' : 'badge-blue'}" style="font-size:10px;">
+                        ${e.type === 'registration' ? 'ADMISSION' : 'MONTHLY'}
+                    </span>
+                </div>
+                <div class="hi-sub">
+                    <span>${e.studentId} &nbsp;|&nbsp; ${e.receiptNo}</span>
+                    <span class="hi-amount">₹${(e.amount||0).toLocaleString('en-IN')}</span>
+                </div>
+                <div class="hi-sub" style="margin-top:3px;">
+                    <span>${e.type === 'monthly' ? e.month : e.category || ''}</span>
+                    <span style="color:#aaa;">${e.date}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function clearHistory() {
+        if (!confirm('Clear all receipt history? This cannot be undone.')) return;
+        localStorage.removeItem(HISTORY_KEY);
+        updateStats();
+        renderHistory();
+    }
+
+    // Init
+    updateStats();
+</script>
 </body>
 </html>
