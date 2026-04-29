@@ -74,6 +74,32 @@
         .export-btn:hover { background: #0f1657; }
         .history-actions { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
         .history-actions-right { display: flex; gap: 6px; margin-left: auto; }
+
+        /* Fee Tracker */
+        .tracker-student { border: 1px solid #eee; border-radius: 10px; margin-bottom: 14px; overflow: hidden; }
+        .tracker-student.has-overdue { border-color: #e53e3e; }
+        .tracker-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #fafafa; border-bottom: 1px solid #eee; }
+        .tracker-head.overdue-head { background: #fff5f5; }
+        .tracker-name { font-weight: 700; font-size: 14px; color: #222; }
+        .tracker-id { font-size: 11px; color: #888; margin-top: 2px; }
+        .overdue-tag { background: #e53e3e; color: white; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+        .paid-tag { background: #38a169; color: white; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+        .months-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 12px; }
+        .month-cell { text-align: center; padding: 7px 4px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; border: 2px solid transparent; transition: 0.15s; user-select: none; }
+        .month-cell.paid { background: #c6f6d5; color: #276749; border-color: #9ae6b4; }
+        .month-cell.overdue { background: #fed7d7; color: #c53030; border-color: #fc8181; }
+        .month-cell.due { background: #fefcbf; color: #975a16; border-color: #f6e05e; }
+        .month-cell.future { background: #f7fafc; color: #a0aec0; border-color: #e2e8f0; cursor: default; }
+        .tracker-footer { padding: 8px 12px 12px; display: flex; gap: 8px; }
+        .wa-remind-btn { flex: 1; background: #25D366; color: white; border: none; border-radius: 7px; padding: 8px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .wa-remind-btn:hover { background: #1ead53; }
+        .tracker-search { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 12px; }
+        .tracker-search:focus { outline: none; border-color: var(--royal-red); }
+        .tracker-list { max-height: 500px; overflow-y: auto; }
+        .tracker-empty { text-align: center; padding: 30px 0; color: #bbb; font-size: 14px; }
+        .tracker-legend { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+        .leg { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #555; }
+        .leg-dot { width: 12px; height: 12px; border-radius: 3px; }
     </style>
 </head>
 <body>
@@ -101,8 +127,9 @@
     </div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('reg')">New Registration</button>
+        <button class="tab-btn active" onclick="switchTab('reg')">Register</button>
         <button class="tab-btn" onclick="switchTab('monthly')">Monthly Fee</button>
+        <button class="tab-btn" onclick="switchTab('tracker')">Fee Tracker</button>
         <button class="tab-btn" onclick="switchTab('history')">History</button>
     </div>
 
@@ -226,6 +253,18 @@
         </div>
     </div>
 
+    <!-- ── FEE TRACKER ── -->
+    <div id="trackerSection" style="display:none;">
+        <div class="tracker-legend">
+            <div class="leg"><div class="leg-dot" style="background:#c6f6d5;border:1px solid #9ae6b4;"></div> Paid</div>
+            <div class="leg"><div class="leg-dot" style="background:#fefcbf;border:1px solid #f6e05e;"></div> Due This Month</div>
+            <div class="leg"><div class="leg-dot" style="background:#fed7d7;border:1px solid #fc8181;"></div> Overdue</div>
+            <div class="leg"><div class="leg-dot" style="background:#f7fafc;border:1px solid #e2e8f0;"></div> Future</div>
+        </div>
+        <input class="tracker-search" type="text" id="trackerSearch" placeholder="Search student..." oninput="renderTracker()">
+        <div class="tracker-list" id="trackerList"></div>
+    </div>
+
     <!-- ── HISTORY ── -->
     <div id="historySection" style="display:none;">
         <div class="history-actions">
@@ -269,8 +308,9 @@
     }
 
     // ── Tab switcher ──
+    const TABS = ['reg','monthly','tracker','history'];
     function switchTab(tab) {
-        ['reg','monthly','history'].forEach((t, i) => {
+        TABS.forEach((t, i) => {
             document.getElementById(t + 'Section').style.display = t === tab ? 'block' : 'none';
             document.querySelectorAll('.tab-btn')[i].classList.toggle('active', t === tab);
         });
@@ -279,6 +319,7 @@
             document.getElementById('mMonth').value = months[new Date().getMonth()];
         }
         if (tab === 'history') renderHistory();
+        if (tab === 'tracker') renderTracker();
     }
 
     // ── Counters ──
@@ -431,6 +472,129 @@ Contact: 76963-72777`;
         document.getElementById('monthlyReceipt').style.display = 'none';
         ['mStudentId','mName','mGName','mPhone'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('mAmount').value = '2000';
+    }
+
+    // ── Fee Tracker ──
+    const TRACKER_KEY = 'rca_tracker';
+    const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const MONTH_FULL  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+    function getTracker() { return JSON.parse(localStorage.getItem(TRACKER_KEY) || '{}'); }
+    function saveTracker(t) { localStorage.setItem(TRACKER_KEY, JSON.stringify(t)); }
+
+    function toggleMonth(studentId, monthIdx) {
+        const year = new Date().getFullYear();
+        const nowMonth = new Date().getMonth();
+        if (monthIdx > nowMonth) return; // can't mark future months
+        const key = year + '-' + monthIdx;
+        const t = getTracker();
+        if (!t[studentId]) t[studentId] = {};
+        t[studentId][key] = !t[studentId][key];
+        saveTracker(t);
+        renderTracker();
+    }
+
+    function renderTracker() {
+        const query = (document.getElementById('trackerSearch').value || '').toLowerCase();
+        const h = getHistory();
+        // unique students from registrations
+        const seen = {};
+        const students = [];
+        h.filter(e => e.type === 'registration').forEach(e => {
+            if (!seen[e.studentId]) {
+                seen[e.studentId] = true;
+                students.push(e);
+            }
+        });
+
+        const filtered = students.filter(s =>
+            !query || s.name.toLowerCase().includes(query) || (s.studentId||'').toLowerCase().includes(query)
+        );
+
+        const list = document.getElementById('trackerList');
+        if (!filtered.length) {
+            list.innerHTML = '<div class="tracker-empty">No students found.<br>Register students first.</div>';
+            return;
+        }
+
+        const t = getTracker();
+        const year = new Date().getFullYear();
+        const nowMonth = new Date().getMonth();
+
+        // Sort: overdue students first
+        filtered.sort((a, b) => {
+            const aOver = hasOverdue(t, a.studentId, nowMonth, year);
+            const bOver = hasOverdue(t, b.studentId, nowMonth, year);
+            return bOver - aOver;
+        });
+
+        list.innerHTML = filtered.map(s => {
+            const paid = t[s.studentId] || {};
+            const overdueMonths = [];
+            for (let m = 0; m <= nowMonth; m++) {
+                if (!paid[year + '-' + m]) overdueMonths.push(MONTH_FULL[m]);
+            }
+            const isOverdue = overdueMonths.length > 0;
+            const allPaid = overdueMonths.length === 0;
+
+            const monthCells = MONTH_NAMES.map((mn, mi) => {
+                const key = year + '-' + mi;
+                const isPaid = !!paid[key];
+                let cls = 'future';
+                if (isPaid) cls = 'paid';
+                else if (mi < nowMonth) cls = 'overdue';
+                else if (mi === nowMonth) cls = 'due';
+                const clickable = mi <= nowMonth ? `onclick="toggleMonth('${s.studentId}', ${mi})"` : '';
+                const title = isPaid ? 'Click to mark unpaid' : (mi <= nowMonth ? 'Click to mark paid' : '');
+                return `<div class="month-cell ${cls}" ${clickable} title="${title}">${mn}</div>`;
+            }).join('');
+
+            const waPhone = '91' + (s.phone||'').replace(/\D/g,'').slice(-10);
+            const overStr = overdueMonths.join(', ');
+            const waMsg = encodeURIComponent(
+`*Royals Cricket Academy, Jalandhar*
+*Fee Reminder*
+
+Dear ${s.guardian || 'Parent'},
+
+This is a friendly reminder that monthly fees for *${s.name}* (ID: ${s.studentId}) are pending for:
+*${overStr}*
+
+Monthly Fee: Rs.2,000 per month
+Total Due: Rs.${(overdueMonths.length * 2000).toLocaleString('en-IN')}
+
+Please clear the dues at the earliest.
+Contact: 76963-72777`);
+
+            return `
+            <div class="tracker-student ${isOverdue ? 'has-overdue' : ''}">
+                <div class="tracker-head ${isOverdue ? 'overdue-head' : ''}">
+                    <div>
+                        <div class="tracker-name">${s.name}</div>
+                        <div class="tracker-id">${s.studentId} &nbsp;|&nbsp; ${s.category||''}</div>
+                    </div>
+                    ${isOverdue
+                        ? `<span class="overdue-tag">${overdueMonths.length} OVERDUE</span>`
+                        : `<span class="paid-tag">ALL PAID</span>`}
+                </div>
+                <div class="months-grid">${monthCells}</div>
+                ${isOverdue ? `
+                <div class="tracker-footer">
+                    <a class="wa-remind-btn" href="https://wa.me/${waPhone}?text=${waMsg}" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        Send Reminder to ${s.guardian || 'Guardian'}
+                    </a>
+                </div>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    function hasOverdue(t, studentId, nowMonth, year) {
+        const paid = t[studentId] || {};
+        for (let m = 0; m <= nowMonth; m++) {
+            if (!paid[year + '-' + m]) return true;
+        }
+        return false;
     }
 
     // ── History ──
