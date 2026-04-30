@@ -159,15 +159,145 @@
         .tracker-legend { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
         .leg { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #555; }
         .leg-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+        /* ── Login Screen ── */
+        #loginOverlay { position: fixed; inset: 0; background: linear-gradient(135deg, #a51d2d 0%, #1a237e 100%); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-box { background: white; border-radius: 20px; padding: 30px 24px; max-width: 400px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; }
+        .login-logo { width: 90px; border-radius: 50%; margin-bottom: 10px; }
+        .login-title { font-size: 18px; font-weight: 800; color: var(--royal-red); text-transform: uppercase; margin: 0; }
+        .login-sub { font-size: 12px; color: #888; margin: 4px 0 24px; }
+        .role-cards { display: flex; gap: 12px; margin-bottom: 20px; }
+        .role-card { flex: 1; border: 2px solid #eee; border-radius: 14px; padding: 18px 10px; cursor: pointer; transition: 0.2s; background: white; }
+        .role-card:hover { border-color: var(--royal-red); background: #fff9f9; }
+        .role-card.selected { border-color: var(--royal-red); background: #fff0f0; }
+        .role-icon { font-size: 32px; display: block; margin-bottom: 6px; }
+        .role-label { font-weight: 800; font-size: 14px; color: #333; }
+        .role-desc { font-size: 11px; color: #888; margin-top: 2px; }
+        .login-input-wrap { display: none; animation: fadeIn 0.2s; }
+        .login-input-wrap.show { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+        .login-input { width: 100%; padding: 12px 14px; border: 1.5px solid #ddd; border-radius: 10px; font-size: 15px; text-align: center; letter-spacing: 2px; margin-bottom: 10px; outline: none; }
+        .login-input:focus { border-color: var(--royal-red); }
+        .login-btn { width: 100%; padding: 13px; background: var(--royal-red); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .login-btn:hover { background: #801521; }
+        .login-error { color: #e53e3e; font-size: 12px; margin-bottom: 8px; display: none; }
+        .login-hint { font-size: 11px; color: #aaa; margin-top: 8px; }
+
+        /* ── Logout button ── */
+        .logout-btn { position: absolute; right: 0; top: 0; background: none; border: 1px solid #ddd; border-radius: 8px; padding: 5px 10px; font-size: 11px; font-weight: 700; color: #888; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+        .logout-btn:hover { border-color: var(--royal-red); color: var(--royal-red); }
+        .header-wrap { position: relative; }
+        .role-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-top: 4px; }
+        .role-badge.admin { background: #fff0f0; color: var(--royal-red); border: 1px solid #fed7d7; }
+        .role-badge.player { background: #f0f2ff; color: var(--royal-blue); border: 1px solid #c7cdfa; }
+
+        /* ── Player Dashboard ── */
+        #playerContainer { display: none; max-width: 520px; margin: auto; }
+        .player-card { background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.15); border-top: 8px solid var(--royal-blue); padding: 22px; margin-bottom: 16px; }
+        .player-header { text-align: center; border-bottom: 1px solid #eee; padding-bottom: 16px; margin-bottom: 16px; position: relative; }
+        .player-avatar { width: 70px; height: 70px; background: linear-gradient(135deg, var(--royal-red), var(--royal-blue)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; margin: 0 auto 10px; }
+        .player-name { font-size: 20px; font-weight: 800; color: #222; margin: 0; }
+        .player-id { font-size: 13px; color: var(--royal-red); font-weight: 700; margin: 4px 0; }
+        .player-meta { font-size: 12px; color: #888; }
+        .section-title { font-size: 13px; font-weight: 800; color: #333; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 12px; display: flex; align-items: center; gap: 6px; }
+        .player-fee-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .player-month-cell { text-align: center; padding: 7px 2px; border-radius: 6px; font-size: 10px; font-weight: 700; border: 2px solid transparent; }
+        .player-month-cell.paid { background: #c6f6d5; color: #276749; border-color: #9ae6b4; }
+        .player-month-cell.overdue { background: #fed7d7; color: #c53030; border-color: #fc8181; }
+        .player-month-cell.due { background: #fefcbf; color: #975a16; border-color: #f6e05e; }
+        .player-month-cell.future { background: #f7fafc; color: #a0aec0; border-color: #e2e8f0; }
+        .player-receipt-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed #eee; font-size: 13px; }
+        .player-receipt-row:last-child { border-bottom: none; }
+        .att-big { text-align: center; padding: 16px; }
+        .att-circle { width: 90px; height: 90px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 0 auto 8px; border: 6px solid; }
+        .att-circle.good { border-color: #38a169; color: #276749; }
+        .att-circle.warn { border-color: #d69e2e; color: #975a16; }
+        .att-circle.low  { border-color: #e53e3e; color: #c53030; }
+        .att-circle b { font-size: 20px; font-weight: 800; line-height: 1; }
+        .att-circle span { font-size: 10px; }
+
+        /* ── Admin PIN change ── */
+        .pin-change-link { font-size: 11px; color: #aaa; text-decoration: underline; cursor: pointer; margin-top: 6px; display: inline-block; }
+        .pin-change-link:hover { color: var(--royal-red); }
     </style>
 </head>
 <body>
 
+<!-- ── LOGIN OVERLAY ── -->
+<div id="loginOverlay">
+    <div class="login-box">
+        <img src="/logo.jpg" alt="Logo" class="login-logo">
+        <h2 class="login-title">Royals Cricket Academy</h2>
+        <p class="login-sub">Jalandhar &nbsp;|&nbsp; 76963-72777</p>
+
+        <div class="role-cards">
+            <div class="role-card" id="adminRoleCard" onclick="selectRole('admin')">
+                <span class="role-icon">🛡️</span>
+                <div class="role-label">Admin</div>
+                <div class="role-desc">Full access</div>
+            </div>
+            <div class="role-card" id="playerRoleCard" onclick="selectRole('player')">
+                <span class="role-icon">🏏</span>
+                <div class="role-label">Player</div>
+                <div class="role-desc">My profile</div>
+            </div>
+        </div>
+
+        <!-- Admin PIN input -->
+        <div class="login-input-wrap" id="adminLoginWrap">
+            <p class="login-error" id="adminError">Incorrect PIN. Please try again.</p>
+            <input class="login-input" type="password" id="adminPinInput" placeholder="Enter Admin PIN" maxlength="20"
+                onkeydown="if(event.key==='Enter') doAdminLogin()">
+            <button class="login-btn" onclick="doAdminLogin()">Login as Admin</button>
+            <div class="login-hint">Default PIN: <b>1234</b></div>
+        </div>
+
+        <!-- Player ID input -->
+        <div class="login-input-wrap" id="playerLoginWrap">
+            <p class="login-error" id="playerError">Student ID not found. Please check and try again.</p>
+            <input class="login-input" type="text" id="playerIdInput" placeholder="Enter Student ID (RCA-S-XXXX)"
+                style="text-transform:uppercase;letter-spacing:1px;"
+                onkeydown="if(event.key==='Enter') doPlayerLogin()">
+            <button class="login-btn" style="background:var(--royal-blue);" onclick="doPlayerLogin()">Login as Player</button>
+            <div class="login-hint">Use your Student ID from your admission slip</div>
+        </div>
+    </div>
+</div>
+
+<!-- ── PLAYER DASHBOARD ── -->
+<div id="playerContainer">
+    <div class="player-card">
+        <div class="player-header header-wrap">
+            <button class="logout-btn" onclick="doLogout()">⬅ Logout</button>
+            <div class="player-avatar">🏏</div>
+            <div class="player-name" id="playerName">—</div>
+            <div class="player-id" id="playerIdDisplay">—</div>
+            <div class="player-meta" id="playerMeta">—</div>
+            <span class="role-badge player">PLAYER</span>
+        </div>
+        <div class="section-title">📅 Fee Status — <span id="playerFeeYear"></span></div>
+        <div class="player-fee-grid" id="playerFeeGrid"></div>
+    </div>
+
+    <div class="player-card">
+        <div class="section-title">📊 Attendance — <span id="playerAttMonth"></span></div>
+        <div class="att-big" id="playerAttSection"></div>
+    </div>
+
+    <div class="player-card">
+        <div class="section-title">🧾 My Receipts</div>
+        <div id="playerReceiptList"></div>
+    </div>
+</div>
+
+<div id="appContainer" style="display:none;">
 <div class="container">
-    <div class="header">
+    <div class="header header-wrap">
+        <button class="logout-btn" onclick="doLogout()">⬅ Logout</button>
         <img src="/logo.jpg" alt="Royals Logo" class="logo">
         <h2>Royals Cricket Academy</h2>
         <p class="loc">JALANDHAR | 76963-72777</p>
+        <span class="role-badge admin">ADMIN &nbsp;·&nbsp; <span class="pin-change-link" onclick="changeAdminPin()">Change PIN</span></span>
     </div>
 
     <div class="stats-bar" id="statsBar">
@@ -407,6 +537,7 @@
         <div class="history-list" id="historyList"></div>
     </div>
 </div>
+</div><!-- /appContainer -->
 
 <script>
     const HISTORY_KEY = 'rca_history';
@@ -1093,8 +1224,166 @@ Contact: 76963-72777`);
         URL.revokeObjectURL(url);
     }
 
+    // ── Login / Session ──
+    const SESSION_KEY = 'rca_session';
+    const PIN_KEY     = 'rca_admin_pin';
+
+    function getSession()      { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null'); }
+    function setSession(s)     { sessionStorage.setItem(SESSION_KEY, JSON.stringify(s)); }
+    function clearSession()    { sessionStorage.removeItem(SESSION_KEY); }
+    function getAdminPin()     { return localStorage.getItem(PIN_KEY) || '1234'; }
+
+    function selectRole(role) {
+        document.getElementById('adminRoleCard').classList.toggle('selected', role === 'admin');
+        document.getElementById('playerRoleCard').classList.toggle('selected', role === 'player');
+        document.getElementById('adminLoginWrap').classList.toggle('show', role === 'admin');
+        document.getElementById('playerLoginWrap').classList.toggle('show', role === 'player');
+        document.getElementById('adminError').style.display = 'none';
+        document.getElementById('playerError').style.display = 'none';
+        if (role === 'admin') setTimeout(() => document.getElementById('adminPinInput').focus(), 50);
+        if (role === 'player') setTimeout(() => document.getElementById('playerIdInput').focus(), 50);
+    }
+
+    function doAdminLogin() {
+        const pin = document.getElementById('adminPinInput').value;
+        if (pin === getAdminPin()) {
+            setSession({ role: 'admin' });
+            showApp('admin', null);
+        } else {
+            document.getElementById('adminError').style.display = 'block';
+            document.getElementById('adminPinInput').value = '';
+            document.getElementById('adminPinInput').focus();
+        }
+    }
+
+    function doPlayerLogin() {
+        const raw = document.getElementById('playerIdInput').value.trim().toUpperCase();
+        const h = getHistory();
+        const student = h.find(e => e.type === 'registration' && (e.studentId || '').toUpperCase() === raw);
+        if (student) {
+            setSession({ role: 'player', studentId: student.studentId });
+            showApp('player', student);
+        } else {
+            document.getElementById('playerError').style.display = 'block';
+            document.getElementById('playerIdInput').select();
+        }
+    }
+
+    function doLogout() {
+        clearSession();
+        document.getElementById('loginOverlay').style.display = 'flex';
+        document.getElementById('playerContainer').style.display = 'none';
+        document.getElementById('appContainer').style.display = 'none';
+        document.getElementById('adminPinInput').value = '';
+        document.getElementById('playerIdInput').value = '';
+        document.getElementById('adminLoginWrap').classList.remove('show');
+        document.getElementById('playerLoginWrap').classList.remove('show');
+        document.getElementById('adminRoleCard').classList.remove('selected');
+        document.getElementById('playerRoleCard').classList.remove('selected');
+    }
+
+    function showApp(role, student) {
+        document.getElementById('loginOverlay').style.display = 'none';
+        if (role === 'admin') {
+            document.getElementById('appContainer').style.display = 'block';
+            document.getElementById('playerContainer').style.display = 'none';
+            updateStats();
+        } else {
+            document.getElementById('appContainer').style.display = 'none';
+            document.getElementById('playerContainer').style.display = 'block';
+            renderPlayerDashboard(student);
+        }
+    }
+
+    function renderPlayerDashboard(student) {
+        const MNAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        const MFULL  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        const now = new Date();
+        const year = now.getFullYear();
+        const nowMonth = now.getMonth();
+
+        document.getElementById('playerName').textContent = student.name;
+        document.getElementById('playerIdDisplay').textContent = student.studentId;
+        document.getElementById('playerMeta').textContent = (student.category || '') + '  ·  ' + (student.batch || '');
+
+        // Fee grid
+        const t = getTracker();
+        const paid = t[student.studentId] || {};
+        document.getElementById('playerFeeYear').textContent = year;
+        document.getElementById('playerFeeGrid').innerHTML = MNAMES.map((mn, mi) => {
+            const isPaid = !!paid[year + '-' + mi];
+            let cls = 'future';
+            if (isPaid) cls = 'paid';
+            else if (mi < nowMonth) cls = 'overdue';
+            else if (mi === nowMonth) cls = 'due';
+            return `<div class="player-month-cell ${cls}">${mn}</div>`;
+        }).join('');
+
+        // Attendance
+        const attData = getAttendance();
+        const curMonthName = MFULL[nowMonth];
+        const attK = attKey(student.studentId, curMonthName, year);
+        const present = attData[attK] !== undefined ? attData[attK] : 0;
+        const total = 26;
+        const pct = Math.round((present / total) * 100);
+        let tier = pct >= 75 ? 'good' : pct >= 50 ? 'warn' : 'low';
+        document.getElementById('playerAttMonth').textContent = curMonthName + ' ' + year;
+        document.getElementById('playerAttSection').innerHTML = `
+            <div class="att-circle ${tier}">
+                <b>${pct}%</b>
+                <span>${present}/${total}</span>
+            </div>
+            <div style="font-size:12px;color:#666;">${present} days present out of ${total} training days</div>
+            <div style="margin-top:6px;">
+                <span class="badge ${tier === 'good' ? 'badge-blue' : tier === 'warn' ? '' : 'badge-red'}"
+                    style="${tier === 'warn' ? 'background:#d69e2e;color:white;' : ''}">
+                    ${tier === 'good' ? 'Regular' : tier === 'warn' ? 'Average' : 'Low Attendance'}
+                </span>
+            </div>`;
+
+        // Receipts
+        const myReceipts = getHistory().filter(e => e.studentId === student.studentId);
+        const receiptEl = document.getElementById('playerReceiptList');
+        if (!myReceipts.length) {
+            receiptEl.innerHTML = '<div style="text-align:center;color:#bbb;padding:16px;font-size:13px;">No receipts yet.</div>';
+        } else {
+            receiptEl.innerHTML = myReceipts.map(e => `
+                <div class="player-receipt-row">
+                    <div>
+                        <div style="font-weight:700;font-size:13px;">${e.type === 'registration' ? 'Admission' : 'Monthly — ' + e.month}</div>
+                        <div style="font-size:11px;color:#aaa;">${e.receiptNo} &nbsp;·&nbsp; ${e.date}</div>
+                    </div>
+                    <span class="hi-amount">₹${(e.amount||0).toLocaleString('en-IN')}</span>
+                </div>`).join('');
+        }
+    }
+
+    function changeAdminPin() {
+        const newPin = prompt('Enter new Admin PIN (min 4 characters):');
+        if (!newPin || newPin.length < 4) { alert('PIN must be at least 4 characters.'); return; }
+        localStorage.setItem(PIN_KEY, newPin);
+        alert('Admin PIN updated successfully!');
+    }
+
+    // Init
+    function initApp() {
+        const session = getSession();
+        if (session) {
+            if (session.role === 'admin') {
+                showApp('admin', null);
+            } else if (session.role === 'player') {
+                const h = getHistory();
+                const student = h.find(e => e.type === 'registration' && e.studentId === session.studentId);
+                if (student) showApp('player', student);
+                else doLogout();
+            }
+        }
+        // else login overlay stays visible
+    }
+
     // Init
     updateStats();
+    initApp();
 </script>
 </body>
 </html>
