@@ -164,10 +164,6 @@
 
     <!-- ── NEW REGISTRATION ── -->
     <div id="regSection">
-        <div class="fee-info">
-            <div class="fee-box"><span>Reg. Fees</span><b>₹1,500</b></div>
-            <div class="fee-box"><span>Monthly Fees</span><b>₹2,000</b></div>
-        </div>
         <div id="regForm">
             <div class="form-section">
                 <label>Student Full Name</label>
@@ -198,6 +194,19 @@
             <div class="form-section">
                 <label>WhatsApp Number</label>
                 <input type="number" id="phone" placeholder="10 digit number">
+            </div>
+            <div style="display:flex;gap:10px;margin-bottom:13px;">
+                <div class="form-section" style="flex:1;margin-bottom:0;">
+                    <label>Registration Fees (₹)</label>
+                    <input type="number" id="regFeeAmt" value="1500" min="0" oninput="updateRegTotal()">
+                </div>
+                <div class="form-section" style="flex:1;margin-bottom:0;">
+                    <label>Monthly Fees (₹)</label>
+                    <input type="number" id="monthlyFeeAmt" value="2000" min="0" oninput="updateRegTotal()">
+                </div>
+            </div>
+            <div class="fee-info" style="margin-bottom:14px;">
+                <div class="fee-box"><span>Total Received</span><b id="regTotalDisplay">₹3,500</b></div>
             </div>
             <button class="btn-submit" onclick="generateRegReceipt()">Register & Generate Slip</button>
         </div>
@@ -403,7 +412,10 @@
         const gName = document.getElementById('gName').value.trim();
         const cat   = document.getElementById('ageCat').value;
         const batch = document.getElementById('batch').value;
-        const phone = document.getElementById('phone').value.trim();
+        const phone      = document.getElementById('phone').value.trim();
+        const regFee     = parseInt(document.getElementById('regFeeAmt').value) || 0;
+        const monthlyFee = parseInt(document.getElementById('monthlyFeeAmt').value) || 0;
+        const total      = regFee + monthlyFee;
         if (!name || !phone) { alert('Please fill Student Name and Phone number!'); return; }
 
         const date      = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -422,9 +434,9 @@
             <div class="r-row"><span>Category:</span><span>${cat}</span></div>
             <div class="r-row"><span>Batch Timing:</span><span>${batch}</span></div>
             <div class="r-row"><span>WhatsApp:</span><span>${phone}</span></div>
-            <div class="r-row"><span>Registration Fees:</span><span>₹1,500</span></div>
-            <div class="r-row"><span>Monthly Fees:</span><span>₹2,000</span></div>
-            <div class="total-row"><span>Total Received:</span><span>₹3,500</span></div>
+            <div class="r-row"><span>Registration Fees:</span><span>₹${regFee.toLocaleString('en-IN')}</span></div>
+            <div class="r-row"><span>Monthly Fees:</span><span>₹${monthlyFee.toLocaleString('en-IN')}</span></div>
+            <div class="total-row"><span>Total Received:</span><span>₹${total.toLocaleString('en-IN')}</span></div>
             <p style="font-size:11px;color:#777;text-align:center;margin-top:12px;">*Computer-generated admission confirmation.</p>
         `;
 
@@ -442,9 +454,9 @@ Category: ${cat}
 Batch Timing: ${batch}
 WhatsApp: ${phone}
 
-Registration Fees: Rs.1,500
-Monthly Fees: Rs.2,000
-*Total Received: Rs.3,500*
+Registration Fees: Rs.${regFee.toLocaleString('en-IN')}
+Monthly Fees: Rs.${monthlyFee.toLocaleString('en-IN')}
+*Total Received: Rs.${total.toLocaleString('en-IN')}*
 
 _Quote Student ID (${studentId}) in all future correspondence._
 Contact: 76963-72777`;
@@ -452,13 +464,22 @@ Contact: 76963-72777`;
         const waPhone = '91' + phone.replace(/\D/g,'').slice(-10);
         document.getElementById('regWaBtn').href = 'https://wa.me/' + waPhone + '?text=' + encodeURIComponent(msg);
 
-        addToHistory({ type:'registration', studentId, receiptNo, name, guardian:gName, phone, category:cat, batch, amount:3500, date, timestamp: Date.now() });
+        addToHistory({ type:'registration', studentId, receiptNo, name, guardian:gName, phone, category:cat, batch, amount:total, date, timestamp: Date.now() });
+    }
+
+    function updateRegTotal() {
+        const regFee     = parseInt(document.getElementById('regFeeAmt').value) || 0;
+        const monthlyFee = parseInt(document.getElementById('monthlyFeeAmt').value) || 0;
+        document.getElementById('regTotalDisplay').textContent = '₹' + (regFee + monthlyFee).toLocaleString('en-IN');
     }
 
     function resetReg() {
         document.getElementById('regForm').style.display = 'block';
         document.getElementById('regReceipt').style.display = 'none';
         ['sName','gName','phone'].forEach(id => document.getElementById(id).value = '');
+        document.getElementById('regFeeAmt').value = '1500';
+        document.getElementById('monthlyFeeAmt').value = '2000';
+        updateRegTotal();
     }
 
     // ── Monthly fee ──
