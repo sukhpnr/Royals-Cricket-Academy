@@ -195,6 +195,15 @@
                 <label>WhatsApp Number</label>
                 <input type="number" id="phone" placeholder="10 digit number">
             </div>
+            <div class="form-section">
+                <label>Payment Mode</label>
+                <select id="regPayMode">
+                    <option>Cash</option>
+                    <option>UPI</option>
+                    <option>Bank Transfer</option>
+                    <option>Cheque</option>
+                </select>
+            </div>
             <div style="display:flex;gap:10px;margin-bottom:13px;">
                 <div class="form-section" style="flex:1;margin-bottom:0;">
                     <label>Registration Fees (₹)</label>
@@ -413,6 +422,7 @@
         const cat   = document.getElementById('ageCat').value;
         const batch = document.getElementById('batch').value;
         const phone      = document.getElementById('phone').value.trim();
+        const payMode    = document.getElementById('regPayMode').value;
         const regFee     = parseInt(document.getElementById('regFeeAmt').value) || 0;
         const monthlyFee = parseInt(document.getElementById('monthlyFeeAmt').value) || 0;
         const total      = regFee + monthlyFee;
@@ -434,6 +444,7 @@
             <div class="r-row"><span>Category:</span><span>${cat}</span></div>
             <div class="r-row"><span>Batch Timing:</span><span>${batch}</span></div>
             <div class="r-row"><span>WhatsApp:</span><span>${phone}</span></div>
+            <div class="r-row"><span>Payment Mode:</span><span>${payMode}</span></div>
             <div class="r-row"><span>Registration Fees:</span><span>₹${regFee.toLocaleString('en-IN')}</span></div>
             <div class="r-row"><span>Monthly Fees:</span><span>₹${monthlyFee.toLocaleString('en-IN')}</span></div>
             <div class="total-row"><span>Total Received:</span><span>₹${total.toLocaleString('en-IN')}</span></div>
@@ -453,6 +464,7 @@ Guardian: ${gName}
 Category: ${cat}
 Batch Timing: ${batch}
 WhatsApp: ${phone}
+Payment Mode: ${payMode}
 
 Registration Fees: Rs.${regFee.toLocaleString('en-IN')}
 Monthly Fees: Rs.${monthlyFee.toLocaleString('en-IN')}
@@ -464,7 +476,7 @@ Contact: 76963-72777`;
         const waPhone = '91' + phone.replace(/\D/g,'').slice(-10);
         document.getElementById('regWaBtn').href = 'https://wa.me/' + waPhone + '?text=' + encodeURIComponent(msg);
 
-        addToHistory({ type:'registration', studentId, receiptNo, name, guardian:gName, phone, category:cat, batch, amount:total, date, timestamp: Date.now() });
+        addToHistory({ type:'registration', studentId, receiptNo, name, guardian:gName, phone, category:cat, batch, payMode, amount:total, date, timestamp: Date.now() });
     }
 
     function updateRegTotal() {
