@@ -16,12 +16,16 @@
         p.loc { margin: 4px 0; color: #666; font-weight: bold; font-size: 13px; }
 
         /* Stats bar */
-        .stats-bar { display: flex; gap: 8px; margin-bottom: 16px; }
-        .stat-card { flex: 1; background: #fff5f5; border: 1px solid #fed7d7; border-radius: 8px; padding: 8px; text-align: center; }
+        .stats-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+        .stat-card { background: #fff5f5; border: 1px solid #fed7d7; border-radius: 8px; padding: 8px; text-align: center; }
         .stat-card span { display: block; font-size: 11px; color: #666; }
-        .stat-card b { font-size: 18px; color: var(--royal-red); }
+        .stat-card b { font-size: 20px; color: var(--royal-red); }
         .stat-card.blue { background: #f0f2ff; border-color: #c7cdfa; }
         .stat-card.blue b { color: var(--royal-blue); }
+        .stat-card.green { background: #f0fff4; border-color: #9ae6b4; }
+        .stat-card.green b { color: #276749; }
+        .stat-card.orange { background: #fffaf0; border-color: #fbd38d; }
+        .stat-card.orange b { color: #c05621; }
 
         /* Tabs */
         .tabs { display: flex; flex-wrap: wrap; border-radius: 8px; overflow: hidden; border: 2px solid var(--royal-red); margin-bottom: 18px; }
@@ -74,6 +78,18 @@
         .export-btn:hover { background: #0f1657; }
         .history-actions { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
         .history-actions-right { display: flex; gap: 6px; margin-left: auto; }
+        .filter-btns { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+        .filter-btn { padding: 5px 12px; border-radius: 20px; border: 1px solid #ddd; background: white; font-size: 11px; font-weight: 700; cursor: pointer; color: #555; transition: 0.15s; }
+        .filter-btn.active { background: var(--royal-red); color: white; border-color: var(--royal-red); }
+        .batch-group { margin-bottom: 14px; }
+        .batch-header { background: var(--royal-blue); color: white; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 6px 6px 0 0; display: flex; justify-content: space-between; }
+        .batch-students { border: 1px solid #ddd; border-top: none; border-radius: 0 0 6px 6px; overflow: hidden; }
+        .batch-student-row { display: flex; align-items: center; padding: 10px 12px; border-bottom: 1px solid #f0f0f0; font-size: 13px; gap: 10px; }
+        .batch-student-row:last-child { border-bottom: none; }
+        .batch-student-row:hover { background: #f9f9f9; }
+        .bs-name { font-weight: 600; flex: 1; }
+        .bs-id { font-size: 11px; color: #888; }
+        .bs-cat { font-size: 11px; color: white; background: var(--royal-red); padding: 1px 7px; border-radius: 10px; }
 
         /* Attendance Tracker */
         .att-controls { display: flex; gap: 8px; margin-bottom: 14px; align-items: flex-end; }
@@ -145,12 +161,16 @@
             <b id="statStudents">0</b>
         </div>
         <div class="stat-card blue">
-            <span>Receipts</span>
+            <span>Receipts Issued</span>
             <b id="statReceipts">0</b>
         </div>
-        <div class="stat-card">
+        <div class="stat-card green">
             <span>Fees Collected</span>
             <b id="statFees">₹0</b>
+        </div>
+        <div class="stat-card orange" onclick="switchTab('tracker')" style="cursor:pointer;" title="Click to view overdue students">
+            <span>Fee Overdue</span>
+            <b id="statOverdue">0</b>
         </div>
     </div>
 
@@ -343,6 +363,12 @@
                 <button class="clear-btn" onclick="clearHistory()">Clear All</button>
             </div>
         </div>
+        <div class="filter-btns">
+            <button class="filter-btn active" onclick="setHistoryFilter('all',this)">All</button>
+            <button class="filter-btn" onclick="setHistoryFilter('registration',this)">Admissions</button>
+            <button class="filter-btn" onclick="setHistoryFilter('monthly',this)">Monthly</button>
+            <button class="filter-btn" onclick="setHistoryFilter('batch',this)">By Batch</button>
+        </div>
         <input class="search-bar" type="text" id="searchInput" placeholder="Search by name or Student ID..." oninput="renderHistory()">
         <div class="history-list" id="historyList"></div>
     </div>
@@ -371,6 +397,24 @@
         document.getElementById('statStudents').textContent = students;
         document.getElementById('statReceipts').textContent = h.length;
         document.getElementById('statFees').textContent = '₹' + totalFees.toLocaleString('en-IN');
+
+        // Count overdue students
+        const t = getTracker();
+        const year = new Date().getFullYear();
+        const nowMonth = new Date().getMonth();
+        const seen = {};
+        let overdueCount = 0;
+        h.filter(e => e.type === 'registration').forEach(e => {
+            if (!seen[e.studentId]) {
+                seen[e.studentId] = true;
+                if (hasOverdue(t, e.studentId, nowMonth, year)) overdueCount++;
+            }
+        });
+        const el = document.getElementById('statOverdue');
+        if (el) {
+            el.textContent = overdueCount;
+            el.closest('.stat-card').style.borderColor = overdueCount > 0 ? '#f6ad55' : '';
+        }
     }
 
     // ── Tab switcher ──
@@ -547,6 +591,15 @@ Contact: 76963-72777`;
         document.getElementById('monthlyWaBtn').href = 'https://wa.me/' + waPhone + '?text=' + encodeURIComponent(msg);
 
         addToHistory({ type:'monthly', studentId, receiptNo, name, guardian:gName, phone, month:`${month} ${year}`, payMode, amount, date, timestamp: Date.now() });
+
+        // Auto-mark this month as paid in the Fee Tracker
+        const monthIdx = ATT_MONTHS.indexOf(month);
+        if (monthIdx !== -1) {
+            const tk = getTracker();
+            if (!tk[studentId]) tk[studentId] = {};
+            tk[studentId][year + '-' + monthIdx] = true;
+            saveTracker(tk);
+        }
     }
 
     function resetMonthly() {
@@ -779,17 +832,76 @@ Contact: 76963-72777`);
     }
 
     // ── History ──
+    let historyFilter = 'all';
+
+    function setHistoryFilter(f, btn) {
+        historyFilter = f;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const searchBar = document.getElementById('searchInput');
+        searchBar.style.display = f === 'batch' ? 'none' : 'block';
+        renderHistory();
+    }
+
     function renderHistory() {
         const query = document.getElementById('searchInput').value.toLowerCase();
-        const h = getHistory().filter(e =>
-            !query ||
-            (e.name && e.name.toLowerCase().includes(query)) ||
-            (e.studentId && e.studentId.toLowerCase().includes(query))
-        );
-
+        const allRecords = getHistory();
         const list = document.getElementById('historyList');
+
+        // ── Batch view ──
+        if (historyFilter === 'batch') {
+            const seenStudents = {};
+            const students = [];
+            allRecords.filter(e => e.type === 'registration').forEach(e => {
+                if (!seenStudents[e.studentId]) {
+                    seenStudents[e.studentId] = true;
+                    students.push(e);
+                }
+            });
+            if (!students.length) {
+                list.innerHTML = '<div class="empty-state">No students registered yet.</div>';
+                return;
+            }
+            const batchOrder = ['Morning (6:00 AM - 8:00 AM)', 'Evening (4:00 PM - 6:00 PM)', 'Weekend (8:00 AM - 10:00 AM)'];
+            const batchMap = {};
+            students.forEach(s => {
+                const b = s.batch || 'Other';
+                if (!batchMap[b]) batchMap[b] = [];
+                batchMap[b].push(s);
+            });
+            const batchKeys = [...batchOrder.filter(b => batchMap[b]), ...Object.keys(batchMap).filter(b => !batchOrder.includes(b))];
+            list.innerHTML = batchKeys.map(batch => {
+                const rows = batchMap[batch].map((s, i) => `
+                    <div class="batch-student-row">
+                        <span style="color:#aaa;font-size:11px;min-width:18px;">${i+1}.</span>
+                        <div style="flex:1;">
+                            <div class="bs-name">${s.name}</div>
+                            <div class="bs-id">${s.studentId} &nbsp;·&nbsp; ${s.phone || ''}</div>
+                        </div>
+                        <span class="bs-cat">${s.category || ''}</span>
+                    </div>`).join('');
+                return `<div class="batch-group">
+                    <div class="batch-header">
+                        <span>🏏 ${batch}</span>
+                        <span>${batchMap[batch].length} student${batchMap[batch].length !== 1 ? 's' : ''}</span>
+                    </div>
+                    <div class="batch-students">${rows}</div>
+                </div>`;
+            }).join('');
+            return;
+        }
+
+        // ── List / filtered view ──
+        let h = allRecords.filter(e => {
+            const matchQuery = !query ||
+                (e.name && e.name.toLowerCase().includes(query)) ||
+                (e.studentId && e.studentId.toLowerCase().includes(query));
+            const matchType = historyFilter === 'all' || e.type === historyFilter;
+            return matchQuery && matchType;
+        });
+
         if (!h.length) {
-            list.innerHTML = '<div class="empty-state">No receipts found.</div>';
+            list.innerHTML = '<div class="empty-state">No records found.</div>';
             return;
         }
 
@@ -806,7 +918,7 @@ Contact: 76963-72777`);
                     <span class="hi-amount">₹${(e.amount||0).toLocaleString('en-IN')}</span>
                 </div>
                 <div class="hi-sub" style="margin-top:3px;">
-                    <span>${e.type === 'monthly' ? e.month : e.category || ''}</span>
+                    <span>${e.type === 'monthly' ? e.month : (e.category || '')}${e.payMode ? ' &nbsp;·&nbsp; ' + e.payMode : ''}</span>
                     <span style="color:#aaa;">${e.date}</span>
                 </div>
             </div>
