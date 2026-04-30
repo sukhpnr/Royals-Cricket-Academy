@@ -139,6 +139,21 @@
         .wa-remind-btn:hover { background: #1ead53; }
         .tracker-search { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 12px; }
         .tracker-search:focus { outline: none; border-color: var(--royal-red); }
+        /* Student search autocomplete */
+        .student-search-wrap { position: relative; margin-bottom: 13px; }
+        .student-search-input { width: 100%; padding: 11px 38px 11px 11px; border: 1.5px solid var(--royal-red); border-radius: 8px; font-size: 14px; outline: none; }
+        .student-search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--royal-red); pointer-events: none; font-size: 16px; }
+        .student-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1.5px solid var(--royal-red); border-top: none; border-radius: 0 0 8px 8px; z-index: 100; max-height: 200px; overflow-y: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: none; }
+        .student-option { padding: 10px 12px; cursor: pointer; border-bottom: 1px solid #f5f5f5; transition: 0.15s; }
+        .student-option:last-child { border-bottom: none; }
+        .student-option:hover, .student-option.highlighted { background: #fff5f5; }
+        .student-option-name { font-weight: 700; font-size: 13px; color: #222; }
+        .student-option-sub { font-size: 11px; color: #888; margin-top: 1px; }
+        .student-selected-chip { display: none; background: #fff0f0; border: 1.5px solid var(--royal-red); border-radius: 8px; padding: 8px 12px; margin-bottom: 13px; display: none; align-items: center; justify-content: space-between; }
+        .chip-name { font-weight: 700; font-size: 13px; color: var(--royal-red); }
+        .chip-id { font-size: 11px; color: #888; }
+        .chip-clear { background: none; border: none; color: #aaa; font-size: 18px; cursor: pointer; line-height: 1; padding: 0; }
+        .chip-clear:hover { color: var(--royal-red); }
         .tracker-list { max-height: 500px; overflow-y: auto; }
         .tracker-empty { text-align: center; padding: 30px 0; color: #bbb; font-size: 14px; }
         .tracker-legend { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
@@ -261,6 +276,25 @@
     <!-- ── MONTHLY FEE ── -->
     <div id="monthlySection" style="display:none;">
         <div id="monthlyForm">
+            <!-- Student search -->
+            <label style="font-weight:600;font-size:13px;color:#333;display:block;margin-bottom:4px;">Search Student</label>
+            <div class="student-search-wrap" id="studentSearchWrap">
+                <input class="student-search-input" type="text" id="studentSearchBox"
+                    placeholder="Type name or Student ID..."
+                    oninput="onStudentSearch(this.value)"
+                    onblur="hideDropdownDelayed()"
+                    autocomplete="off">
+                <span class="student-search-icon">🔍</span>
+                <div class="student-dropdown" id="studentDropdown"></div>
+            </div>
+            <div id="selectedStudentChip" style="display:none;background:#fff0f0;border:1.5px solid var(--royal-red);border-radius:8px;padding:8px 12px;margin-bottom:13px;display:none;align-items:center;justify-content:space-between;">
+                <div>
+                    <div class="chip-name" id="chipName"></div>
+                    <div class="chip-id" id="chipId"></div>
+                </div>
+                <button class="chip-clear" onclick="clearStudentSelection()" title="Clear selection">×</button>
+            </div>
+
             <div class="form-section">
                 <label>Student ID</label>
                 <input type="text" id="mStudentId" placeholder="e.g. RCA-S-0001" oninput="autoFillStudent(this.value)">
@@ -447,7 +481,87 @@
         return 'RCA-S-' + String(count).padStart(4, '0');
     }
 
-    // ── Auto-fill student details from history ──
+    // ── Student name search autocomplete (Monthly Fee tab) ──
+    let dropdownHideTimer = null;
+
+    function getUniqueStudents() {
+        const h = getHistory();
+        const seen = {};
+        const students = [];
+        h.filter(e => e.type === 'registration').forEach(e => {
+            if (!seen[e.studentId]) {
+                seen[e.studentId] = true;
+                students.push(e);
+            }
+        });
+        return students;
+    }
+
+    function onStudentSearch(q) {
+        const query = q.trim().toLowerCase();
+        const dropdown = document.getElementById('studentDropdown');
+        if (!query) { dropdown.style.display = 'none'; return; }
+
+        const students = getUniqueStudents();
+        const matches = students.filter(s =>
+            s.name.toLowerCase().includes(query) ||
+            (s.studentId || '').toLowerCase().includes(query)
+        ).slice(0, 8);
+
+        if (!matches.length) {
+            dropdown.innerHTML = '<div class="student-option" style="color:#aaa;cursor:default;">No students found</div>';
+            dropdown.style.display = 'block';
+            return;
+        }
+
+        dropdown.innerHTML = matches.map(s => `
+            <div class="student-option" onmousedown="selectStudent('${s.studentId}')">
+                <div class="student-option-name">${s.name}</div>
+                <div class="student-option-sub">${s.studentId} &nbsp;·&nbsp; ${s.category || ''} &nbsp;·&nbsp; ${s.batch || ''}</div>
+            </div>`).join('');
+        dropdown.style.display = 'block';
+    }
+
+    function selectStudent(studentId) {
+        const students = getUniqueStudents();
+        const s = students.find(st => st.studentId === studentId);
+        if (!s) return;
+
+        // Fill form fields
+        document.getElementById('mStudentId').value = s.studentId || '';
+        document.getElementById('mName').value = s.name || '';
+        document.getElementById('mGName').value = s.guardian || '';
+        document.getElementById('mPhone').value = s.phone || '';
+
+        // Show selected chip
+        document.getElementById('chipName').textContent = s.name;
+        document.getElementById('chipId').textContent = s.studentId + ' · ' + (s.batch || '');
+        const chip = document.getElementById('selectedStudentChip');
+        chip.style.display = 'flex';
+
+        // Clear search box and hide dropdown
+        document.getElementById('studentSearchBox').value = '';
+        document.getElementById('studentDropdown').style.display = 'none';
+    }
+
+    function clearStudentSelection() {
+        document.getElementById('selectedStudentChip').style.display = 'none';
+        document.getElementById('mStudentId').value = '';
+        document.getElementById('mName').value = '';
+        document.getElementById('mGName').value = '';
+        document.getElementById('mPhone').value = '';
+        document.getElementById('studentSearchBox').value = '';
+        document.getElementById('studentSearchBox').focus();
+    }
+
+    function hideDropdownDelayed() {
+        dropdownHideTimer = setTimeout(() => {
+            const dd = document.getElementById('studentDropdown');
+            if (dd) dd.style.display = 'none';
+        }, 200);
+    }
+
+    // ── Auto-fill student details from history (by ID) ──
     function autoFillStudent(id) {
         const upper = id.trim().toUpperCase();
         const h = getHistory();
@@ -456,6 +570,10 @@
             document.getElementById('mName').value = match.name || '';
             document.getElementById('mGName').value = match.guardian || '';
             document.getElementById('mPhone').value = match.phone || '';
+            // Show chip
+            document.getElementById('chipName').textContent = match.name;
+            document.getElementById('chipId').textContent = match.studentId + ' · ' + (match.batch || '');
+            document.getElementById('selectedStudentChip').style.display = 'flex';
         }
     }
 
@@ -607,6 +725,9 @@ Contact: 76963-72777`;
         document.getElementById('monthlyReceipt').style.display = 'none';
         ['mStudentId','mName','mGName','mPhone'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('mAmount').value = '2000';
+        document.getElementById('selectedStudentChip').style.display = 'none';
+        document.getElementById('studentSearchBox').value = '';
+        document.getElementById('studentDropdown').style.display = 'none';
     }
 
     // ── Attendance Tracker ──
