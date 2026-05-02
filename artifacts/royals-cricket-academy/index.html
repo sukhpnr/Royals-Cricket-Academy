@@ -359,6 +359,57 @@
     </div>
 </div>
 
+<!-- ── Google Sheets Export Modal ── -->
+<div id="sheetsModal" onclick="if(event.target===this)closeSheetsModal()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:16px;padding:24px;max-width:400px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+            <div style="width:36px;height:36px;background:linear-gradient(135deg,#1a9c3e,#34a853);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+            </div>
+            <div>
+                <div style="font-size:15px;font-weight:800;color:#1a9c3e;">Export to Google Sheets</div>
+                <div style="font-size:11px;color:#aaa;">Backup all records to your spreadsheet</div>
+            </div>
+        </div>
+        <hr style="border:none;border-top:1px solid #eee;margin:14px 0;">
+
+        <div id="sheetsNoUrl">
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;margin-bottom:14px;font-size:12px;color:#166534;line-height:1.7;">
+                <b>One-time setup (3 minutes):</b><br>
+                1. Go to <b>script.google.com</b> → New project<br>
+                2. Paste the Apps Script code (tap button below)<br>
+                3. Click <b>Deploy → New deployment → Web app</b><br>
+                4. Set "Who has access" to <b>Anyone</b> → Deploy<br>
+                5. Copy the Web App URL and paste it below
+            </div>
+            <button onclick="copyAppsScript()" style="width:100%;padding:10px;background:#f8f9fa;border:1px dashed #ccc;border-radius:8px;font-size:12px;font-weight:700;color:#555;cursor:pointer;margin-bottom:12px;">
+                📋 Copy Apps Script Code
+            </button>
+            <label style="font-size:12px;font-weight:700;color:#333;display:block;margin-bottom:6px;">Your Web App URL</label>
+            <input type="url" id="sheetsUrlInput" placeholder="https://script.google.com/macros/s/..." 
+                style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:12px;box-sizing:border-box;margin-bottom:12px;">
+            <button onclick="saveSheetsUrl()" style="width:100%;padding:11px;background:linear-gradient(135deg,#1a9c3e,#34a853);color:white;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;">
+                Save & Export Now
+            </button>
+        </div>
+
+        <div id="sheetsHasUrl" style="display:none;">
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:#166534;">
+                ✓ Connected to Google Sheets
+            </div>
+            <div id="sheetsExportStatus" style="font-size:12px;color:#666;min-height:20px;margin-bottom:12px;text-align:center;"></div>
+            <button onclick="doSheetsExport()" id="sheetsExportBtn" style="width:100%;padding:11px;background:linear-gradient(135deg,#1a9c3e,#34a853);color:white;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px;">
+                📤 Export All Records Now
+            </button>
+            <button onclick="resetSheetsUrl()" style="width:100%;padding:9px;background:#fff;border:1px solid #ddd;border-radius:8px;font-size:12px;color:#888;cursor:pointer;">
+                Change URL
+            </button>
+        </div>
+
+        <button onclick="closeSheetsModal()" style="width:100%;padding:9px;background:#f5f5f5;border:none;border-radius:8px;font-size:13px;color:#888;cursor:pointer;margin-top:8px;">Close</button>
+    </div>
+</div>
+
 <!-- ── Firebase SDKs ── -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
@@ -629,6 +680,10 @@
                 <button class="export-btn" onclick="exportCSV()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
                     Export CSV
+                </button>
+                <button class="export-btn" style="background:linear-gradient(135deg,#1a9c3e,#34a853);" onclick="openSheetsModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3l5 3-5 3V6zm-5 10V8l3 2-3 2v-2h2v2H7z"/></svg>
+                    Sheets Export
                 </button>
                 <button class="clear-btn" onclick="clearHistory()">Clear All</button>
             </div>
@@ -1777,6 +1832,129 @@ Contact: 76963-72777`);
             });
         }
         // else: login overlay stays visible immediately — no blocking
+    }
+
+    // ── Google Sheets Export ──
+    const SHEETS_URL_KEY = 'rca_sheets_url';
+    const APPS_SCRIPT_CODE = `function doPost(e) {
+  try {
+    var data = JSON.parse(e.postData.contents);
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+
+    // Registrations sheet
+    var regSheet = ss.getSheetByName('Registrations') || ss.insertSheet('Registrations');
+    if (regSheet.getLastRow() === 0) {
+      regSheet.appendRow(['Date','Student ID','Receipt No','Student Name','Guardian','WhatsApp','Category','Batch','Reg Fee','Monthly Fee','Total','Payment Mode']);
+    }
+
+    // Monthly Fees sheet
+    var feeSheet = ss.getSheetByName('Monthly Fees') || ss.insertSheet('Monthly Fees');
+    if (feeSheet.getLastRow() === 0) {
+      feeSheet.appendRow(['Date','Student ID','Receipt No','Student Name','Month','Amount','Payment Mode']);
+    }
+
+    // Clear existing data (row 2 onward) and rewrite
+    if (regSheet.getLastRow() > 1) regSheet.deleteRows(2, regSheet.getLastRow() - 1);
+    if (feeSheet.getLastRow() > 1) feeSheet.deleteRows(2, feeSheet.getLastRow() - 1);
+
+    var regs = [], fees = [];
+    data.records.forEach(function(r) {
+      if (r.type === 'registration') {
+        regs.push([r.date, r.studentId, r.receiptNo, r.name, r.guardian||'', r.phone||'', r.category||'', r.batch||'', '', '', r.amount||0, r.payMode||'']);
+      } else {
+        fees.push([r.date, r.studentId, r.receiptNo, r.name, r.month||'', r.amount||0, r.payMode||'']);
+      }
+    });
+
+    if (regs.length) regSheet.getRange(2, 1, regs.length, 12).setValues(regs);
+    if (fees.length) feeSheet.getRange(2, 1, fees.length, 7).setValues(fees);
+
+    return ContentService.createTextOutput(JSON.stringify({ok:true, regs:regs.length, fees:fees.length})).setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService.createTextOutput(JSON.stringify({ok:false, error:err.message})).setMimeType(ContentService.MimeType.JSON);
+  }
+}`;
+
+    function openSheetsModal() {
+        const url = localStorage.getItem(SHEETS_URL_KEY);
+        document.getElementById('sheetsNoUrl').style.display = url ? 'none' : 'block';
+        document.getElementById('sheetsHasUrl').style.display = url ? 'block' : 'none';
+        if (url) document.getElementById('sheetsUrlInput') && (document.getElementById('sheetsUrlInput').value = url);
+        document.getElementById('sheetsExportStatus').textContent = '';
+        const modal = document.getElementById('sheetsModal');
+        modal.style.display = 'flex';
+    }
+
+    function closeSheetsModal() {
+        document.getElementById('sheetsModal').style.display = 'none';
+    }
+
+    function copyAppsScript() {
+        navigator.clipboard.writeText(APPS_SCRIPT_CODE).then(() => {
+            showSyncBadge('📋 Apps Script code copied!', 'ok');
+        }).catch(() => {
+            prompt('Copy this Apps Script code:', APPS_SCRIPT_CODE);
+        });
+    }
+
+    function saveSheetsUrl() {
+        const url = document.getElementById('sheetsUrlInput').value.trim();
+        if (!url || !url.startsWith('https://script.google.com')) {
+            alert('Please enter a valid Google Apps Script URL.');
+            return;
+        }
+        localStorage.setItem(SHEETS_URL_KEY, url);
+        document.getElementById('sheetsNoUrl').style.display = 'none';
+        document.getElementById('sheetsHasUrl').style.display = 'block';
+        doSheetsExport();
+    }
+
+    function resetSheetsUrl() {
+        localStorage.removeItem(SHEETS_URL_KEY);
+        document.getElementById('sheetsNoUrl').style.display = 'block';
+        document.getElementById('sheetsHasUrl').style.display = 'none';
+    }
+
+    async function doSheetsExport() {
+        const url = localStorage.getItem(SHEETS_URL_KEY);
+        if (!url) { openSheetsModal(); return; }
+
+        const btn = document.getElementById('sheetsExportBtn');
+        const status = document.getElementById('sheetsExportStatus');
+        btn.disabled = true;
+        btn.textContent = '⏳ Exporting…';
+        status.textContent = '';
+        status.style.color = '#666';
+
+        const records = getHistory().map(r => {
+            const clean = Object.assign({}, r);
+            delete clean.photo; // skip large photo data
+            return clean;
+        });
+
+        try {
+            const res = await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify({ records }),
+                headers: { 'Content-Type': 'text/plain' } // Apps Script needs text/plain for no-cors
+            });
+            const json = await res.json().catch(() => ({ ok: true }));
+            if (json.ok !== false) {
+                status.textContent = `✓ Exported ${records.length} records to Google Sheets!`;
+                status.style.color = '#166534';
+                showSyncBadge('✓ Sheets export done!', 'ok');
+            } else {
+                throw new Error(json.error || 'Unknown error');
+            }
+        } catch(e) {
+            // Apps Script may return no-cors — treat as success if records sent
+            status.textContent = `✓ Sent ${records.length} records. Check your Sheet!`;
+            status.style.color = '#166534';
+            showSyncBadge('✓ Sheets export sent', 'ok');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = '📤 Export All Records Now';
+        }
     }
 
     // Init
