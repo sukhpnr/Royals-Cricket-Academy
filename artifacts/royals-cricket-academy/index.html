@@ -1836,6 +1836,11 @@ Contact: 76963-72777`);
 
     // ── Google Sheets Export ──
     const SHEETS_URL_KEY = 'rca_sheets_url';
+    const DEFAULT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyS2xAWDXrWLFHQtxhNdjEMm2v-BqPn5NHBZZ2lO1UYii7Zayqd4sAsjpspRUQh_rRW/exec';
+    // Pre-connect: set URL if not already saved
+    if (!localStorage.getItem(SHEETS_URL_KEY)) {
+        localStorage.setItem(SHEETS_URL_KEY, DEFAULT_SHEETS_URL);
+    }
     const APPS_SCRIPT_CODE = `function doPost(e) {
   try {
     var data = JSON.parse(e.postData.contents);
