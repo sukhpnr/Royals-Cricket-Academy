@@ -15,7 +15,6 @@
         h2 { color: var(--royal-red); margin: 0; font-size: 20px; text-transform: uppercase; }
         p.loc { margin: 4px 0; color: #666; font-weight: bold; font-size: 13px; }
 
-        /* Stats bar */
         .stats-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
         .stat-card { background: #fff5f5; border: 1px solid #fed7d7; border-radius: 8px; padding: 8px; text-align: center; }
         .stat-card span { display: block; font-size: 11px; color: #666; }
@@ -27,12 +26,11 @@
         .stat-card.orange { background: #fffaf0; border-color: #fbd38d; }
         .stat-card.orange b { color: #c05621; }
 
-        /* Tabs */
         .tabs { display: flex; flex-wrap: wrap; border-radius: 8px; overflow: hidden; border: 2px solid var(--royal-red); margin-bottom: 18px; }
-        .tab-btn { flex: 1; min-width: 0; padding: 9px 2px; background: white; border: none; font-size: 10.5px; font-weight: 700; cursor: pointer; color: var(--royal-red); transition: 0.2s; white-space: nowrap; }
+        .tab-btn { flex: 1; min-width: 0; padding: 9px 2px; background: white; border: none; font-size: 10px; font-weight: 700; cursor: pointer; color: var(--royal-red); transition: 0.2s; white-space: nowrap; position: relative; }
         .tab-btn.active { background: var(--royal-red); color: white; }
+        .tab-badge { position: absolute; top: 2px; right: 2px; background: #e53e3e; color: white; font-size: 9px; font-weight: 700; padding: 0px 4px; border-radius: 10px; min-width: 14px; text-align: center; }
 
-        /* Form */
         .form-section { margin-bottom: 13px; text-align: left; }
         label { display: block; font-weight: 600; margin-bottom: 4px; color: #333; font-size: 13px; }
         input, select { width: 100%; padding: 11px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
@@ -43,14 +41,12 @@
         .fee-box span { display: block; font-size: 11px; color: #666; }
         .fee-box b { font-size: 15px; color: var(--royal-red); }
 
-        /* Buttons */
         .btn-submit { background: var(--royal-red); color: white; width: 100%; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
         .btn-submit:hover { background: #801521; }
         .btn-whatsapp { background: #25D366; color: white; width: 100%; padding: 13px; border: none; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
         .btn-whatsapp:hover { background: #1ead53; }
         @media print { .no-print { display: none !important; } }
 
-        /* Receipt */
         .receipt-box { display: none; border: 2px solid #333; padding: 18px; background: #fff; margin-top: 16px; border-radius: 4px; }
         .receipt-head { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 14px; }
         .receipt-head h3 { margin: 0 0 3px; font-size: 15px; }
@@ -60,7 +56,6 @@
         .badge-red { background: var(--royal-red); color: white; }
         .badge-blue { background: var(--royal-blue); color: white; }
 
-        /* History */
         .search-bar { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 12px; }
         .search-bar:focus { outline: none; border-color: var(--royal-red); }
         .history-list { max-height: 420px; overflow-y: auto; }
@@ -91,7 +86,6 @@
         .bs-id { font-size: 11px; color: #888; }
         .bs-cat { font-size: 11px; color: white; background: var(--royal-red); padding: 1px 7px; border-radius: 10px; }
 
-        /* Attendance Tracker */
         .att-controls { display: flex; gap: 8px; margin-bottom: 14px; align-items: flex-end; }
         .att-controls select, .att-controls input { width: auto; flex: 1; padding: 9px; font-size: 13px; }
         .att-summary-bar { display: flex; gap: 8px; margin-bottom: 14px; }
@@ -119,7 +113,6 @@
         .att-pct-lbl { font-size: 11px; color: #888; text-align: right; margin-top: 2px; }
         .att-list { max-height: 460px; overflow-y: auto; }
 
-        /* Fee Tracker */
         .tracker-student { border: 1px solid #eee; border-radius: 10px; margin-bottom: 14px; overflow: hidden; }
         .tracker-student.has-overdue { border-color: #e53e3e; }
         .tracker-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #fafafa; border-bottom: 1px solid #eee; }
@@ -139,7 +132,6 @@
         .wa-remind-btn:hover { background: #1ead53; }
         .tracker-search { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 12px; }
         .tracker-search:focus { outline: none; border-color: var(--royal-red); }
-        /* Student search autocomplete */
         .student-search-wrap { position: relative; margin-bottom: 13px; }
         .student-search-input { width: 100%; padding: 11px 38px 11px 11px; border: 1.5px solid var(--royal-red); border-radius: 8px; font-size: 14px; outline: none; }
         .student-search-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--royal-red); pointer-events: none; font-size: 16px; }
@@ -149,11 +141,6 @@
         .student-option:hover, .student-option.highlighted { background: #fff5f5; }
         .student-option-name { font-weight: 700; font-size: 13px; color: #222; }
         .student-option-sub { font-size: 11px; color: #888; margin-top: 1px; }
-        .student-selected-chip { display: none; background: #fff0f0; border: 1.5px solid var(--royal-red); border-radius: 8px; padding: 8px 12px; margin-bottom: 13px; display: none; align-items: center; justify-content: space-between; }
-        .chip-name { font-weight: 700; font-size: 13px; color: var(--royal-red); }
-        .chip-id { font-size: 11px; color: #888; }
-        .chip-clear { background: none; border: none; color: #aaa; font-size: 18px; cursor: pointer; line-height: 1; padding: 0; }
-        .chip-clear:hover { color: var(--royal-red); }
         .tracker-list { max-height: 500px; overflow-y: auto; }
         .tracker-empty { text-align: center; padding: 30px 0; color: #bbb; font-size: 14px; }
         .tracker-legend { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
@@ -161,12 +148,24 @@
         .leg-dot { width: 12px; height: 12px; border-radius: 3px; }
 
         /* ── Login Screen ── */
-        #loginOverlay { position: fixed; inset: 0; background: linear-gradient(135deg, #a51d2d 0%, #1a237e 100%); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        #loginOverlay { position: fixed; inset: 0; background: linear-gradient(135deg, #a51d2d 0%, #1a237e 100%); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
         .login-box { background: white; border-radius: 20px; padding: 30px 24px; max-width: 400px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; }
         .login-logo { width: 90px; border-radius: 50%; margin-bottom: 10px; }
         .login-title { font-size: 18px; font-weight: 800; color: var(--royal-red); text-transform: uppercase; margin: 0; }
-        .login-sub { font-size: 12px; color: #888; margin: 4px 0 24px; }
-        .role-cards { display: flex; gap: 12px; margin-bottom: 20px; }
+        .login-sub { font-size: 12px; color: #888; margin: 4px 0 18px; }
+
+        /* Academy selection step */
+        .academy-step { }
+        .academy-label { font-size: 12px; font-weight: 700; color: #555; margin-bottom: 10px; }
+        .academy-cards { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+        .academy-card { border: 2px solid #eee; border-radius: 14px; padding: 14px 16px; cursor: pointer; transition: 0.2s; background: white; text-align: left; display: flex; align-items: center; gap: 12px; }
+        .academy-card:hover { border-color: var(--royal-red); background: #fff9f9; }
+        .academy-card.selected { border-color: var(--royal-red); background: #fff0f0; }
+        .academy-icon { font-size: 28px; flex-shrink: 0; }
+        .academy-name { font-weight: 800; font-size: 13px; color: #333; }
+        .academy-loc { font-size: 11px; color: #888; margin-top: 2px; }
+
+        .role-cards { display: flex; gap: 12px; margin-bottom: 16px; }
         .role-card { flex: 1; border: 2px solid #eee; border-radius: 14px; padding: 18px 10px; cursor: pointer; transition: 0.2s; background: white; }
         .role-card:hover { border-color: var(--royal-red); background: #fff9f9; }
         .role-card.selected { border-color: var(--royal-red); background: #fff0f0; }
@@ -182,6 +181,35 @@
         .login-btn:hover { background: #801521; }
         .login-error { color: #e53e3e; font-size: 12px; margin-bottom: 8px; display: none; }
         .login-hint { font-size: 11px; color: #aaa; margin-top: 8px; }
+        .back-btn { background: none; border: none; color: #aaa; font-size: 12px; cursor: pointer; margin-bottom: 12px; display: flex; align-items: center; gap: 4px; padding: 0; }
+        .back-btn:hover { color: var(--royal-red); }
+
+        /* Self-register button */
+        .self-reg-btn { width: 100%; padding: 11px; background: var(--royal-blue); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+        .self-reg-btn:hover { background: #0f1657; }
+
+        /* ── Self-Registration Modal ── */
+        #selfRegModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 9999; align-items: flex-start; justify-content: center; padding: 20px; overflow-y: auto; }
+        #selfRegModal.open { display: flex; }
+        .self-reg-box { background: white; border-radius: 20px; padding: 24px; max-width: 420px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.4); margin: auto; }
+        .self-reg-header { text-align: center; margin-bottom: 18px; }
+        .self-reg-header h3 { color: var(--royal-blue); font-size: 16px; margin: 0 0 4px; }
+        .self-reg-header p { font-size: 12px; color: #888; margin: 0; }
+
+        /* ── Pending Approvals ── */
+        .pending-item { border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+        .pending-item-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .pending-name { font-weight: 700; font-size: 14px; color: #222; }
+        .pending-meta { font-size: 11px; color: #888; margin-top: 2px; }
+        .pending-photo { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid #eee; flex-shrink: 0; }
+        .pending-photo-placeholder { width: 52px; height: 52px; border-radius: 50%; background: #f0f4ff; border: 2px solid #e2e8f0; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+        .pending-actions { display: flex; gap: 8px; margin-top: 10px; }
+        .approve-btn { flex: 1; background: #38a169; color: white; border: none; border-radius: 8px; padding: 10px; font-size: 13px; font-weight: 700; cursor: pointer; }
+        .approve-btn:hover { background: #276749; }
+        .reject-btn { flex: 1; background: #e53e3e; color: white; border: none; border-radius: 8px; padding: 10px; font-size: 13px; font-weight: 700; cursor: pointer; }
+        .reject-btn:hover { background: #c53030; }
+        .pending-detail { font-size: 12px; color: #555; display: flex; flex-direction: column; gap: 3px; }
+        .pending-detail span { display: flex; gap: 6px; }
 
         /* ── Logout button ── */
         .logout-btn { position: absolute; right: 0; top: 0; background: none; border: 1px solid #ddd; border-radius: 8px; padding: 5px 10px; font-size: 11px; font-weight: 700; color: #888; cursor: pointer; display: flex; align-items: center; gap: 4px; }
@@ -190,6 +218,7 @@
         .role-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-top: 4px; }
         .role-badge.admin { background: #fff0f0; color: var(--royal-red); border: 1px solid #fed7d7; }
         .role-badge.player { background: #f0f2ff; color: var(--royal-blue); border: 1px solid #c7cdfa; }
+        .academy-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 10px; margin-top: 3px; background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
 
         /* ── Player Dashboard ── */
         #playerContainer { display: none; max-width: 520px; margin: auto; }
@@ -225,22 +254,9 @@
         #idCardModal.open { display:flex; }
         .idcard-wrap { background:#f5f5f5; border-radius:16px; padding:24px; max-width:380px; width:92%; box-shadow:0 20px 60px rgba(0,0,0,0.4); text-align:center; }
         .idcard-wrap h3 { font-size:14px; font-weight:800; color:#444; margin:0 0 14px; }
-        .id-card {
-            width:100%; max-width:320px; margin:0 auto;
-            background: linear-gradient(160deg, #7b1a25 0%, #5c2a82 100%);
-            border-radius:14px; padding:22px 18px 18px;
-            color:white; position:relative; overflow:hidden;
-        }
-        .id-card::before {
-            content:''; position:absolute; top:-30px; right:-30px;
-            width:130px; height:130px; background:rgba(255,255,255,0.07);
-            border-radius:50%;
-        }
-        .id-card::after {
-            content:''; position:absolute; bottom:-40px; left:-20px;
-            width:150px; height:150px; background:rgba(255,255,255,0.05);
-            border-radius:50%;
-        }
+        .id-card { width:100%; max-width:320px; margin:0 auto; background: linear-gradient(160deg, #7b1a25 0%, #5c2a82 100%); border-radius:14px; padding:22px 18px 18px; color:white; position:relative; overflow:hidden; }
+        .id-card::before { content:''; position:absolute; top:-30px; right:-30px; width:130px; height:130px; background:rgba(255,255,255,0.07); border-radius:50%; }
+        .id-card::after { content:''; position:absolute; bottom:-40px; left:-20px; width:150px; height:150px; background:rgba(255,255,255,0.05); border-radius:50%; }
         .id-card-logo-row { display:flex; align-items:center; gap:8px; margin-bottom:14px; }
         .id-card-logo-row img { width:38px; height:38px; border-radius:50%; border:2px solid rgba(255,255,255,0.5); }
         .id-card-academy { font-size:11px; font-weight:800; line-height:1.3; text-align:left; }
@@ -264,18 +280,22 @@
             .id-card-btn-row, .idcard-wrap h3 { display:none !important; }
             .id-card { border-radius:0; max-width:100%; }
         }
-    /* ── Firebase sync status ── */
-    #syncBadge { position:fixed; bottom:12px; right:12px; background:#333; color:white; font-size:11px; font-weight:700; padding:5px 12px; border-radius:20px; z-index:9000; opacity:0; transition:opacity 0.4s; pointer-events:none; }
-    #syncBadge.show { opacity:1; }
-    #syncBadge.ok   { background:#38a169; }
-    #syncBadge.err  { background:#c0392b; }
 
-    /* ── Sync loading overlay ── */
-    #syncLoader { display:none; position:fixed; inset:0; background:rgba(255,255,255,0.92); z-index:10000; flex-direction:column; align-items:center; justify-content:center; gap:14px; }
-    #syncLoader.show { display:flex; }
-    .sync-spinner { width:44px; height:44px; border:5px solid #eee; border-top-color:var(--royal-red); border-radius:50%; animation:spin 0.9s linear infinite; }
-    @keyframes spin { to { transform:rotate(360deg); } }
-    .sync-msg { font-size:14px; font-weight:700; color:#555; }
+        /* ── Firebase sync status ── */
+        #syncBadge { position:fixed; bottom:12px; right:12px; background:#333; color:white; font-size:11px; font-weight:700; padding:5px 12px; border-radius:20px; z-index:9000; opacity:0; transition:opacity 0.4s; pointer-events:none; }
+        #syncBadge.show { opacity:1; }
+        #syncBadge.ok   { background:#38a169; }
+        #syncBadge.err  { background:#c0392b; }
+
+        /* ── Sync loading overlay ── */
+        #syncLoader { display:none; position:fixed; inset:0; background:rgba(255,255,255,0.92); z-index:10000; flex-direction:column; align-items:center; justify-content:center; gap:14px; }
+        #syncLoader.show { display:flex; }
+        .sync-spinner { width:44px; height:44px; border:5px solid #eee; border-top-color:var(--royal-red); border-radius:50%; animation:spin 0.9s linear infinite; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+        .sync-msg { font-size:14px; font-weight:700; color:#555; }
+
+        /* Pending count pill */
+        #pendingCount { display:none; background:#e53e3e; color:white; font-size:10px; font-weight:700; padding:1px 6px; border-radius:10px; margin-left:4px; }
     </style>
 </head>
 <body>
@@ -287,48 +307,141 @@
         <h2 class="login-title">Royals Cricket Academy</h2>
         <p class="login-sub">Jalandhar &nbsp;|&nbsp; 76963-72777</p>
 
-        <div class="role-cards">
-            <div class="role-card" id="adminRoleCard" onclick="selectRole('admin')">
-                <span class="role-icon">🛡️</span>
-                <div class="role-label">Admin</div>
-                <div class="role-desc">Full access</div>
-            </div>
-            <div class="role-card" id="playerRoleCard" onclick="selectRole('player')">
-                <span class="role-icon">🏏</span>
-                <div class="role-label">Player</div>
-                <div class="role-desc">My profile</div>
+        <!-- Step 1: Academy Selection -->
+        <div id="academyStep">
+            <div class="academy-label">Select Your Academy</div>
+            <div class="academy-cards">
+                <div class="academy-card" id="acadCard1" onclick="selectAcademy('A1')">
+                    <span class="academy-icon">🏟️</span>
+                    <div>
+                        <div class="academy-name">Lawrence International School</div>
+                        <div class="academy-loc">Surya Enclave, Jalandhar</div>
+                    </div>
+                </div>
+                <div class="academy-card" id="acadCard2" onclick="selectAcademy('A2')">
+                    <span class="academy-icon">🏏</span>
+                    <div>
+                        <div class="academy-name">Pyare Lal Stadium</div>
+                        <div class="academy-loc">Sian Dass School, Jalandhar</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Admin PIN input -->
-        <div class="login-input-wrap" id="adminLoginWrap">
-            <p class="login-error" id="adminError">Incorrect PIN. Please try again.</p>
-            <input class="login-input" type="password" id="adminPinInput" placeholder="Enter Admin PIN" maxlength="20"
-                onkeydown="if(event.key==='Enter') doAdminLogin()">
-            <button class="login-btn" onclick="doAdminLogin()">Login as Admin</button>
+        <!-- Step 2: Role Selection -->
+        <div id="roleStep" style="display:none;">
+            <button class="back-btn" onclick="goBackToAcademy()">← Back</button>
+
+            <div class="role-cards">
+                <div class="role-card" id="adminRoleCard" onclick="selectRole('admin')">
+                    <span class="role-icon">🛡️</span>
+                    <div class="role-label">Admin</div>
+                    <div class="role-desc">Full access</div>
+                </div>
+                <div class="role-card" id="playerRoleCard" onclick="selectRole('player')">
+                    <span class="role-icon">🏏</span>
+                    <div class="role-label">Player</div>
+                    <div class="role-desc">My profile</div>
+                </div>
+            </div>
+
+            <!-- Admin PIN input -->
+            <div class="login-input-wrap" id="adminLoginWrap">
+                <p class="login-error" id="adminError">Incorrect PIN. Please try again.</p>
+                <input class="login-input" type="password" id="adminPinInput" placeholder="Enter Admin PIN" maxlength="20"
+                    onkeydown="if(event.key==='Enter') doAdminLogin()">
+                <button class="login-btn" onclick="doAdminLogin()">Login as Admin</button>
+            </div>
+
+            <!-- Player ID input -->
+            <div class="login-input-wrap" id="playerLoginWrap">
+                <p class="login-error" id="playerError">Student ID not found. Please check and try again.</p>
+                <input class="login-input" type="text" id="playerIdInput" placeholder="Enter Student ID"
+                    style="text-transform:uppercase;letter-spacing:1px;"
+                    onkeydown="if(event.key==='Enter') doPlayerLogin()">
+                <button class="login-btn" style="background:var(--royal-blue);" onclick="doPlayerLogin()">Login as Player</button>
+                <div class="login-hint">Use your Student ID from your admission slip</div>
+                <div style="margin-top:10px;">
+                    <span class="pin-change-link" onclick="toggleForgotId()">Forgot Student ID?</span>
+                </div>
+                <div id="forgotIdWrap" style="display:none;margin-top:12px;background:#f0f4ff;border-radius:10px;padding:14px;text-align:left;">
+                    <div style="font-size:12px;font-weight:700;color:var(--royal-blue);margin-bottom:8px;">🔍 Look up by WhatsApp Number</div>
+                    <input class="login-input" type="number" id="forgotPhoneInput"
+                        placeholder="Enter your 10-digit number"
+                        style="letter-spacing:0;margin-bottom:8px;text-align:left;"
+                        oninput="lookupByPhone(this.value)">
+                    <div id="forgotResults"></div>
+                </div>
+            </div>
+
+            <!-- Self Register button -->
+            <button class="self-reg-btn" onclick="openSelfReg()">
+                ✏️ Register as New Player
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ── SELF-REGISTRATION MODAL ── -->
+<div id="selfRegModal" onclick="if(event.target===this)closeSelfReg()">
+    <div class="self-reg-box">
+        <div class="self-reg-header">
+            <h3>✏️ New Player Registration</h3>
+            <p id="selfRegAcadName" style="font-weight:700;color:var(--royal-blue);font-size:13px;"></p>
+            <p style="margin-top:4px;">Fill in your details. Admin will review and approve.</p>
         </div>
 
-        <!-- Player ID input -->
-        <div class="login-input-wrap" id="playerLoginWrap">
-            <p class="login-error" id="playerError">Student ID not found. Please check and try again.</p>
-            <input class="login-input" type="text" id="playerIdInput" placeholder="Enter Student ID (RCA-S-XXXX)"
-                style="text-transform:uppercase;letter-spacing:1px;"
-                onkeydown="if(event.key==='Enter') doPlayerLogin()">
-            <button class="login-btn" style="background:var(--royal-blue);" onclick="doPlayerLogin()">Login as Player</button>
-            <div class="login-hint">Use your Student ID from your admission slip</div>
-            <div style="margin-top:10px;">
-                <span class="pin-change-link" onclick="toggleForgotId()">Forgot Student ID?</span>
+        <div class="form-section">
+            <label>Your Photo</label>
+            <div style="display:flex;align-items:center;gap:14px;">
+                <div id="selfRegPhotoPreview" style="width:72px;height:72px;border-radius:50%;background:#f0f4ff;border:2px dashed #c0c8e0;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;flex-shrink:0;">🧑</div>
+                <div>
+                    <input type="file" id="selfRegPhotoInput" accept="image/*" style="display:none" onchange="handleSelfRegPhoto(this)">
+                    <button type="button" class="btn-submit" style="padding:8px 16px;font-size:13px;background:var(--royal-blue);" onclick="document.getElementById('selfRegPhotoInput').click()">Upload Photo</button>
+                    <div style="font-size:11px;color:#aaa;margin-top:5px;">JPG/PNG — max 2 MB</div>
+                </div>
             </div>
+        </div>
+        <div class="form-section">
+            <label>Your Full Name *</label>
+            <input type="text" id="srName" placeholder="Enter your full name">
+        </div>
+        <div class="form-section">
+            <label>Guardian Name *</label>
+            <input type="text" id="srGuardian" placeholder="Father/Mother name">
+        </div>
+        <div class="form-section">
+            <label>Age Category *</label>
+            <select id="srCategory">
+                <option value="Under-12">Under-12</option>
+                <option value="Under-14">Under-14</option>
+                <option value="Under-16">Under-16</option>
+                <option value="Under-19">Under-19</option>
+                <option value="Elite Open">Elite Open</option>
+            </select>
+        </div>
+        <div class="form-section">
+            <label>Preferred Batch *</label>
+            <select id="srBatch">
+                <option value="Morning (6:00 AM - 8:00 AM)">Morning (6:00 AM - 8:00 AM)</option>
+                <option value="Evening (4:00 PM - 6:00 PM)">Evening (4:00 PM - 6:00 PM)</option>
+                <option value="Weekend (8:00 AM - 10:00 AM)">Weekend (8:00 AM - 10:00 AM)</option>
+            </select>
+        </div>
+        <div class="form-section">
+            <label>WhatsApp Number *</label>
+            <input type="number" id="srPhone" placeholder="10 digit number">
+        </div>
 
-            <!-- Forgot ID lookup -->
-            <div id="forgotIdWrap" style="display:none;margin-top:12px;background:#f0f4ff;border-radius:10px;padding:14px;text-align:left;">
-                <div style="font-size:12px;font-weight:700;color:var(--royal-blue);margin-bottom:8px;">🔍 Look up by WhatsApp Number</div>
-                <input class="login-input" type="number" id="forgotPhoneInput"
-                    placeholder="Enter your 10-digit number"
-                    style="letter-spacing:0;margin-bottom:8px;text-align:left;"
-                    oninput="lookupByPhone(this.value)">
-                <div id="forgotResults"></div>
-            </div>
+        <div id="selfRegSuccess" style="display:none;background:#f0fff4;border:1px solid #9ae6b4;border-radius:10px;padding:14px;text-align:center;margin-bottom:12px;">
+            <div style="font-size:24px;margin-bottom:6px;">✅</div>
+            <div style="font-weight:700;color:#276749;font-size:14px;">Request Sent!</div>
+            <div style="font-size:12px;color:#555;margin-top:4px;">Admin will review your request and contact you on WhatsApp with your Student ID.</div>
+        </div>
+
+        <div id="selfRegForm">
+            <button class="btn-submit" onclick="submitSelfReg()" style="margin-top:6px;">Submit Registration Request</button>
+            <button class="btn-submit" style="background:#888;margin-top:8px;" onclick="closeSelfReg()">Cancel</button>
         </div>
     </div>
 </div>
@@ -372,7 +485,6 @@
             </div>
         </div>
         <hr style="border:none;border-top:1px solid #eee;margin:14px 0;">
-
         <div id="sheetsNoUrl">
             <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;margin-bottom:14px;font-size:12px;color:#166534;line-height:1.7;">
                 <b>One-time setup (3 minutes):</b><br>
@@ -382,30 +494,18 @@
                 4. Set "Who has access" to <b>Anyone</b> → Deploy<br>
                 5. Copy the Web App URL and paste it below
             </div>
-            <button onclick="copyAppsScript()" style="width:100%;padding:10px;background:#f8f9fa;border:1px dashed #ccc;border-radius:8px;font-size:12px;font-weight:700;color:#555;cursor:pointer;margin-bottom:12px;">
-                📋 Copy Apps Script Code
-            </button>
+            <button onclick="copyAppsScript()" style="width:100%;padding:10px;background:#f8f9fa;border:1px dashed #ccc;border-radius:8px;font-size:12px;font-weight:700;color:#555;cursor:pointer;margin-bottom:12px;">📋 Copy Apps Script Code</button>
             <label style="font-size:12px;font-weight:700;color:#333;display:block;margin-bottom:6px;">Your Web App URL</label>
-            <input type="url" id="sheetsUrlInput" placeholder="https://script.google.com/macros/s/..." 
+            <input type="url" id="sheetsUrlInput" placeholder="https://script.google.com/macros/s/..."
                 style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:12px;box-sizing:border-box;margin-bottom:12px;">
-            <button onclick="saveSheetsUrl()" style="width:100%;padding:11px;background:linear-gradient(135deg,#1a9c3e,#34a853);color:white;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;">
-                Save & Export Now
-            </button>
+            <button onclick="saveSheetsUrl()" style="width:100%;padding:11px;background:linear-gradient(135deg,#1a9c3e,#34a853);color:white;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;">Save & Export Now</button>
         </div>
-
         <div id="sheetsHasUrl" style="display:none;">
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:#166534;">
-                ✓ Connected to Google Sheets
-            </div>
+            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px;margin-bottom:14px;font-size:12px;color:#166534;">✓ Connected to Google Sheets</div>
             <div id="sheetsExportStatus" style="font-size:12px;color:#666;min-height:20px;margin-bottom:12px;text-align:center;"></div>
-            <button onclick="doSheetsExport()" id="sheetsExportBtn" style="width:100%;padding:11px;background:linear-gradient(135deg,#1a9c3e,#34a853);color:white;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px;">
-                📤 Export All Records Now
-            </button>
-            <button onclick="resetSheetsUrl()" style="width:100%;padding:9px;background:#fff;border:1px solid #ddd;border-radius:8px;font-size:12px;color:#888;cursor:pointer;">
-                Change URL
-            </button>
+            <button onclick="doSheetsExport()" id="sheetsExportBtn" style="width:100%;padding:11px;background:linear-gradient(135deg,#1a9c3e,#34a853);color:white;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px;">📤 Export All Records Now</button>
+            <button onclick="resetSheetsUrl()" style="width:100%;padding:9px;background:#fff;border:1px solid #ddd;border-radius:8px;font-size:12px;color:#888;cursor:pointer;">Change URL</button>
         </div>
-
         <button onclick="closeSheetsModal()" style="width:100%;padding:9px;background:#f5f5f5;border:none;border-radius:8px;font-size:13px;color:#888;cursor:pointer;margin-top:8px;">Close</button>
     </div>
 </div>
@@ -419,8 +519,6 @@
     <div class="sync-spinner"></div>
     <div class="sync-msg" id="syncMsg">Connecting to cloud…</div>
 </div>
-
-<!-- ── Sync status badge ── -->
 <div id="syncBadge"></div>
 
 <!-- ── ID CARD MODAL ── -->
@@ -440,9 +538,10 @@
     <div class="header header-wrap">
         <button class="logout-btn" onclick="doLogout()">⬅ Logout</button>
         <img src="/logo.jpg" alt="Royals Logo" class="logo">
-        <h2>Royals Cricket Academy</h2>
-        <p class="loc">JALANDHAR | 76963-72777</p>
+        <h2 id="adminAcadTitle">Royals Cricket Academy</h2>
+        <p class="loc" id="adminAcadLoc">JALANDHAR | 76963-72777</p>
         <span class="role-badge admin">ADMIN &nbsp;·&nbsp; <span class="pin-change-link" onclick="changeAdminPin()">Change PIN</span></span>
+        <div><span class="academy-badge" id="adminAcadBadge">Academy</span></div>
     </div>
 
     <div class="stats-bar" id="statsBar">
@@ -470,6 +569,7 @@
         <button class="tab-btn" onclick="switchTab('tracker')">Fee Tracker</button>
         <button class="tab-btn" onclick="switchTab('attendance')">Attendance</button>
         <button class="tab-btn" onclick="switchTab('history')">History</button>
+        <button class="tab-btn" onclick="switchTab('pending')" id="pendingTab">Pending<span id="pendingCount"></span></button>
     </div>
 
     <!-- ── NEW REGISTRATION ── -->
@@ -545,7 +645,8 @@
         <div id="regReceipt" class="receipt-box">
             <div class="receipt-head">
                 <h3>ADMISSION CONFIRMATION</h3>
-                <b>Royals Cricket Academy, Jalandhar</b><br>
+                <b id="regReceiptAcadName">Royals Cricket Academy</b><br>
+                <span style="font-size:12px;color:#555;" id="regReceiptAcadLoc"></span><br>
                 <span class="badge badge-red">ADMISSION SLIP</span>
             </div>
             <div id="regReceiptBody"></div>
@@ -563,7 +664,6 @@
     <!-- ── MONTHLY FEE ── -->
     <div id="monthlySection" style="display:none;">
         <div id="monthlyForm">
-            <!-- Student search -->
             <label style="font-weight:600;font-size:13px;color:#333;display:block;margin-bottom:4px;">Search Student</label>
             <div class="student-search-wrap" id="studentSearchWrap">
                 <input class="student-search-input" type="text" id="studentSearchBox"
@@ -574,17 +674,16 @@
                 <span class="student-search-icon">🔍</span>
                 <div class="student-dropdown" id="studentDropdown"></div>
             </div>
-            <div id="selectedStudentChip" style="display:none;background:#fff0f0;border:1.5px solid var(--royal-red);border-radius:8px;padding:8px 12px;margin-bottom:13px;display:none;align-items:center;justify-content:space-between;">
+            <div id="selectedStudentChip" style="display:none;background:#fff0f0;border:1.5px solid var(--royal-red);border-radius:8px;padding:8px 12px;margin-bottom:13px;align-items:center;justify-content:space-between;">
                 <div>
-                    <div class="chip-name" id="chipName"></div>
-                    <div class="chip-id" id="chipId"></div>
+                    <div style="font-weight:700;font-size:13px;color:var(--royal-red);" id="chipName"></div>
+                    <div style="font-size:11px;color:#888;" id="chipId"></div>
                 </div>
-                <button class="chip-clear" onclick="clearStudentSelection()" title="Clear selection">×</button>
+                <button style="background:none;border:none;color:#aaa;font-size:18px;cursor:pointer;line-height:1;padding:0;" onclick="clearStudentSelection()" title="Clear selection">×</button>
             </div>
-
             <div class="form-section">
                 <label>Student ID</label>
-                <input type="text" id="mStudentId" placeholder="e.g. RCA-S-0001" oninput="autoFillStudent(this.value)">
+                <input type="text" id="mStudentId" placeholder="e.g. A1-S-0001" oninput="autoFillStudent(this.value)">
             </div>
             <div class="form-section">
                 <label>Student Name</label>
@@ -626,7 +725,8 @@
         <div id="monthlyReceipt" class="receipt-box">
             <div class="receipt-head">
                 <h3>MONTHLY FEE RECEIPT</h3>
-                <b>Royals Cricket Academy, Jalandhar</b><br>
+                <b id="monthlyReceiptAcadName">Royals Cricket Academy</b><br>
+                <span style="font-size:12px;color:#555;" id="monthlyReceiptAcadLoc"></span><br>
                 <span class="badge badge-blue">MONTHLY FEE</span>
             </div>
             <div id="monthlyReceiptBody"></div>
@@ -679,13 +779,13 @@
             <div class="history-actions-right">
                 <button class="export-btn" onclick="exportCSV()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                    Export CSV
+                    CSV
                 </button>
                 <button class="export-btn" style="background:linear-gradient(135deg,#1a9c3e,#34a853);" onclick="openSheetsModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3l5 3-5 3V6zm-5 10V8l3 2-3 2v-2h2v2H7z"/></svg>
-                    Sheets Export
+                    Sheets
                 </button>
-                <button class="clear-btn" onclick="clearHistory()">Clear All</button>
+                <button class="clear-btn" onclick="clearHistory()">Clear</button>
             </div>
         </div>
         <div class="filter-btns">
@@ -697,11 +797,23 @@
         <input class="search-bar" type="text" id="searchInput" placeholder="Search by name or Student ID..." oninput="renderHistory()">
         <div class="history-list" id="historyList"></div>
     </div>
+
+    <!-- ── PENDING APPROVALS ── -->
+    <div id="pendingSection" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+            <div style="font-size:14px;font-weight:700;color:#333;">New Registration Requests</div>
+            <button onclick="loadPendingFromCloud()" style="background:none;border:1px solid #ddd;border-radius:6px;padding:5px 12px;font-size:11px;color:#666;cursor:pointer;">🔄 Refresh</button>
+        </div>
+        <div id="pendingList">
+            <div class="empty-state">Loading pending requests…</div>
+        </div>
+    </div>
+
 </div>
 </div><!-- /appContainer -->
 
 <script>
-    // ── Firebase Firestore Integration ──
+    // ── Firebase Setup ──
     const FB_CONFIG = {
         apiKey: "AIzaSyA-_IbKBpmzj_QzcxcJqRiiV_LaJN72Mio",
         authDomain: "royalsacademyaapp.firebaseapp.com",
@@ -712,6 +824,38 @@
     };
     firebase.initializeApp(FB_CONFIG);
     const db = firebase.firestore();
+
+    // ── Academy Config ──
+    const ACADEMIES = {
+        'A1': {
+            id: 'A1',
+            name: 'RCA - Lawrence International School',
+            location: 'Surya Enclave, Jalandhar',
+            prefix: 'a1',
+            phone: '76963-72777'
+        },
+        'A2': {
+            id: 'A2',
+            name: 'Pyare Lal Stadium',
+            location: 'Sian Dass School, Jalandhar',
+            prefix: 'a2',
+            phone: '76963-72777'
+        }
+    };
+
+    let currentAcademy = null; // set on academy selection
+
+    // Dynamic localStorage key helpers
+    function hKey()  { return currentAcademy.prefix + '_history'; }
+    function tkKey() { return currentAcademy.prefix + '_tracker'; }
+    function aKey()  { return currentAcademy.prefix + '_attendance'; }
+    function cKey()  { return currentAcademy.prefix + '_counter_' + new Date().getFullYear(); }
+    function sidKey(){ return currentAcademy.prefix + '_student_id'; }
+
+    // Firestore collection names
+    function fsHistCol()  { return currentAcademy.prefix + '_history'; }
+    function fsMetaCol()  { return currentAcademy.prefix + '_meta'; }
+    function fsPendCol()  { return currentAcademy.prefix + '_pending'; }
 
     // ── Sync UI helpers ──
     let syncBadgeTimer = null;
@@ -730,23 +874,20 @@
         document.getElementById('syncLoader').classList.remove('show');
     }
 
-    // ── Push a single history record to Firestore (exclude large photo) ──
+    // ── Push a single history record to Firestore ──
     function fsAddRecord(entry) {
         const rec = Object.assign({}, entry);
-        delete rec.photo; // photos stay local only (too large for Firestore)
-        db.collection('rca_history').doc(rec.receiptNo).set(rec)
+        delete rec.photo;
+        db.collection(fsHistCol()).doc(rec.receiptNo).set(rec)
             .then(() => showSyncBadge('✓ Saved to cloud', 'ok'))
             .catch(() => showSyncBadge('⚠ Cloud sync failed', 'err'));
     }
 
-    // ── Push meta documents (tracker / attendance / counters) ──
     function fsSaveMeta(docId, data) {
-        db.collection('rca_meta').doc(docId).set({ data })
+        db.collection(fsMetaCol()).doc(docId).set({ data })
             .catch(() => showSyncBadge('⚠ Cloud sync failed', 'err'));
     }
 
-    // ── Load everything from Firestore into localStorage ──
-    // timeout helper
     function withTimeout(promise, ms) {
         return Promise.race([
             promise,
@@ -758,73 +899,62 @@
         showLoader('Syncing with cloud…');
         try {
             // 1. History records
-            const snap = await withTimeout(db.collection('rca_history').orderBy('timestamp', 'desc').get(), 8000);
+            const snap = await withTimeout(db.collection(fsHistCol()).orderBy('timestamp', 'desc').get(), 8000);
             if (!snap.empty) {
-                // Merge cloud records with local (local photos take priority)
-                const localH = JSON.parse(localStorage.getItem('rca_history') || '[]');
+                const localH = JSON.parse(localStorage.getItem(hKey()) || '[]');
                 const photoMap = {};
                 localH.forEach(r => { if (r.photo) photoMap[r.receiptNo] = r.photo; });
-
                 const cloudRecords = snap.docs.map(d => {
                     const rec = d.data();
                     if (photoMap[rec.receiptNo]) rec.photo = photoMap[rec.receiptNo];
                     return rec;
                 });
-
-                // Merge: cloud wins for non-photo data, keep any local records not yet in cloud
                 const cloudIds = new Set(cloudRecords.map(r => r.receiptNo));
                 const localOnly = localH.filter(r => !cloudIds.has(r.receiptNo));
-                const merged = [...cloudRecords, ...localOnly]
-                    .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-                localStorage.setItem('rca_history', JSON.stringify(merged));
-
-                // Push any local-only records up to cloud
+                const merged = [...cloudRecords, ...localOnly].sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                localStorage.setItem(hKey(), JSON.stringify(merged));
                 localOnly.forEach(r => fsAddRecord(r));
             }
 
             // 2. Tracker
-            const trackerDoc = await db.collection('rca_meta').doc('tracker').get();
+            const trackerDoc = await db.collection(fsMetaCol()).doc('tracker').get();
             if (trackerDoc.exists && trackerDoc.data().data) {
                 const cloudTracker = trackerDoc.data().data;
-                const localTracker = JSON.parse(localStorage.getItem('rca_tracker') || '{}');
-                // Deep merge: mark paid if either source says paid
+                const localTracker = JSON.parse(localStorage.getItem(tkKey()) || '{}');
                 const merged = Object.assign({}, localTracker);
                 Object.entries(cloudTracker).forEach(([sid, months]) => {
                     merged[sid] = Object.assign({}, localTracker[sid] || {}, months);
                 });
-                localStorage.setItem('rca_tracker', JSON.stringify(merged));
+                localStorage.setItem(tkKey(), JSON.stringify(merged));
             }
 
             // 3. Attendance
-            const attDoc = await db.collection('rca_meta').doc('attendance').get();
+            const attDoc = await db.collection(fsMetaCol()).doc('attendance').get();
             if (attDoc.exists && attDoc.data().data) {
                 const cloudAtt = attDoc.data().data;
-                const localAtt = JSON.parse(localStorage.getItem('rca_attendance') || '{}');
-                // Cloud wins (most up-to-date device wins)
-                localStorage.setItem('rca_attendance', JSON.stringify(Object.assign({}, localAtt, cloudAtt)));
+                const localAtt = JSON.parse(localStorage.getItem(aKey()) || '{}');
+                localStorage.setItem(aKey(), JSON.stringify(Object.assign({}, localAtt, cloudAtt)));
             }
 
-            // 4. Counters — use max of local and cloud to avoid ID collisions
-            const countersDoc = await db.collection('rca_meta').doc('counters').get();
+            // 4. Counters
+            const countersDoc = await db.collection(fsMetaCol()).doc('counters').get();
             if (countersDoc.exists) {
                 const c = countersDoc.data();
                 const year = new Date().getFullYear();
-                const rcaKey = 'rca_counter_' + year;
                 if (c['receipt_' + year]) {
                     const cloudRcpt = c['receipt_' + year];
-                    const localRcpt = parseInt(localStorage.getItem(rcaKey) || '0');
-                    if (cloudRcpt > localRcpt) localStorage.setItem(rcaKey, cloudRcpt);
+                    const localRcpt = parseInt(localStorage.getItem(cKey()) || '0');
+                    if (cloudRcpt > localRcpt) localStorage.setItem(cKey(), cloudRcpt);
                 }
                 if (c.studentId) {
-                    const localSid = parseInt(localStorage.getItem('rca_student_id') || '0');
-                    if (c.studentId > localSid) localStorage.setItem('rca_student_id', c.studentId);
+                    const localSid = parseInt(localStorage.getItem(sidKey()) || '0');
+                    if (c.studentId > localSid) localStorage.setItem(sidKey(), c.studentId);
                 }
             }
 
             // 5. Admin PIN
-            const settingsDoc = await db.collection('rca_meta').doc('settings').get();
+            const settingsDoc = await db.collection(fsMetaCol()).doc('settings').get();
             if (settingsDoc.exists && settingsDoc.data().adminPin) {
-                // Only update if no local override (local change PIN takes priority)
                 if (!localStorage.getItem('rca_admin_pin')) {
                     localStorage.setItem('rca_admin_pin', settingsDoc.data().adminPin);
                 }
@@ -839,34 +969,27 @@
         }
     }
 
-    // Sync counters to Firestore after each generation
     function fsSyncCounters() {
         const year = new Date().getFullYear();
-        db.collection('rca_meta').doc('counters').set({
-            ['receipt_' + year]: parseInt(localStorage.getItem('rca_counter_' + year) || '0'),
-            studentId: parseInt(localStorage.getItem('rca_student_id') || '0')
+        db.collection(fsMetaCol()).doc('counters').set({
+            ['receipt_' + year]: parseInt(localStorage.getItem(cKey()) || '0'),
+            studentId: parseInt(localStorage.getItem(sidKey()) || '0')
         }, { merge: true }).catch(() => {});
     }
 
-    // Sync admin PIN changes to Firestore
     function fsSyncPin(pin) {
-        db.collection('rca_meta').doc('settings').set({ adminPin: pin }, { merge: true }).catch(() => {});
+        db.collection(fsMetaCol()).doc('settings').set({ adminPin: pin }, { merge: true }).catch(() => {});
     }
 
-    const HISTORY_KEY = 'rca_history';
-
-    function getHistory() {
-        return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
-    }
-    function saveHistory(h) {
-        localStorage.setItem(HISTORY_KEY, JSON.stringify(h));
-    }
+    // ── History helpers ──
+    function getHistory() { return JSON.parse(localStorage.getItem(hKey()) || '[]'); }
+    function saveHistory(h) { localStorage.setItem(hKey(), JSON.stringify(h)); }
     function addToHistory(entry) {
         const h = getHistory();
         h.unshift(entry);
         saveHistory(h);
         updateStats();
-        fsAddRecord(entry); // cloud sync
+        fsAddRecord(entry);
     }
 
     function updateStats() {
@@ -876,8 +999,6 @@
         document.getElementById('statStudents').textContent = students;
         document.getElementById('statReceipts').textContent = h.length;
         document.getElementById('statFees').textContent = '₹' + totalFees.toLocaleString('en-IN');
-
-        // Count overdue students
         const t = getTracker();
         const year = new Date().getFullYear();
         const nowMonth = new Date().getMonth();
@@ -897,11 +1018,13 @@
     }
 
     // ── Tab switcher ──
-    const TABS = ['reg','monthly','tracker','attendance','history'];
+    const TABS = ['reg','monthly','tracker','attendance','history','pending'];
     function switchTab(tab) {
         TABS.forEach((t, i) => {
-            document.getElementById(t + 'Section').style.display = t === tab ? 'block' : 'none';
-            document.querySelectorAll('.tab-btn')[i].classList.toggle('active', t === tab);
+            const sec = document.getElementById(t + 'Section');
+            if (sec) sec.style.display = t === tab ? 'block' : 'none';
+            const btn = document.querySelectorAll('.tab-btn')[i];
+            if (btn) btn.classList.toggle('active', t === tab);
         });
         if (tab === 'monthly') {
             const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -910,25 +1033,25 @@
         if (tab === 'history') renderHistory();
         if (tab === 'tracker') renderTracker();
         if (tab === 'attendance') initAttendance();
+        if (tab === 'pending') loadPendingFromCloud();
     }
 
     // ── Counters ──
     function getNextReceiptNumber() {
         const year = new Date().getFullYear();
-        const key = 'rca_counter_' + year;
-        const count = parseInt(localStorage.getItem(key) || '0') + 1;
-        localStorage.setItem(key, count);
+        const count = parseInt(localStorage.getItem(cKey()) || '0') + 1;
+        localStorage.setItem(cKey(), count);
         fsSyncCounters();
-        return 'RCA-' + year + '-' + String(count).padStart(4, '0');
+        return currentAcademy.id + '-' + year + '-' + String(count).padStart(4, '0');
     }
     function getNextStudentId() {
-        const count = parseInt(localStorage.getItem('rca_student_id') || '0') + 1;
-        localStorage.setItem('rca_student_id', count);
+        const count = parseInt(localStorage.getItem(sidKey()) || '0') + 1;
+        localStorage.setItem(sidKey(), count);
         fsSyncCounters();
-        return 'RCA-S-' + String(count).padStart(4, '0');
+        return currentAcademy.id + '-S-' + String(count).padStart(4, '0');
     }
 
-    // ── Student name search autocomplete (Monthly Fee tab) ──
+    // ── Student search autocomplete ──
     let dropdownHideTimer = null;
 
     function getUniqueStudents() {
@@ -936,10 +1059,7 @@
         const seen = {};
         const students = [];
         h.filter(e => e.type === 'registration').forEach(e => {
-            if (!seen[e.studentId]) {
-                seen[e.studentId] = true;
-                students.push(e);
-            }
+            if (!seen[e.studentId]) { seen[e.studentId] = true; students.push(e); }
         });
         return students;
     }
@@ -948,19 +1068,16 @@
         const query = q.trim().toLowerCase();
         const dropdown = document.getElementById('studentDropdown');
         if (!query) { dropdown.style.display = 'none'; return; }
-
         const students = getUniqueStudents();
         const matches = students.filter(s =>
             s.name.toLowerCase().includes(query) ||
             (s.studentId || '').toLowerCase().includes(query)
         ).slice(0, 8);
-
         if (!matches.length) {
             dropdown.innerHTML = '<div class="student-option" style="color:#aaa;cursor:default;">No students found</div>';
             dropdown.style.display = 'block';
             return;
         }
-
         dropdown.innerHTML = matches.map(s => `
             <div class="student-option" onmousedown="selectStudent('${s.studentId}')">
                 <div class="student-option-name">${s.name}</div>
@@ -973,20 +1090,14 @@
         const students = getUniqueStudents();
         const s = students.find(st => st.studentId === studentId);
         if (!s) return;
-
-        // Fill form fields
         document.getElementById('mStudentId').value = s.studentId || '';
         document.getElementById('mName').value = s.name || '';
         document.getElementById('mGName').value = s.guardian || '';
         document.getElementById('mPhone').value = s.phone || '';
-
-        // Show selected chip
         document.getElementById('chipName').textContent = s.name;
         document.getElementById('chipId').textContent = s.studentId + ' · ' + (s.batch || '');
         const chip = document.getElementById('selectedStudentChip');
         chip.style.display = 'flex';
-
-        // Clear search box and hide dropdown
         document.getElementById('studentSearchBox').value = '';
         document.getElementById('studentDropdown').style.display = 'none';
     }
@@ -1008,7 +1119,6 @@
         }, 200);
     }
 
-    // ── Auto-fill student details from history (by ID) ──
     function autoFillStudent(id) {
         const upper = id.trim().toUpperCase();
         const h = getHistory();
@@ -1017,7 +1127,6 @@
             document.getElementById('mName').value = match.name || '';
             document.getElementById('mGName').value = match.guardian || '';
             document.getElementById('mPhone').value = match.phone || '';
-            // Show chip
             document.getElementById('chipName').textContent = match.name;
             document.getElementById('chipId').textContent = match.studentId + ' · ' + (match.batch || '');
             document.getElementById('selectedStudentChip').style.display = 'flex';
@@ -1026,15 +1135,15 @@
 
     // ── Registration ──
     function generateRegReceipt() {
-        const name  = document.getElementById('sName').value.trim();
-        const gName = document.getElementById('gName').value.trim();
-        const cat   = document.getElementById('ageCat').value;
-        const batch = document.getElementById('batch').value;
-        const phone      = document.getElementById('phone').value.trim();
-        const payMode    = document.getElementById('regPayMode').value;
-        const regFee     = parseInt(document.getElementById('regFeeAmt').value) || 0;
+        const name     = document.getElementById('sName').value.trim();
+        const gName    = document.getElementById('gName').value.trim();
+        const cat      = document.getElementById('ageCat').value;
+        const batch    = document.getElementById('batch').value;
+        const phone    = document.getElementById('phone').value.trim();
+        const payMode  = document.getElementById('regPayMode').value;
+        const regFee   = parseInt(document.getElementById('regFeeAmt').value) || 0;
         const monthlyFee = parseInt(document.getElementById('monthlyFeeAmt').value) || 0;
-        const total      = regFee + monthlyFee;
+        const total    = regFee + monthlyFee;
         if (!name || !phone) { alert('Please fill Student Name and Phone number!'); return; }
 
         const date      = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -1043,6 +1152,8 @@
 
         document.getElementById('regForm').style.display = 'none';
         document.getElementById('regReceipt').style.display = 'block';
+        document.getElementById('regReceiptAcadName').textContent = currentAcademy.name;
+        document.getElementById('regReceiptAcadLoc').textContent = currentAcademy.location + ' | ' + currentAcademy.phone;
 
         const photoData = window._regPhoto || null;
         const photoHtml = photoData
@@ -1067,7 +1178,7 @@
         `;
 
         const msg =
-`*Royals Cricket Academy, Jalandhar*
+`*${currentAcademy.name}*
 *ADMISSION CONFIRMATION*
 
 *Student ID: ${studentId}*
@@ -1086,12 +1197,12 @@ Monthly Fees: Rs.${monthlyFee.toLocaleString('en-IN')}
 *Total Received: Rs.${total.toLocaleString('en-IN')}*
 
 _Quote Student ID (${studentId}) in all future correspondence._
-Contact: 76963-72777`;
+Contact: ${currentAcademy.phone}`;
 
         const waPhone = '91' + phone.replace(/\D/g,'').slice(-10);
         document.getElementById('regWaBtn').href = 'https://wa.me/' + waPhone + '?text=' + encodeURIComponent(msg);
 
-        addToHistory({ type:'registration', studentId, receiptNo, name, guardian:gName, phone, whatsapp:phone, category:cat, batch, payMode, amount:total, date, photo: photoData, timestamp: Date.now() });
+        addToHistory({ type:'registration', studentId, receiptNo, name, guardian:gName, phone, whatsapp:phone, category:cat, batch, payMode, amount:total, date, academyId: currentAcademy.id, photo: photoData, timestamp: Date.now() });
     }
 
     function updateRegTotal() {
@@ -1148,6 +1259,8 @@ Contact: 76963-72777`;
 
         document.getElementById('monthlyForm').style.display = 'none';
         document.getElementById('monthlyReceipt').style.display = 'block';
+        document.getElementById('monthlyReceiptAcadName').textContent = currentAcademy.name;
+        document.getElementById('monthlyReceiptAcadLoc').textContent = currentAcademy.location + ' | ' + currentAcademy.phone;
 
         document.getElementById('monthlyReceiptBody').innerHTML = `
             <div class="r-row"><span>Student ID:</span><span style="font-weight:bold;color:var(--royal-blue);">${studentId}</span></div>
@@ -1163,7 +1276,7 @@ Contact: 76963-72777`;
         `;
 
         const msg =
-`*Royals Cricket Academy, Jalandhar*
+`*${currentAcademy.name}*
 *MONTHLY FEE RECEIPT*
 
 *Student ID: ${studentId}*
@@ -1178,14 +1291,13 @@ Payment Mode: ${payMode}
 *Amount Received: Rs.${amount.toLocaleString('en-IN')}*
 
 _Thank you for the payment._
-Contact: 76963-72777`;
+Contact: ${currentAcademy.phone}`;
 
         const waPhone = '91' + phone.replace(/\D/g,'').slice(-10);
         document.getElementById('monthlyWaBtn').href = 'https://wa.me/' + waPhone + '?text=' + encodeURIComponent(msg);
 
-        addToHistory({ type:'monthly', studentId, receiptNo, name, guardian:gName, phone, month:`${month} ${year}`, payMode, amount, date, timestamp: Date.now() });
+        addToHistory({ type:'monthly', studentId, receiptNo, name, guardian:gName, phone, month:`${month} ${year}`, payMode, amount, date, academyId: currentAcademy.id, timestamp: Date.now() });
 
-        // Auto-mark this month as paid in the Fee Tracker
         const monthIdx = ATT_MONTHS.indexOf(month);
         if (monthIdx !== -1) {
             const tk = getTracker();
@@ -1205,15 +1317,14 @@ Contact: 76963-72777`;
         document.getElementById('studentDropdown').style.display = 'none';
     }
 
-    // ── Attendance Tracker ──
-    const ATT_KEY = 'rca_attendance';
+    // ── Attendance ──
+    const ATT_KEY = 'rca_attendance_key'; // unused, uses aKey()
     const ATT_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-    function getAttendance() { return JSON.parse(localStorage.getItem(ATT_KEY) || '{}'); }
-    function saveAttendance(d) { localStorage.setItem(ATT_KEY, JSON.stringify(d)); fsSaveMeta('attendance', d); }
+    function getAttendance() { return JSON.parse(localStorage.getItem(aKey()) || '{}'); }
+    function saveAttendance(d) { localStorage.setItem(aKey(), JSON.stringify(d)); fsSaveMeta('attendance', d); }
 
     function initAttendance() {
-        // Populate year dropdown
         const yearSel = document.getElementById('attYear');
         const nowYear = new Date().getFullYear();
         if (!yearSel.options.length) {
@@ -1241,8 +1352,7 @@ Contact: 76963-72777`;
         const d = getAttendance();
         const k = attKey(studentId, month, year);
         const cur = d[k] !== undefined ? d[k] : 0;
-        const next = Math.max(0, Math.min(total, cur + delta));
-        d[k] = next;
+        d[k] = Math.max(0, Math.min(total, cur + delta));
         saveAttendance(d);
         renderAttendance();
     }
@@ -1252,25 +1362,20 @@ Contact: 76963-72777`;
         const year  = document.getElementById('attYear').value;
         const total = parseInt(document.getElementById('attTotalDays').value) || 26;
         const d = getAttendance();
-
         const h = getHistory();
         const seen = {};
         const students = [];
         h.filter(e => e.type === 'registration').forEach(e => {
             if (!seen[e.studentId]) { seen[e.studentId] = true; students.push(e); }
         });
-
         const list = document.getElementById('attList');
         const summaryBar = document.getElementById('attSummaryBar');
-
         if (!students.length) {
             summaryBar.innerHTML = '';
             list.innerHTML = '<div style="text-align:center;padding:30px 0;color:#bbb;font-size:14px;">No students found.<br>Register students first.</div>';
             return;
         }
-
         let cntGood = 0, cntWarn = 0, cntLow = 0;
-
         const rows = students.map(s => {
             const k = attKey(s.studentId, month, year);
             const present = d[k] !== undefined ? d[k] : 0;
@@ -1279,7 +1384,6 @@ Contact: 76963-72777`;
             if (pct >= 75) { tier = 'good'; fillCls = 'fill-good'; rowCls = 'good'; cntGood++; }
             else if (pct >= 50) { tier = 'warn'; fillCls = 'fill-warn'; rowCls = 'warn'; cntWarn++; }
             else cntLow++;
-
             return `
             <div class="att-student-row ${rowCls}">
                 <div class="att-info">
@@ -1295,7 +1399,6 @@ Contact: 76963-72777`;
                 </div>
             </div>`;
         }).join('');
-
         summaryBar.innerHTML = `
             <div class="att-sum-card att-sum-good"><b>${cntGood}</b>Regular (≥75%)</div>
             <div class="att-sum-card att-sum-warn"><b>${cntWarn}</b>Average (50–74%)</div>
@@ -1305,17 +1408,16 @@ Contact: 76963-72777`;
     }
 
     // ── Fee Tracker ──
-    const TRACKER_KEY = 'rca_tracker';
     const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     const MONTH_FULL  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-    function getTracker() { return JSON.parse(localStorage.getItem(TRACKER_KEY) || '{}'); }
-    function saveTracker(t) { localStorage.setItem(TRACKER_KEY, JSON.stringify(t)); fsSaveMeta('tracker', t); }
+    function getTracker() { return JSON.parse(localStorage.getItem(tkKey()) || '{}'); }
+    function saveTracker(t) { localStorage.setItem(tkKey(), JSON.stringify(t)); fsSaveMeta('tracker', t); }
 
     function toggleMonth(studentId, monthIdx) {
         const year = new Date().getFullYear();
         const nowMonth = new Date().getMonth();
-        if (monthIdx > nowMonth) return; // can't mark future months
+        if (monthIdx > nowMonth) return;
         const key = year + '-' + monthIdx;
         const t = getTracker();
         if (!t[studentId]) t[studentId] = {};
@@ -1327,37 +1429,23 @@ Contact: 76963-72777`;
     function renderTracker() {
         const query = (document.getElementById('trackerSearch').value || '').toLowerCase();
         const h = getHistory();
-        // unique students from registrations
         const seen = {};
         const students = [];
         h.filter(e => e.type === 'registration').forEach(e => {
-            if (!seen[e.studentId]) {
-                seen[e.studentId] = true;
-                students.push(e);
-            }
+            if (!seen[e.studentId]) { seen[e.studentId] = true; students.push(e); }
         });
-
         const filtered = students.filter(s =>
             !query || s.name.toLowerCase().includes(query) || (s.studentId||'').toLowerCase().includes(query)
         );
-
         const list = document.getElementById('trackerList');
         if (!filtered.length) {
             list.innerHTML = '<div class="tracker-empty">No students found.<br>Register students first.</div>';
             return;
         }
-
         const t = getTracker();
         const year = new Date().getFullYear();
         const nowMonth = new Date().getMonth();
-
-        // Sort: overdue students first
-        filtered.sort((a, b) => {
-            const aOver = hasOverdue(t, a.studentId, nowMonth, year);
-            const bOver = hasOverdue(t, b.studentId, nowMonth, year);
-            return bOver - aOver;
-        });
-
+        filtered.sort((a, b) => hasOverdue(t,b.studentId,nowMonth,year) - hasOverdue(t,a.studentId,nowMonth,year));
         list.innerHTML = filtered.map(s => {
             const paid = t[s.studentId] || {};
             const overdueMonths = [];
@@ -1365,8 +1453,6 @@ Contact: 76963-72777`;
                 if (!paid[year + '-' + m]) overdueMonths.push(MONTH_FULL[m]);
             }
             const isOverdue = overdueMonths.length > 0;
-            const allPaid = overdueMonths.length === 0;
-
             const monthCells = MONTH_NAMES.map((mn, mi) => {
                 const key = year + '-' + mi;
                 const isPaid = !!paid[key];
@@ -1382,7 +1468,7 @@ Contact: 76963-72777`;
             const waPhone = '91' + (s.phone||'').replace(/\D/g,'').slice(-10);
             const overStr = overdueMonths.join(', ');
             const waMsg = encodeURIComponent(
-`*Royals Cricket Academy, Jalandhar*
+`*${currentAcademy.name}*
 *Fee Reminder*
 
 Dear ${s.guardian || 'Parent'},
@@ -1394,7 +1480,7 @@ Monthly Fee: Rs.2,000 per month
 Total Due: Rs.${(overdueMonths.length * 2000).toLocaleString('en-IN')}
 
 Please clear the dues at the earliest.
-Contact: 76963-72777`);
+Contact: ${currentAcademy.phone}`);
 
             return `
             <div class="tracker-student ${isOverdue ? 'has-overdue' : ''}">
@@ -1434,8 +1520,7 @@ Contact: 76963-72777`);
         historyFilter = f;
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        const searchBar = document.getElementById('searchInput');
-        searchBar.style.display = f === 'batch' ? 'none' : 'block';
+        document.getElementById('searchInput').style.display = f === 'batch' ? 'none' : 'block';
         renderHistory();
     }
 
@@ -1444,15 +1529,11 @@ Contact: 76963-72777`);
         const allRecords = getHistory();
         const list = document.getElementById('historyList');
 
-        // ── Batch view ──
         if (historyFilter === 'batch') {
             const seenStudents = {};
             const students = [];
             allRecords.filter(e => e.type === 'registration').forEach(e => {
-                if (!seenStudents[e.studentId]) {
-                    seenStudents[e.studentId] = true;
-                    students.push(e);
-                }
+                if (!seenStudents[e.studentId]) { seenStudents[e.studentId] = true; students.push(e); }
             });
             if (!students.length) {
                 list.innerHTML = '<div class="empty-state">No students registered yet.</div>';
@@ -1487,7 +1568,6 @@ Contact: 76963-72777`);
             return;
         }
 
-        // ── List / filtered view ──
         let h = allRecords.filter(e => {
             const matchQuery = !query ||
                 (e.name && e.name.toLowerCase().includes(query)) ||
@@ -1528,44 +1608,28 @@ Contact: 76963-72777`);
         const h = getHistory();
         const s = h.find(e => e.type === 'registration' && e.studentId === studentId);
         if (!s) return;
-
         const photoHtml = s.photo
             ? `<img class="id-card-photo" src="${s.photo}" alt="Photo">`
             : `<div class="id-card-photo-placeholder">🏏</div>`;
-
         const batchShort = (s.batch || '').replace(/\(.*\)/, '').trim();
-        const joined = s.date || '—';
-
         document.getElementById('idCardInner').innerHTML = `
             <div class="id-card-logo-row">
                 <img src="/logo.jpg" alt="Logo">
                 <div class="id-card-academy">
-                    ROYALS CRICKET ACADEMY
-                    <span>Jalandhar &nbsp;·&nbsp; 76963-72777</span>
+                    ${currentAcademy.name.toUpperCase()}
+                    <span>${currentAcademy.location} &nbsp;·&nbsp; ${currentAcademy.phone}</span>
                 </div>
             </div>
             ${photoHtml}
             <div class="id-card-name">${s.name}</div>
             <div class="id-card-id">${s.studentId}</div>
             <div class="id-card-details">
-                <div class="id-card-detail-item">
-                    <label>Category</label>
-                    <span>${s.category || '—'}</span>
-                </div>
-                <div class="id-card-detail-item">
-                    <label>Batch</label>
-                    <span>${batchShort || '—'}</span>
-                </div>
-                <div class="id-card-detail-item">
-                    <label>Guardian</label>
-                    <span>${s.guardian || '—'}</span>
-                </div>
-                <div class="id-card-detail-item">
-                    <label>Joined</label>
-                    <span>${joined}</span>
-                </div>
+                <div class="id-card-detail-item"><label>Category</label><span>${s.category || '—'}</span></div>
+                <div class="id-card-detail-item"><label>Batch</label><span>${batchShort || '—'}</span></div>
+                <div class="id-card-detail-item"><label>Guardian</label><span>${s.guardian || '—'}</span></div>
+                <div class="id-card-detail-item"><label>Joined</label><span>${s.date || '—'}</span></div>
             </div>
-            <div class="id-card-footer">This card is the property of Royals Cricket Academy</div>
+            <div class="id-card-footer">This card is the property of ${currentAcademy.name}</div>
         `;
         document.getElementById('idCardModal').classList.add('open');
     }
@@ -1575,8 +1639,8 @@ Contact: 76963-72777`);
     }
 
     function clearHistory() {
-        if (!confirm('Clear all receipt history? This cannot be undone.')) return;
-        localStorage.removeItem(HISTORY_KEY);
+        if (!confirm('Clear all receipt history for this academy? This cannot be undone.')) return;
+        localStorage.removeItem(hKey());
         updateStats();
         renderHistory();
     }
@@ -1584,51 +1648,257 @@ Contact: 76963-72777`);
     function exportCSV() {
         const h = getHistory();
         if (!h.length) { alert('No records to export.'); return; }
-
-        const headers = [
-            'Type', 'Student ID', 'Receipt No', 'Date',
-            'Student Name', 'Guardian', 'WhatsApp',
-            'Category', 'Batch', 'Fee Month', 'Payment Mode', 'Amount (Rs)'
-        ];
-
+        const headers = ['Type','Student ID','Receipt No','Date','Student Name','Guardian','WhatsApp','Category','Batch','Fee Month','Payment Mode','Amount (Rs)'];
         const rows = h.map(e => [
             e.type === 'registration' ? 'Admission' : 'Monthly Fee',
-            e.studentId || '',
-            e.receiptNo || '',
-            e.date || '',
-            e.name || '',
-            e.guardian || '',
-            e.phone || '',
-            e.category || '',
-            e.batch || '',
-            e.month || '',
-            e.payMode || '',
-            e.amount || 0
+            e.studentId || '', e.receiptNo || '', e.date || '',
+            e.name || '', e.guardian || '', e.phone || '',
+            e.category || '', e.batch || '', e.month || '', e.payMode || '', e.amount || 0
         ]);
-
-        const csvContent = [headers, ...rows]
-            .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
-            .join('\n');
-
+        const csvContent = [headers, ...rows].map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
         const today = new Date().toISOString().slice(0, 10);
-        const fileName = `RCA_Records_${today}.csv`;
+        const fileName = `RCA_${currentAcademy.id}_Records_${today}.csv`;
         const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        a.click();
+        a.href = url; a.download = fileName; a.click();
         URL.revokeObjectURL(url);
+    }
+
+    // ── Pending Approvals ──
+    async function loadPendingFromCloud() {
+        const list = document.getElementById('pendingList');
+        list.innerHTML = '<div class="empty-state">🔄 Loading…</div>';
+        try {
+            const snap = await db.collection(fsPendCol()).where('status', '==', 'pending').orderBy('timestamp', 'desc').get();
+            if (snap.empty) {
+                list.innerHTML = '<div class="empty-state">✅ No pending requests.<br><small>When players register online, they appear here.</small></div>';
+                updatePendingBadge(0);
+                return;
+            }
+            updatePendingBadge(snap.size);
+            list.innerHTML = snap.docs.map(doc => {
+                const p = doc.data();
+                const photoHtml = p.photo
+                    ? `<img class="pending-photo" src="${p.photo}" alt="Photo">`
+                    : `<div class="pending-photo-placeholder">🧑</div>`;
+                const dt = p.timestamp ? new Date(p.timestamp).toLocaleDateString('en-IN') : '';
+                return `
+                <div class="pending-item" id="pend_${doc.id}">
+                    <div class="pending-item-head">
+                        <div>
+                            <div class="pending-name">${p.name}</div>
+                            <div class="pending-meta">${p.category} &nbsp;·&nbsp; ${p.batch}</div>
+                            <div class="pending-meta">📱 ${p.phone}</div>
+                            <div class="pending-meta">Guardian: ${p.guardian}</div>
+                            <div class="pending-meta" style="color:#aaa;">${dt}</div>
+                        </div>
+                        ${photoHtml}
+                    </div>
+                    <div class="pending-actions">
+                        <button class="approve-btn" onclick="approvePending('${doc.id}')">✅ Approve & Register</button>
+                        <button class="reject-btn" onclick="rejectPending('${doc.id}', '${p.phone}', '${p.name}')">✗ Reject</button>
+                    </div>
+                </div>`;
+            }).join('');
+        } catch(e) {
+            list.innerHTML = '<div class="empty-state">⚠ Could not load. Check internet connection.</div>';
+        }
+    }
+
+    function updatePendingBadge(count) {
+        const badge = document.getElementById('pendingCount');
+        if (count > 0) {
+            badge.textContent = count;
+            badge.style.display = 'inline-block';
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+
+    async function approvePending(docId) {
+        try {
+            const docRef = db.collection(fsPendCol()).doc(docId);
+            const doc = await docRef.get();
+            if (!doc.exists) { alert('Request not found.'); return; }
+            const p = doc.data();
+
+            // Generate student ID
+            const studentId = getNextStudentId();
+            const date = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+            const receiptNo = getNextReceiptNumber();
+
+            // Add to history as registration (no payment amount for self-registered — pending fee)
+            addToHistory({
+                type: 'registration',
+                studentId,
+                receiptNo,
+                name: p.name,
+                guardian: p.guardian,
+                phone: p.phone,
+                whatsapp: p.phone,
+                category: p.category,
+                batch: p.batch,
+                payMode: 'Pending',
+                amount: 0,
+                date,
+                photo: p.photo || null,
+                academyId: currentAcademy.id,
+                timestamp: Date.now(),
+                selfRegistered: true
+            });
+
+            // Mark pending as approved
+            await docRef.update({ status: 'approved', studentId, approvedAt: Date.now() });
+
+            // Send WhatsApp to player with their Student ID
+            const waPhone = '91' + (p.phone||'').replace(/\D/g,'').slice(-10);
+            const msg = encodeURIComponent(
+`*${currentAcademy.name}*
+*Registration Approved! 🎉*
+
+Dear ${p.guardian},
+
+Your registration request for *${p.name}* has been approved!
+
+*Your Student ID: ${studentId}*
+
+You can now login to the app using this Student ID to view your fee status and attendance.
+
+Welcome to the academy!
+Contact: ${currentAcademy.phone}`);
+
+            // Remove from pending list UI
+            const el = document.getElementById('pend_' + docId);
+            if (el) el.remove();
+
+            // Open WhatsApp
+            window.open('https://wa.me/' + waPhone + '?text=' + msg, '_blank');
+
+            updateStats();
+            // Update badge count
+            const remaining = document.querySelectorAll('[id^="pend_"]').length;
+            updatePendingBadge(remaining);
+            if (remaining === 0) {
+                document.getElementById('pendingList').innerHTML = '<div class="empty-state">✅ All requests processed!</div>';
+            }
+            showSyncBadge('✓ Player approved & Student ID sent!', 'ok');
+        } catch(e) {
+            alert('Error approving: ' + e.message);
+        }
+    }
+
+    async function rejectPending(docId, phone, name) {
+        if (!confirm(`Reject registration request from ${name}?`)) return;
+        try {
+            await db.collection(fsPendCol()).doc(docId).update({ status: 'rejected', rejectedAt: Date.now() });
+            const el = document.getElementById('pend_' + docId);
+            if (el) el.remove();
+            const remaining = document.querySelectorAll('[id^="pend_"]').length;
+            updatePendingBadge(remaining);
+            if (remaining === 0) {
+                document.getElementById('pendingList').innerHTML = '<div class="empty-state">✅ All requests processed!</div>';
+            }
+            showSyncBadge('Request rejected.', '');
+        } catch(e) {
+            alert('Error: ' + e.message);
+        }
+    }
+
+    // ── Self Registration ──
+    window._selfRegPhoto = null;
+
+    function openSelfReg() {
+        if (!currentAcademy) { alert('Please select an academy first.'); return; }
+        document.getElementById('selfRegAcadName').textContent = currentAcademy.name + ' — ' + currentAcademy.location;
+        document.getElementById('selfRegSuccess').style.display = 'none';
+        document.getElementById('selfRegForm').style.display = 'block';
+        ['srName','srGuardian','srPhone'].forEach(id => document.getElementById(id).value = '');
+        window._selfRegPhoto = null;
+        document.getElementById('selfRegPhotoPreview').innerHTML = '🧑';
+        document.getElementById('selfRegModal').classList.add('open');
+    }
+
+    function closeSelfReg() {
+        document.getElementById('selfRegModal').classList.remove('open');
+    }
+
+    function handleSelfRegPhoto(input) {
+        const file = input.files[0];
+        if (!file) return;
+        if (file.size > 2 * 1024 * 1024) { alert('Photo must be under 2 MB.'); input.value = ''; return; }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            window._selfRegPhoto = e.target.result;
+            const preview = document.getElementById('selfRegPhotoPreview');
+            preview.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;">`;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    async function submitSelfReg() {
+        const name     = document.getElementById('srName').value.trim();
+        const guardian = document.getElementById('srGuardian').value.trim();
+        const category = document.getElementById('srCategory').value;
+        const batch    = document.getElementById('srBatch').value;
+        const phone    = document.getElementById('srPhone').value.trim();
+        if (!name || !guardian || !phone) { alert('Please fill all required fields.'); return; }
+        if (phone.replace(/\D/g,'').length < 10) { alert('Please enter a valid 10-digit phone number.'); return; }
+
+        const btn = document.querySelector('#selfRegForm .btn-submit');
+        btn.disabled = true;
+        btn.textContent = 'Submitting…';
+
+        try {
+            await db.collection(fsPendCol()).add({
+                name,
+                guardian,
+                category,
+                batch,
+                phone,
+                photo: window._selfRegPhoto || null,
+                status: 'pending',
+                academyId: currentAcademy.id,
+                timestamp: Date.now()
+            });
+            document.getElementById('selfRegForm').style.display = 'none';
+            document.getElementById('selfRegSuccess').style.display = 'block';
+        } catch(e) {
+            alert('Could not submit. Please check your internet and try again.\n' + e.message);
+            btn.disabled = false;
+            btn.textContent = 'Submit Registration Request';
+        }
     }
 
     // ── Login / Session ──
     const SESSION_KEY = 'rca_session';
     const PIN_KEY     = 'rca_admin_pin';
 
-    function getSession()      { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null'); }
-    function setSession(s)     { sessionStorage.setItem(SESSION_KEY, JSON.stringify(s)); }
-    function clearSession()    { sessionStorage.removeItem(SESSION_KEY); }
-    function getAdminPin()     { return localStorage.getItem(PIN_KEY) || '1427'; }
+    function getSession()   { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null'); }
+    function setSession(s)  { sessionStorage.setItem(SESSION_KEY, JSON.stringify(s)); }
+    function clearSession() { sessionStorage.removeItem(SESSION_KEY); }
+    function getAdminPin()  { return localStorage.getItem(PIN_KEY) || '1427'; }
+
+    function selectAcademy(id) {
+        currentAcademy = ACADEMIES[id];
+        document.getElementById('acadCard1').classList.toggle('selected', id === 'A1');
+        document.getElementById('acadCard2').classList.toggle('selected', id === 'A2');
+        setTimeout(() => {
+            document.getElementById('academyStep').style.display = 'none';
+            document.getElementById('roleStep').style.display = 'block';
+        }, 200);
+    }
+
+    function goBackToAcademy() {
+        document.getElementById('roleStep').style.display = 'none';
+        document.getElementById('academyStep').style.display = 'block';
+        document.getElementById('adminLoginWrap').classList.remove('show');
+        document.getElementById('playerLoginWrap').classList.remove('show');
+        document.getElementById('adminRoleCard').classList.remove('selected');
+        document.getElementById('playerRoleCard').classList.remove('selected');
+        document.getElementById('adminError').style.display = 'none';
+        document.getElementById('playerError').style.display = 'none';
+    }
 
     function selectRole(role) {
         document.getElementById('adminRoleCard').classList.toggle('selected', role === 'admin');
@@ -1644,9 +1914,14 @@ Contact: 76963-72777`);
     async function doAdminLogin() {
         const pin = document.getElementById('adminPinInput').value;
         if (pin === getAdminPin()) {
-            setSession({ role: 'admin' });
-            await loadFromFirestore(); // sync fresh data before entering app
+            setSession({ role: 'admin', academyId: currentAcademy.id });
+            await loadFromFirestore();
             showApp('admin', null);
+            // Check pending count
+            try {
+                const snap = await db.collection(fsPendCol()).where('status', '==', 'pending').get();
+                updatePendingBadge(snap.size);
+            } catch(e) {}
         } else {
             document.getElementById('adminError').style.display = 'block';
             document.getElementById('adminPinInput').value = '';
@@ -1656,12 +1931,11 @@ Contact: 76963-72777`);
 
     async function doPlayerLogin() {
         const raw = document.getElementById('playerIdInput').value.trim().toUpperCase();
-        // First sync from Firestore so we have the latest student list
         await loadFromFirestore();
         const h = getHistory();
         const student = h.find(e => e.type === 'registration' && (e.studentId || '').toUpperCase() === raw);
         if (student) {
-            setSession({ role: 'player', studentId: student.studentId });
+            setSession({ role: 'player', studentId: student.studentId, academyId: currentAcademy.id });
             showApp('player', student);
         } else {
             document.getElementById('playerError').style.display = 'block';
@@ -1671,6 +1945,7 @@ Contact: 76963-72777`);
 
     function doLogout() {
         clearSession();
+        currentAcademy = null;
         document.getElementById('loginOverlay').style.display = 'flex';
         document.getElementById('playerContainer').style.display = 'none';
         document.getElementById('appContainer').style.display = 'none';
@@ -1680,6 +1955,10 @@ Contact: 76963-72777`);
         document.getElementById('playerLoginWrap').classList.remove('show');
         document.getElementById('adminRoleCard').classList.remove('selected');
         document.getElementById('playerRoleCard').classList.remove('selected');
+        document.getElementById('acadCard1').classList.remove('selected');
+        document.getElementById('acadCard2').classList.remove('selected');
+        document.getElementById('academyStep').style.display = 'block';
+        document.getElementById('roleStep').style.display = 'none';
     }
 
     function showApp(role, student) {
@@ -1687,6 +1966,10 @@ Contact: 76963-72777`);
         if (role === 'admin') {
             document.getElementById('appContainer').style.display = 'block';
             document.getElementById('playerContainer').style.display = 'none';
+            // Update header with academy info
+            document.getElementById('adminAcadTitle').textContent = currentAcademy.name;
+            document.getElementById('adminAcadLoc').textContent = currentAcademy.location.toUpperCase() + ' | ' + currentAcademy.phone;
+            document.getElementById('adminAcadBadge').textContent = '📍 ' + currentAcademy.id;
             updateStats();
         } else {
             document.getElementById('appContainer').style.display = 'none';
@@ -1714,7 +1997,6 @@ Contact: 76963-72777`);
         document.getElementById('playerIdDisplay').textContent = student.studentId;
         document.getElementById('playerMeta').textContent = (student.category || '') + '  ·  ' + (student.batch || '');
 
-        // Fee grid
         const t = getTracker();
         const paid = t[student.studentId] || {};
         document.getElementById('playerFeeYear').textContent = year;
@@ -1727,11 +2009,9 @@ Contact: 76963-72777`);
             return `<div class="player-month-cell ${cls}">${mn}</div>`;
         }).join('');
 
-        // Attendance
         const attData = getAttendance();
         const curMonthName = MFULL[nowMonth];
-        const attK = attKey(student.studentId, curMonthName, year);
-        const present = attData[attK] !== undefined ? attData[attK] : 0;
+        const present = attData[attKey(student.studentId, curMonthName, year)] || 0;
         const total = 26;
         const pct = Math.round((present / total) * 100);
         let tier = pct >= 75 ? 'good' : pct >= 50 ? 'warn' : 'low';
@@ -1749,7 +2029,6 @@ Contact: 76963-72777`);
                 </span>
             </div>`;
 
-        // Receipts
         const myReceipts = getHistory().filter(e => e.studentId === student.studentId);
         const receiptEl = document.getElementById('playerReceiptList');
         if (!myReceipts.length) {
@@ -1780,10 +2059,7 @@ Contact: 76963-72777`);
     function lookupByPhone(val) {
         const digits = val.replace(/\D/g, '').slice(-10);
         const resultsEl = document.getElementById('forgotResults');
-        if (digits.length < 10) {
-            resultsEl.innerHTML = '';
-            return;
-        }
+        if (digits.length < 10) { resultsEl.innerHTML = ''; return; }
         const h = getHistory();
         const matches = h.filter(e => e.type === 'registration' && (e.whatsapp || '').replace(/\D/g,'').slice(-10) === digits);
         if (!matches.length) {
@@ -1815,29 +2091,9 @@ Contact: 76963-72777`);
         alert('Admin PIN updated successfully!');
     }
 
-    // Init — show login immediately; sync only on login
-    function initApp() {
-        const session = getSession();
-        if (session) {
-            // Returning user: sync then restore session
-            loadFromFirestore().then(() => {
-                if (session.role === 'admin') {
-                    showApp('admin', null);
-                } else if (session.role === 'player') {
-                    const h = getHistory();
-                    const student = h.find(e => e.type === 'registration' && e.studentId === session.studentId);
-                    if (student) showApp('player', student);
-                    else doLogout();
-                }
-            });
-        }
-        // else: login overlay stays visible immediately — no blocking
-    }
-
     // ── Google Sheets Export ──
     const SHEETS_URL_KEY = 'rca_sheets_url';
     const DEFAULT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbyS2xAWDXrWLFHQtxhNdjEMm2v-BqPn5NHBZZ2lO1UYii7Zayqd4sAsjpspRUQh_rRW/exec';
-    // Pre-connect: set URL if not already saved
     if (!localStorage.getItem(SHEETS_URL_KEY)) {
         localStorage.setItem(SHEETS_URL_KEY, DEFAULT_SHEETS_URL);
     }
@@ -1845,36 +2101,27 @@ Contact: 76963-72777`);
   try {
     var data = JSON.parse(e.postData.contents);
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-
-    // Registrations sheet
     var regSheet = ss.getSheetByName('Registrations') || ss.insertSheet('Registrations');
     if (regSheet.getLastRow() === 0) {
-      regSheet.appendRow(['Date','Student ID','Receipt No','Student Name','Guardian','WhatsApp','Category','Batch','Reg Fee','Monthly Fee','Total','Payment Mode']);
+      regSheet.appendRow(['Date','Academy','Student ID','Receipt No','Student Name','Guardian','WhatsApp','Category','Batch','Total','Payment Mode']);
     }
-
-    // Monthly Fees sheet
     var feeSheet = ss.getSheetByName('Monthly Fees') || ss.insertSheet('Monthly Fees');
     if (feeSheet.getLastRow() === 0) {
-      feeSheet.appendRow(['Date','Student ID','Receipt No','Student Name','Month','Amount','Payment Mode']);
+      feeSheet.appendRow(['Date','Academy','Student ID','Receipt No','Student Name','Month','Amount','Payment Mode']);
     }
-
-    // Clear existing data (row 2 onward) and rewrite
     if (regSheet.getLastRow() > 1) regSheet.deleteRows(2, regSheet.getLastRow() - 1);
     if (feeSheet.getLastRow() > 1) feeSheet.deleteRows(2, feeSheet.getLastRow() - 1);
-
     var regs = [], fees = [];
     data.records.forEach(function(r) {
       if (r.type === 'registration') {
-        regs.push([r.date, r.studentId, r.receiptNo, r.name, r.guardian||'', r.phone||'', r.category||'', r.batch||'', '', '', r.amount||0, r.payMode||'']);
+        regs.push([r.date, r.academyId||'', r.studentId, r.receiptNo, r.name, r.guardian||'', r.phone||'', r.category||'', r.batch||'', r.amount||0, r.payMode||'']);
       } else {
-        fees.push([r.date, r.studentId, r.receiptNo, r.name, r.month||'', r.amount||0, r.payMode||'']);
+        fees.push([r.date, r.academyId||'', r.studentId, r.receiptNo, r.name, r.month||'', r.amount||0, r.payMode||'']);
       }
     });
-
-    if (regs.length) regSheet.getRange(2, 1, regs.length, 12).setValues(regs);
-    if (fees.length) feeSheet.getRange(2, 1, fees.length, 7).setValues(fees);
-
-    return ContentService.createTextOutput(JSON.stringify({ok:true, regs:regs.length, fees:fees.length})).setMimeType(ContentService.MimeType.JSON);
+    if (regs.length) regSheet.getRange(2, 1, regs.length, 11).setValues(regs);
+    if (fees.length) feeSheet.getRange(2, 1, fees.length, 8).setValues(fees);
+    return ContentService.createTextOutput(JSON.stringify({ok:true})).setMimeType(ContentService.MimeType.JSON);
   } catch(err) {
     return ContentService.createTextOutput(JSON.stringify({ok:false, error:err.message})).setMimeType(ContentService.MimeType.JSON);
   }
@@ -1884,75 +2131,46 @@ Contact: 76963-72777`);
         const url = localStorage.getItem(SHEETS_URL_KEY);
         document.getElementById('sheetsNoUrl').style.display = url ? 'none' : 'block';
         document.getElementById('sheetsHasUrl').style.display = url ? 'block' : 'none';
-        if (url) document.getElementById('sheetsUrlInput') && (document.getElementById('sheetsUrlInput').value = url);
         document.getElementById('sheetsExportStatus').textContent = '';
-        const modal = document.getElementById('sheetsModal');
-        modal.style.display = 'flex';
+        document.getElementById('sheetsModal').style.display = 'flex';
     }
-
-    function closeSheetsModal() {
-        document.getElementById('sheetsModal').style.display = 'none';
-    }
-
+    function closeSheetsModal() { document.getElementById('sheetsModal').style.display = 'none'; }
     function copyAppsScript() {
         navigator.clipboard.writeText(APPS_SCRIPT_CODE).then(() => {
             showSyncBadge('📋 Apps Script code copied!', 'ok');
-        }).catch(() => {
-            prompt('Copy this Apps Script code:', APPS_SCRIPT_CODE);
-        });
+        }).catch(() => { prompt('Copy this code:', APPS_SCRIPT_CODE); });
     }
-
     function saveSheetsUrl() {
         const url = document.getElementById('sheetsUrlInput').value.trim();
-        if (!url || !url.startsWith('https://script.google.com')) {
-            alert('Please enter a valid Google Apps Script URL.');
-            return;
-        }
+        if (!url || !url.startsWith('https://script.google.com')) { alert('Please enter a valid Google Apps Script URL.'); return; }
         localStorage.setItem(SHEETS_URL_KEY, url);
         document.getElementById('sheetsNoUrl').style.display = 'none';
         document.getElementById('sheetsHasUrl').style.display = 'block';
         doSheetsExport();
     }
-
     function resetSheetsUrl() {
         localStorage.removeItem(SHEETS_URL_KEY);
         document.getElementById('sheetsNoUrl').style.display = 'block';
         document.getElementById('sheetsHasUrl').style.display = 'none';
     }
-
     async function doSheetsExport() {
         const url = localStorage.getItem(SHEETS_URL_KEY);
         if (!url) { openSheetsModal(); return; }
-
         const btn = document.getElementById('sheetsExportBtn');
         const status = document.getElementById('sheetsExportStatus');
         btn.disabled = true;
         btn.textContent = '⏳ Exporting…';
         status.textContent = '';
-        status.style.color = '#666';
-
-        const records = getHistory().map(r => {
-            const clean = Object.assign({}, r);
-            delete clean.photo; // skip large photo data
-            return clean;
-        });
-
+        const records = getHistory().map(r => { const c = Object.assign({}, r); delete c.photo; return c; });
         try {
-            const res = await fetch(url, {
-                method: 'POST',
-                body: JSON.stringify({ records }),
-                headers: { 'Content-Type': 'text/plain' } // Apps Script needs text/plain for no-cors
-            });
+            const res = await fetch(url, { method: 'POST', body: JSON.stringify({ records }), headers: { 'Content-Type': 'text/plain' } });
             const json = await res.json().catch(() => ({ ok: true }));
             if (json.ok !== false) {
                 status.textContent = `✓ Exported ${records.length} records to Google Sheets!`;
                 status.style.color = '#166534';
                 showSyncBadge('✓ Sheets export done!', 'ok');
-            } else {
-                throw new Error(json.error || 'Unknown error');
-            }
+            } else { throw new Error(json.error || 'Unknown error'); }
         } catch(e) {
-            // Apps Script may return no-cors — treat as success if records sent
             status.textContent = `✓ Sent ${records.length} records. Check your Sheet!`;
             status.style.color = '#166534';
             showSyncBadge('✓ Sheets export sent', 'ok');
@@ -1962,8 +2180,28 @@ Contact: 76963-72777`);
         }
     }
 
-    // Init
-    updateStats();
+    // ── Init ──
+    function initApp() {
+        const session = getSession();
+        if (session && session.academyId) {
+            currentAcademy = ACADEMIES[session.academyId];
+            if (!currentAcademy) { clearSession(); return; }
+            loadFromFirestore().then(() => {
+                if (session.role === 'admin') {
+                    showApp('admin', null);
+                    db.collection(fsPendCol()).where('status', '==', 'pending').get()
+                        .then(snap => updatePendingBadge(snap.size)).catch(() => {});
+                } else if (session.role === 'player') {
+                    const h = getHistory();
+                    const student = h.find(e => e.type === 'registration' && e.studentId === session.studentId);
+                    if (student) showApp('player', student);
+                    else doLogout();
+                }
+            });
+        }
+        updateStats();
+    }
+
     initApp();
 </script>
 </body>
