@@ -423,9 +423,9 @@
         <div class="form-section">
             <label>Preferred Batch *</label>
             <select id="srBatch">
-                <option value="Morning (6:00 AM - 8:00 AM)">Morning (6:00 AM - 8:00 AM)</option>
-                <option value="Evening (4:00 PM - 6:00 PM)">Evening (4:00 PM - 6:00 PM)</option>
-                <option value="Weekend (8:00 AM - 10:00 AM)">Weekend (8:00 AM - 10:00 AM)</option>
+                <option value="Morning Batch">Morning Batch</option>
+                <option value="Evening Batch">Evening Batch</option>
+                <option value="Personal Session">Personal Session</option>
             </select>
         </div>
         <div class="form-section">
@@ -507,6 +507,38 @@
             <button onclick="resetSheetsUrl()" style="width:100%;padding:9px;background:#fff;border:1px solid #ddd;border-radius:8px;font-size:12px;color:#888;cursor:pointer;">Change URL</button>
         </div>
         <button onclick="closeSheetsModal()" style="width:100%;padding:9px;background:#f5f5f5;border:none;border-radius:8px;font-size:13px;color:#888;cursor:pointer;margin-top:8px;">Close</button>
+    </div>
+</div>
+
+<!-- ── Quick Pay Modal ── -->
+<div id="quickPayModal" onclick="if(event.target===this)closeQuickPay()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:18px;padding:24px;max-width:360px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+        <div style="text-align:center;margin-bottom:16px;">
+            <div style="font-size:28px;">💰</div>
+            <div style="font-size:16px;font-weight:800;color:#333;" id="qpTitle">Collect Fee</div>
+            <div style="font-size:12px;color:#888;margin-top:4px;" id="qpSub"></div>
+        </div>
+        <input type="hidden" id="qpStudentId">
+        <input type="hidden" id="qpMonthIdx">
+        <div style="margin-bottom:12px;">
+            <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:5px;">Fee Month</label>
+            <input type="text" id="qpMonth" readonly style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;background:#f9f9f9;font-size:14px;font-weight:700;color:var(--royal-blue);">
+        </div>
+        <div style="margin-bottom:12px;">
+            <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:5px;">Amount (₹)</label>
+            <input type="number" id="qpAmount" value="2000" style="width:100%;padding:10px;border:1.5px solid var(--royal-red);border-radius:8px;font-size:16px;font-weight:700;text-align:center;">
+        </div>
+        <div style="margin-bottom:16px;">
+            <label style="display:block;font-size:12px;font-weight:700;color:#555;margin-bottom:5px;">Payment Mode</label>
+            <select id="qpPayMode" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+                <option>Cash</option>
+                <option>UPI</option>
+                <option>Bank Transfer</option>
+                <option>Cheque</option>
+            </select>
+        </div>
+        <button onclick="confirmQuickPay()" style="width:100%;padding:13px;background:var(--royal-red);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:8px;">✅ Collect & Generate Receipt</button>
+        <button onclick="closeQuickPay()" style="width:100%;padding:10px;background:#f5f5f5;border:none;border-radius:10px;font-size:13px;color:#888;cursor:pointer;">Cancel</button>
     </div>
 </div>
 
@@ -608,9 +640,9 @@
             <div class="form-section">
                 <label>Batch Timing</label>
                 <select id="batch">
-                    <option value="Morning (6:00 AM - 8:00 AM)">Morning (6:00 AM - 8:00 AM)</option>
-                    <option value="Evening (4:00 PM - 6:00 PM)">Evening (4:00 PM - 6:00 PM)</option>
-                    <option value="Weekend (8:00 AM - 10:00 AM)">Weekend (8:00 AM - 10:00 AM)</option>
+                    <option value="Morning Batch">Morning Batch</option>
+                    <option value="Evening Batch">Evening Batch</option>
+                    <option value="Personal Session">Personal Session</option>
                 </select>
             </div>
             <div class="form-section">
@@ -1426,6 +1458,85 @@ Contact: ${currentAcademy.phone}`;
         renderTracker();
     }
 
+    // ── Quick Pay from Tracker ──
+    let _qpStudent = null;
+
+    function openQuickPay(studentId, monthIdx) {
+        const h = getHistory();
+        const student = h.find(e => e.type === 'registration' && e.studentId === studentId);
+        if (!student) return;
+        _qpStudent = student;
+        const year = new Date().getFullYear();
+        const monthName = MONTH_FULL[monthIdx];
+        document.getElementById('qpTitle').textContent = student.name;
+        document.getElementById('qpSub').textContent = student.studentId + '  ·  ' + (student.category || '');
+        document.getElementById('qpStudentId').value = studentId;
+        document.getElementById('qpMonthIdx').value = monthIdx;
+        document.getElementById('qpMonth').value = monthName + ' ' + year;
+        document.getElementById('qpAmount').value = '2000';
+        document.getElementById('qpPayMode').value = 'Cash';
+        const modal = document.getElementById('quickPayModal');
+        modal.style.display = 'flex';
+    }
+
+    function closeQuickPay() {
+        document.getElementById('quickPayModal').style.display = 'none';
+        _qpStudent = null;
+    }
+
+    function confirmQuickPay() {
+        const studentId = document.getElementById('qpStudentId').value;
+        const monthIdx  = parseInt(document.getElementById('qpMonthIdx').value);
+        const monthName = MONTH_FULL[monthIdx];
+        const amount    = parseInt(document.getElementById('qpAmount').value) || 0;
+        const payMode   = document.getElementById('qpPayMode').value;
+        const year      = new Date().getFullYear();
+        const s         = _qpStudent;
+        if (!s) return;
+
+        const date      = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+        const receiptNo = getNextReceiptNumber();
+
+        // Save to history
+        addToHistory({ type:'monthly', studentId, receiptNo, name: s.name, guardian: s.guardian, phone: s.phone, month: monthName + ' ' + year, payMode, amount, date, academyId: currentAcademy.id, timestamp: Date.now() });
+
+        // Mark month as paid in tracker
+        const tk = getTracker();
+        if (!tk[studentId]) tk[studentId] = {};
+        tk[studentId][year + '-' + monthIdx] = true;
+        saveTracker(tk);
+
+        closeQuickPay();
+        renderTracker();
+
+        // Show receipt via WhatsApp
+        const waPhone = '91' + (s.phone||'').replace(/\D/g,'').slice(-10);
+        const msg = encodeURIComponent(
+`*${currentAcademy.name}*
+*MONTHLY FEE RECEIPT*
+
+*Student ID: ${studentId}*
+Receipt No: ${receiptNo}
+Date: ${date}
+
+Student Name: ${s.name}
+Guardian: ${s.guardian}
+Fee Month: ${monthName} ${year}
+Payment Mode: ${payMode}
+
+*Amount Received: Rs.${amount.toLocaleString('en-IN')}*
+
+_Thank you for the payment._
+Contact: ${currentAcademy.phone}`);
+
+        showSyncBadge('✓ Fee collected! Receipt #' + receiptNo, 'ok');
+
+        // Ask if want to send WhatsApp
+        if (confirm(`Fee collected! Receipt ${receiptNo} saved.\n\nSend WhatsApp receipt to ${s.name}?`)) {
+            window.open('https://wa.me/' + waPhone + '?text=' + msg, '_blank');
+        }
+    }
+
     function renderTracker() {
         const query = (document.getElementById('trackerSearch').value || '').toLowerCase();
         const h = getHistory();
@@ -1460,9 +1571,13 @@ Contact: ${currentAcademy.phone}`;
                 if (isPaid) cls = 'paid';
                 else if (mi < nowMonth) cls = 'overdue';
                 else if (mi === nowMonth) cls = 'due';
-                const clickable = mi <= nowMonth ? `onclick="toggleMonth('${s.studentId}', ${mi})"` : '';
-                const title = isPaid ? 'Click to mark unpaid' : (mi <= nowMonth ? 'Click to mark paid' : '');
-                return `<div class="month-cell ${cls}" ${clickable} title="${title}">${mn}</div>`;
+                if (isPaid) {
+                    return `<div class="month-cell ${cls}" onclick="toggleMonth('${s.studentId}', ${mi})" title="Paid — click to undo" style="position:relative;">✓ ${mn}</div>`;
+                } else if (mi <= nowMonth) {
+                    return `<div class="month-cell ${cls}" onclick="openQuickPay('${s.studentId}', ${mi})" title="Click to collect fee" style="cursor:pointer;font-size:10px;display:flex;flex-direction:column;gap:1px;align-items:center;justify-content:center;"><span>${mn}</span><span style="font-size:9px;font-weight:800;background:rgba(0,0,0,0.12);border-radius:4px;padding:1px 4px;">PAY</span></div>`;
+                } else {
+                    return `<div class="month-cell future">${mn}</div>`;
+                }
             }).join('');
 
             const waPhone = '91' + (s.phone||'').replace(/\D/g,'').slice(-10);
@@ -1539,7 +1654,7 @@ Contact: ${currentAcademy.phone}`);
                 list.innerHTML = '<div class="empty-state">No students registered yet.</div>';
                 return;
             }
-            const batchOrder = ['Morning (6:00 AM - 8:00 AM)', 'Evening (4:00 PM - 6:00 PM)', 'Weekend (8:00 AM - 10:00 AM)'];
+            const batchOrder = ['Morning Batch', 'Evening Batch', 'Personal Session'];
             const batchMap = {};
             students.forEach(s => {
                 const b = s.batch || 'Other';
@@ -1670,14 +1785,16 @@ Contact: ${currentAcademy.phone}`);
         const list = document.getElementById('pendingList');
         list.innerHTML = '<div class="empty-state">🔄 Loading…</div>';
         try {
-            const snap = await db.collection(fsPendCol()).where('status', '==', 'pending').orderBy('timestamp', 'desc').get();
-            if (snap.empty) {
+            const snap = await db.collection(fsPendCol()).get();
+            const pendingDocs = snap.docs.filter(d => d.data().status === 'pending')
+                .sort((a, b) => (b.data().timestamp || 0) - (a.data().timestamp || 0));
+            if (!pendingDocs.length) {
                 list.innerHTML = '<div class="empty-state">✅ No pending requests.<br><small>When players register online, they appear here.</small></div>';
                 updatePendingBadge(0);
                 return;
             }
-            updatePendingBadge(snap.size);
-            list.innerHTML = snap.docs.map(doc => {
+            updatePendingBadge(pendingDocs.length);
+            list.innerHTML = pendingDocs.map(doc => {
                 const p = doc.data();
                 const photoHtml = p.photo
                     ? `<img class="pending-photo" src="${p.photo}" alt="Photo">`
@@ -1919,8 +2036,9 @@ Contact: ${currentAcademy.phone}`);
             showApp('admin', null);
             // Check pending count
             try {
-                const snap = await db.collection(fsPendCol()).where('status', '==', 'pending').get();
-                updatePendingBadge(snap.size);
+                const snap = await db.collection(fsPendCol()).get();
+                const cnt = snap.docs.filter(d => d.data().status === 'pending').length;
+                updatePendingBadge(cnt);
             } catch(e) {}
         } else {
             document.getElementById('adminError').style.display = 'block';
@@ -2189,8 +2307,8 @@ Contact: ${currentAcademy.phone}`);
             loadFromFirestore().then(() => {
                 if (session.role === 'admin') {
                     showApp('admin', null);
-                    db.collection(fsPendCol()).where('status', '==', 'pending').get()
-                        .then(snap => updatePendingBadge(snap.size)).catch(() => {});
+                    db.collection(fsPendCol()).get()
+                        .then(snap => updatePendingBadge(snap.docs.filter(d => d.data().status === 'pending').length)).catch(() => {});
                 } else if (session.role === 'player') {
                     const h = getHistory();
                     const student = h.find(e => e.type === 'registration' && e.studentId === session.studentId);
