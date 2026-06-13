@@ -542,6 +542,22 @@
     </div>
 </div>
 
+<!-- ── Photo Update Modal ── -->
+<div id="photoUpdateModal" onclick="if(event.target===this)closePhotoUpdate()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:white;border-radius:18px;padding:24px;max-width:340px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+        <div style="text-align:center;margin-bottom:16px;">
+            <div id="puPhotoPreview" style="width:90px;height:90px;border-radius:50%;background:#f0f4ff;border:3px dashed #c0c8e0;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 10px;overflow:hidden;">🧑</div>
+            <div style="font-size:15px;font-weight:800;color:#333;" id="puStudentName">Update Photo</div>
+            <div style="font-size:12px;color:#888;" id="puStudentId"></div>
+        </div>
+        <input type="hidden" id="puStudentIdVal">
+        <input type="file" id="puFileInput" accept="image/*" style="display:none" onchange="handlePhotoUpdateFile(this)">
+        <button onclick="document.getElementById('puFileInput').click()" style="width:100%;padding:12px;background:var(--royal-blue);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;">📷 Choose Photo</button>
+        <button id="puSaveBtn" onclick="savePhotoUpdate()" disabled style="width:100%;padding:12px;background:#ccc;color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:not-allowed;margin-bottom:8px;">✅ Save Photo</button>
+        <button onclick="closePhotoUpdate()" style="width:100%;padding:9px;background:#f5f5f5;border:none;border-radius:10px;font-size:13px;color:#888;cursor:pointer;">Cancel</button>
+    </div>
+</div>
+
 <!-- ── Firebase SDKs ── -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
@@ -1697,11 +1713,17 @@ Contact: ${currentAcademy.phone}`);
         }
 
         list.innerHTML = h.map(e => `
-            <div class="history-item">
+            <div class="history-item" id="hitem_${e.receiptNo}">
                 <div class="hi-top">
                     <span class="hi-name">${e.name}</span>
-                    <div style="display:flex;align-items:center;gap:6px;">
-                        ${e.type === 'registration' ? `<button onclick="event.stopPropagation();printIdCard('${e.studentId}')" style="background:linear-gradient(135deg,var(--royal-red),var(--royal-blue));color:white;border:none;border-radius:6px;padding:3px 9px;font-size:10px;font-weight:700;cursor:pointer;letter-spacing:0.3px;">🪪 ID Card</button>` : ''}
+                    <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end;">
+                        ${e.type === 'registration' ? `
+                        <button onclick="event.stopPropagation();openPhotoUpdate('${e.studentId}')" style="background:#e8f4fd;color:#2b6cb0;border:1px solid #bee3f8;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;">📷 ${e.photo ? 'Photo' : 'Add Photo'}</button>
+                        <button onclick="event.stopPropagation();printIdCard('${e.studentId}')" style="background:linear-gradient(135deg,var(--royal-red),var(--royal-blue));color:white;border:none;border-radius:6px;padding:3px 9px;font-size:10px;font-weight:700;cursor:pointer;">🪪 ID Card</button>
+                        <button onclick="event.stopPropagation();deleteStudent('${e.studentId}','${e.name}')" style="background:#fff5f5;color:#c53030;border:1px solid #fed7d7;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;">🗑</button>
+                        ` : `
+                        <button onclick="event.stopPropagation();deleteReceipt('${e.receiptNo}','${e.name}')" style="background:#fff5f5;color:#c53030;border:1px solid #fed7d7;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;">🗑</button>
+                        `}
                         <span class="badge ${e.type === 'registration' ? 'badge-red' : 'badge-blue'}" style="font-size:10px;">
                             ${e.type === 'registration' ? 'ADMISSION' : 'MONTHLY'}
                         </span>
@@ -1758,6 +1780,112 @@ Contact: ${currentAcademy.phone}`);
         localStorage.removeItem(hKey());
         updateStats();
         renderHistory();
+    }
+
+    // ── Delete Student (all records) ──
+    function deleteStudent(studentId, name) {
+        if (!confirm(`"${name}" ko delete karna chahte hain?\n\nIs student ki registration, saari fee receipts aur attendance bhi delete ho jaayegi.\n\nYeh action undo nahi hoga!`)) return;
+        let h = getHistory();
+        const removed = h.filter(e => e.studentId === studentId);
+        h = h.filter(e => e.studentId !== studentId);
+        saveHistory(h);
+        // Remove from tracker
+        const t = getTracker();
+        delete t[studentId];
+        saveTracker(t);
+        // Remove from Firestore
+        removed.forEach(e => {
+            if (e.receiptNo) db.collection(fsHistCol()).doc(e.receiptNo).delete().catch(() => {});
+        });
+        updateStats();
+        renderHistory();
+        renderTracker();
+        showSyncBadge('✓ Student deleted', 'ok');
+    }
+
+    // ── Delete single receipt ──
+    function deleteReceipt(receiptNo, name) {
+        if (!confirm(`"${name}" ki yeh receipt delete karna chahte hain?`)) return;
+        let h = getHistory();
+        h = h.filter(e => e.receiptNo !== receiptNo);
+        saveHistory(h);
+        db.collection(fsHistCol()).doc(receiptNo).delete().catch(() => {});
+        updateStats();
+        renderHistory();
+        showSyncBadge('✓ Receipt deleted', 'ok');
+    }
+
+    // ── Photo Update ──
+    let _puPhoto = null;
+
+    function openPhotoUpdate(studentId) {
+        const h = getHistory();
+        const s = h.find(e => e.type === 'registration' && e.studentId === studentId);
+        if (!s) return;
+        _puPhoto = null;
+        document.getElementById('puStudentIdVal').value = studentId;
+        document.getElementById('puStudentName').textContent = s.name;
+        document.getElementById('puStudentId').textContent = studentId;
+        const prev = document.getElementById('puPhotoPreview');
+        prev.innerHTML = s.photo ? `<img src="${s.photo}" style="width:100%;height:100%;object-fit:cover;">` : '🧑';
+        const saveBtn = document.getElementById('puSaveBtn');
+        saveBtn.disabled = true;
+        saveBtn.style.background = '#ccc';
+        saveBtn.style.cursor = 'not-allowed';
+        document.getElementById('puFileInput').value = '';
+        document.getElementById('photoUpdateModal').style.display = 'flex';
+    }
+
+    function closePhotoUpdate() {
+        document.getElementById('photoUpdateModal').style.display = 'none';
+        _puPhoto = null;
+    }
+
+    function handlePhotoUpdateFile(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            // Compress image
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const MAX = 400;
+                let w = img.width, h = img.height;
+                if (w > h) { if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; } }
+                else { if (h > MAX) { w = Math.round(w * MAX / h); h = MAX; } }
+                canvas.width = w; canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                _puPhoto = canvas.toDataURL('image/jpeg', 0.7);
+                document.getElementById('puPhotoPreview').innerHTML = `<img src="${_puPhoto}" style="width:100%;height:100%;object-fit:cover;">`;
+                const saveBtn = document.getElementById('puSaveBtn');
+                saveBtn.disabled = false;
+                saveBtn.style.background = 'var(--royal-red)';
+                saveBtn.style.cursor = 'pointer';
+            };
+            img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function savePhotoUpdate() {
+        const studentId = document.getElementById('puStudentIdVal').value;
+        if (!_puPhoto || !studentId) return;
+        let h = getHistory();
+        let updated = false;
+        h = h.map(e => {
+            if (e.type === 'registration' && e.studentId === studentId) {
+                updated = true;
+                return { ...e, photo: _puPhoto };
+            }
+            return e;
+        });
+        if (!updated) return;
+        saveHistory(h);
+        closePhotoUpdate();
+        renderHistory();
+        showSyncBadge('✓ Photo updated!', 'ok');
+        // Refresh ID card if open
     }
 
     function exportCSV() {
