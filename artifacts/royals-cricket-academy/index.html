@@ -542,6 +542,64 @@
     </div>
 </div>
 
+<!-- ── Edit Student Modal ── -->
+<div id="editStudentModal" onclick="if(event.target===this)closeEditStudent()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;">
+    <div style="background:white;border-radius:18px;padding:22px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.4);margin:auto;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+            <div style="font-size:16px;font-weight:800;color:#333;">✏️ Edit Student</div>
+            <button onclick="closeEditStudent()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#aaa;">×</button>
+        </div>
+
+        <!-- Photo section -->
+        <div style="text-align:center;margin-bottom:16px;">
+            <div id="esPhotoPreview" onclick="document.getElementById('esFileInput').click()" style="width:90px;height:90px;border-radius:50%;background:#f0f4ff;border:3px dashed #c0c8e0;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 8px;overflow:hidden;cursor:pointer;" title="Click to change photo">🧑</div>
+            <div style="font-size:11px;color:#888;">Click photo to change</div>
+            <input type="file" id="esFileInput" accept="image/*" style="display:none" onchange="handleEditPhotoFile(this)">
+        </div>
+
+        <input type="hidden" id="esStudentId">
+        <input type="hidden" id="esReceiptNo">
+
+        <div style="display:flex;flex-direction:column;gap:10px;">
+            <div>
+                <label style="font-size:11px;font-weight:700;color:#555;display:block;margin-bottom:4px;">Student Name</label>
+                <input id="esName" type="text" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;box-sizing:border-box;" placeholder="Full name">
+            </div>
+            <div>
+                <label style="font-size:11px;font-weight:700;color:#555;display:block;margin-bottom:4px;">Guardian Name</label>
+                <input id="esGuardian" type="text" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;box-sizing:border-box;" placeholder="Father / Mother name">
+            </div>
+            <div>
+                <label style="font-size:11px;font-weight:700;color:#555;display:block;margin-bottom:4px;">WhatsApp Number</label>
+                <input id="esPhone" type="tel" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;box-sizing:border-box;" placeholder="10-digit number">
+            </div>
+            <div>
+                <label style="font-size:11px;font-weight:700;color:#555;display:block;margin-bottom:4px;">Category</label>
+                <select id="esCategory" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;box-sizing:border-box;">
+                    <option value="Under-14">Under-14</option>
+                    <option value="Under-16">Under-16</option>
+                    <option value="Under-19">Under-19</option>
+                    <option value="Senior">Senior</option>
+                    <option value="Junior">Junior</option>
+                </select>
+            </div>
+            <div>
+                <label style="font-size:11px;font-weight:700;color:#555;display:block;margin-bottom:4px;">Batch</label>
+                <select id="esBatch" style="width:100%;padding:10px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:14px;box-sizing:border-box;">
+                    <option value="Morning Batch">Morning Batch</option>
+                    <option value="Evening Batch">Evening Batch</option>
+                    <option value="Personal Session">Personal Session</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:18px;">
+            <button onclick="closeEditStudent()" style="flex:1;padding:11px;background:#f5f5f5;border:none;border-radius:10px;font-size:13px;color:#666;cursor:pointer;font-weight:600;">Cancel</button>
+            <button onclick="saveEditStudent()" style="flex:2;padding:11px;background:linear-gradient(135deg,var(--royal-red),var(--royal-blue));color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">✅ Save Changes</button>
+        </div>
+    </div>
+</div>
+
 <!-- ── Photo Update Modal ── -->
 <div id="photoUpdateModal" onclick="if(event.target===this)closePhotoUpdate()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;">
     <div style="background:white;border-radius:18px;padding:24px;max-width:340px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
@@ -1718,7 +1776,7 @@ Contact: ${currentAcademy.phone}`);
                     <span class="hi-name">${e.name}</span>
                     <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end;">
                         ${e.type === 'registration' ? `
-                        <button onclick="event.stopPropagation();openPhotoUpdate('${e.studentId}')" style="background:#e8f4fd;color:#2b6cb0;border:1px solid #bee3f8;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;">📷 ${e.photo ? 'Photo' : 'Add Photo'}</button>
+                        <button onclick="event.stopPropagation();openEditStudent('${e.studentId}')" style="background:#f0fff4;color:#276749;border:1px solid #9ae6b4;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;">✏️ Edit</button>
                         <button onclick="event.stopPropagation();printIdCard('${e.studentId}')" style="background:linear-gradient(135deg,var(--royal-red),var(--royal-blue));color:white;border:none;border-radius:6px;padding:3px 9px;font-size:10px;font-weight:700;cursor:pointer;">🪪 ID Card</button>
                         <button onclick="event.stopPropagation();deleteStudent('${e.studentId}','${e.name}')" style="background:#fff5f5;color:#c53030;border:1px solid #fed7d7;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;">🗑</button>
                         ` : `
@@ -1813,6 +1871,112 @@ Contact: ${currentAcademy.phone}`);
         updateStats();
         renderHistory();
         showSyncBadge('✓ Receipt deleted', 'ok');
+    }
+
+    // ── Edit Student ──
+    let _esPhoto = null; // new photo chosen in edit modal (null = keep existing)
+
+    function openEditStudent(studentId) {
+        const h = getHistory();
+        const s = h.find(e => e.type === 'registration' && e.studentId === studentId);
+        if (!s) return;
+        _esPhoto = null;
+        document.getElementById('esStudentId').value = studentId;
+        document.getElementById('esReceiptNo').value = s.receiptNo || '';
+        document.getElementById('esName').value = s.name || '';
+        document.getElementById('esGuardian').value = s.guardian || '';
+        document.getElementById('esPhone').value = s.phone || '';
+        // Set category dropdown
+        const catSel = document.getElementById('esCategory');
+        const catVal = s.category || '';
+        let catFound = false;
+        for (let o of catSel.options) { if (o.value === catVal) { catSel.value = catVal; catFound = true; break; } }
+        if (!catFound) { const opt = document.createElement('option'); opt.value = catVal; opt.textContent = catVal; catSel.appendChild(opt); catSel.value = catVal; }
+        // Set batch dropdown
+        const batSel = document.getElementById('esBatch');
+        const batVal = s.batch || '';
+        let batFound = false;
+        for (let o of batSel.options) { if (o.value === batVal) { batSel.value = batVal; batFound = true; break; } }
+        if (!batFound) { const opt = document.createElement('option'); opt.value = batVal; opt.textContent = batVal; batSel.appendChild(opt); batSel.value = batVal; }
+        // Photo preview
+        const prev = document.getElementById('esPhotoPreview');
+        prev.innerHTML = s.photo ? `<img src="${s.photo}" style="width:100%;height:100%;object-fit:cover;">` : '🧑';
+        document.getElementById('esFileInput').value = '';
+        document.getElementById('editStudentModal').style.display = 'flex';
+    }
+
+    function closeEditStudent() {
+        document.getElementById('editStudentModal').style.display = 'none';
+        _esPhoto = null;
+    }
+
+    function handleEditPhotoFile(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const MAX = 400;
+                let w = img.width, h = img.height;
+                if (w > h) { if (w > MAX) { h = Math.round(h * MAX / w); w = MAX; } }
+                else { if (h > MAX) { w = Math.round(w * MAX / h); h = MAX; } }
+                canvas.width = w; canvas.height = h;
+                canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                _esPhoto = canvas.toDataURL('image/jpeg', 0.7);
+                document.getElementById('esPhotoPreview').innerHTML = `<img src="${_esPhoto}" style="width:100%;height:100%;object-fit:cover;">`;
+            };
+            img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function saveEditStudent() {
+        const studentId = document.getElementById('esStudentId').value;
+        if (!studentId) return;
+        const newName     = document.getElementById('esName').value.trim();
+        const newGuardian = document.getElementById('esGuardian').value.trim();
+        const newPhone    = document.getElementById('esPhone').value.trim();
+        const newCategory = document.getElementById('esCategory').value;
+        const newBatch    = document.getElementById('esBatch').value;
+        if (!newName) { alert('Student ka naam required hai.'); return; }
+
+        let h = getHistory();
+        // Update registration record
+        h = h.map(e => {
+            if (e.type === 'registration' && e.studentId === studentId) {
+                return {
+                    ...e,
+                    name: newName,
+                    guardian: newGuardian,
+                    phone: newPhone,
+                    whatsapp: newPhone,
+                    category: newCategory,
+                    batch: newBatch,
+                    photo: _esPhoto !== null ? _esPhoto : e.photo
+                };
+            }
+            // Also update name/phone on monthly fee records for same student
+            if (e.studentId === studentId) {
+                return { ...e, name: newName, guardian: newGuardian, phone: newPhone };
+            }
+            return e;
+        });
+        saveHistory(h);
+
+        // Sync registration record to Firestore (without photo)
+        const updated = h.find(e => e.type === 'registration' && e.studentId === studentId);
+        if (updated) {
+            const fsRec = Object.assign({}, updated);
+            delete fsRec.photo;
+            db.collection(fsHistCol()).doc(fsRec.receiptNo).set(fsRec).catch(() => {});
+        }
+
+        closeEditStudent();
+        updateStats();
+        renderHistory();
+        showSyncBadge('✓ Student updated!', 'ok');
     }
 
     // ── Photo Update ──
