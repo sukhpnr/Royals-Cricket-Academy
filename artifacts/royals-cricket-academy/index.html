@@ -1819,7 +1819,7 @@ Contact: ${currentAcademy.phone}`);
                 </div>`;
             }).join('');
         } catch(e) {
-            list.innerHTML = '<div class="empty-state">⚠ Could not load. Check internet connection.</div>';
+            list.innerHTML = `<div class="empty-state">⚠ Could not load.<br><small style="color:#e53e3e;word-break:break-all;">${e.code || ''}: ${e.message || e}</small><br><br><button onclick="loadPendingFromCloud()" style="padding:8px 18px;background:var(--royal-red);color:white;border:none;border-radius:8px;cursor:pointer;font-size:13px;">🔄 Retry</button></div>`;
         }
     }
 
